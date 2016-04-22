@@ -25,7 +25,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  * This is the class that validates and merges configuration from your app/config files
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html#cookbook-bundles-extension-config-class}
- * 
+ *
  * @category   Auth
  * @package    DependencyInjection
  * @subpackage Configuration
@@ -44,7 +44,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('symf_auth');
+        $rootNode = $treeBuilder->root('sfynx_auth');
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for
         // more information on that topic.
@@ -57,7 +57,7 @@ class Configuration implements ConfigurationInterface
 
         return $treeBuilder;
     }
-    
+
     /**
      * Login failure config
      *
@@ -82,8 +82,8 @@ class Configuration implements ConfigurationInterface
                 ->end()
             ->end()
     	->end();
-    }      
-    
+    }
+
     /**
      * Locale config
      *
@@ -106,8 +106,8 @@ class Configuration implements ConfigurationInterface
                 ->end()
             ->end()
     	->end();
-    }  
-    
+    }
+
     /**
      * Browser config
      *
@@ -128,10 +128,10 @@ class Configuration implements ConfigurationInterface
         	        ->booleanNode('switch_language_authorized')->isRequired()->defaultValue(false)->end()
         	        ->booleanNode('switch_layout_mobile_authorized')->isRequired()->defaultValue(false)->end()
         	    ->end()
-        	->end()        	
+        	->end()
     	->end();
-    }    
-    
+    }
+
     /**
      * Redirection login config
      *
@@ -154,7 +154,7 @@ class Configuration implements ConfigurationInterface
                 ->end()
             ->end()
     	->end();
-    } 
+    }
 
     /**
      * Layout default config
@@ -179,17 +179,17 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('template')->defaultValue('layout-pi-page1.html.twig')->cannotBeEmpty()->end()
                             ->end()
                         ->end()
-                        
+
                         ->arrayNode('init_mobile')
                             ->addDefaultsIfNotSet()
                             ->children()
-                                ->scalarNode('template')->defaultValue('Default')->cannotBeEmpty()->end()                                    
+                                ->scalarNode('template')->defaultValue('Default')->cannotBeEmpty()->end()
                             ->end()
                         ->end()
             	->end()
         	->end()
     	->end();
-    }  
+    }
 
     /**
      * Browser config
@@ -211,7 +211,7 @@ class Configuration implements ConfigurationInterface
             	    ->scalarNode('name')->isRequired()->defaultValue("smoothness")->cannotBeEmpty()->end()
             	    ->scalarNode('login')->isRequired()->defaultValue('SfynxSmoothnessBundle::Login\\')->cannotBeEmpty()->end()
             	    ->scalarNode('layout')->isRequired()->defaultValue('SfynxSmoothnessBundle::Layout\\')->cannotBeEmpty()->end()
-                
+
                     ->arrayNode('email')
                             ->addDefaultsIfNotSet()
                             ->children()
@@ -241,7 +241,7 @@ class Configuration implements ConfigurationInterface
                                 ->end()
                             ->end()
                     ->end()
-            	    
+
             	    ->arrayNode('global')
                 	    ->addDefaultsIfNotSet()
                 	    ->children()
@@ -249,15 +249,15 @@ class Configuration implements ConfigurationInterface
                 	        ->scalarNode('css')->isRequired()->defaultValue('SfynxSmoothnessBundle::Layout\\layout-global-cmf.html.twig')->cannotBeEmpty()->end()
                 	    ->end()
             	    ->end()
-            	    
+
             	    ->arrayNode('ajax')
                 	    ->addDefaultsIfNotSet()
                 	    ->children()
                 	        ->scalarNode('layout')->isRequired()->defaultValue('SfynxSmoothnessBundle::Layout\\layout-ajax.html.twig')->cannotBeEmpty()->end()
                 	        ->scalarNode('css')->isRequired()->defaultValue('SfynxSmoothnessBundle::Layout\\layout-ajax.html.twig')->cannotBeEmpty()->end()
                 	    ->end()
-            	    ->end()           	    
-            	    
+            	    ->end()
+
             	    ->arrayNode('error')
             	        ->addDefaultsIfNotSet()
                 	    ->children()
@@ -265,7 +265,7 @@ class Configuration implements ConfigurationInterface
             	            ->scalarNode('html')->defaultValue('@SfynxSmoothnessBundle/Resources/views/Error/error.html.twig')->end()
                 	    ->end()
             	    ->end()
-            	    
+
             	    ->arrayNode('admin')
                 	    ->addDefaultsIfNotSet()
                 	    ->children()
@@ -279,7 +279,7 @@ class Configuration implements ConfigurationInterface
                         	    ->addDefaultsIfNotSet()
                         	    ->children()
                         	        ->scalarNode('img')->isRequired()->defaultValue('/bundles/sfynxsmoothness/admin/grid/')->cannotBeEmpty()->end()
-                        	        ->scalarNode('css')->defaultValue('')->end()                        	        
+                        	        ->scalarNode('css')->defaultValue('')->end()
                         	        ->scalarNode('type')->isRequired()->defaultValue('simple')->end()
                         	        ->booleanNode('state_save')->isRequired()->defaultValue(false)->end()
                         	        ->scalarNode('row_select')->isRequired()->defaultValue('multi')->end()
@@ -291,7 +291,7 @@ class Configuration implements ConfigurationInterface
                         	        ->booleanNode('filters_active')->isRequired()->defaultValue(false)->end()
                         	    ->end()
                     	    ->end()
-                    	    
+
                     	    ->arrayNode('form')
                         	    ->addDefaultsIfNotSet()
                         	    ->children()
@@ -299,12 +299,12 @@ class Configuration implements ConfigurationInterface
                         	        ->scalarNode('template')->isRequired()->defaultValue('SfynxSmoothnessBundle:Form:fields.html.twig')->cannotBeEmpty()->end()
                             	    ->scalarNode('css')->defaultValue('')->end()
                         	    ->end()
-                    	    ->end()                    	    
-                    	    
+                    	    ->end()
+
                     	    ->scalarNode('flash')->isRequired()->defaultValue("SfynxFlatlabBundle:Flash:flash.html.twig")->cannotBeEmpty()->end()
                 	    ->end()
-            	    ->end()            	    
-            	    
+            	    ->end()
+
             	    ->arrayNode('front')
                 	    ->addDefaultsIfNotSet()
                 	    ->children()
@@ -314,8 +314,8 @@ class Configuration implements ConfigurationInterface
                     	    ->scalarNode('mobile_path')->isRequired()->defaultValue('@SfynxSmoothnessBundle/Resources/views/Layout/Mobile/')->cannotBeEmpty()->end()
                     	    ->scalarNode('css')->defaultValue('bundles/sfynxsmoothness/front/screen.css')->end()
                 	    ->end()
-            	    ->end()            	    
-            	    
+            	    ->end()
+
             	    ->arrayNode('connexion')
                 	    ->addDefaultsIfNotSet()
                 	    ->children()
@@ -323,10 +323,10 @@ class Configuration implements ConfigurationInterface
                 	        ->scalarNode('widget')->isRequired()->defaultValue('SfynxSmoothnessBundle::Login\\Security\\connexion-widget.html.twig')->cannotBeEmpty()->end()
                 	    ->end()
             	    ->end()
-            	                	    
+
             	->end()
         	->end()
     	->end();
-    }    
-       
+    }
+
 }
