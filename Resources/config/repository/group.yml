@@ -1,0 +1,26 @@
+parameters:
+    # Manager class
+    sfynx.auth.manager.group.entity.class: Sfynx\AuthBundle\Domain\Service\Group\Manager\EntityManager
+    # Adapter factory class
+    sfynx.auth.factory.group.class: Sfynx\CoreBundle\Layers\Infrastructure\Persistence\Factory\MultiAdapterFactory
+    # Entity class value
+    sfynx.auth.manager.group.params:
+      class: '%sfynx.auth.group_class%'
+    # Reposioty names
+    sfynx.auth.repository.group.orm.command.class: Sfynx\AuthBundle\Infrastructure\Persistence\Adapter\Command\Orm\GroupRepository
+    sfynx.auth.repository.group.orm.query.class: Sfynx\AuthBundle\Infrastructure\Persistence\Adapter\Query\Orm\GroupRepository
+
+services:
+    #
+    # configuration of the user manager working with Orm, Odm, Couchdb
+    #
+    sfynx.auth.manager.group.entity:
+        class: '%sfynx.auth.manager.group.entity.class%'
+        arguments:
+            - '@sfynx.auth.factory.group'
+            - '@security.encoder_factory'
+            - '@sfynx.core.request.strategy'
+            - '@security.token_storage'
+            - '@service_container'
+        calls:
+            - [ setParams, [ '%sfynx.auth.manager.group.params%' ] ]

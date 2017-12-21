@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<routes xmlns="http://symfony.com/schema/routing"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="users_enabledentity_ajax" path="/enabled">
+        <default key="_controller">sfynx.auth.controller.command.enabledajax.users:coordinate</default>
+    </route>
+
+    <route id="users_disablentity_ajax" path="/disable">
+        <default key="_controller">sfynx.auth.controller.command.disableajax.users:coordinate</default>
+    </route>
+
+    <route id="users_position_ajax" path="/position">
+        <default key="_controller">sfynx.auth.controller.command.positionajax.users:coordinate</default>
+    </route>
+
+    <route id="users_deletentity_ajax" path="/delete">
+        <default key="_controller">sfynx.auth.controller.command.deletajax.users:coordinate</default>
+    </route>
+
+    <route id="users_archiventity_ajax" path="/archive">
+        <default key="_controller">sfynx.auth.controller.command.archiveajax.users:coordinate</default>
+    </route>
+
+    <route id="users_edit" path="/edit/{id}" >
+        <default key="_controller">sfynx.auth.controller.command.form.users:coordinate</default>
+        <requirement key="category">\d*</requirement>
+        <default key="id"></default>
+    </route>
+
+    <route id="users_selectentity_ajax" path="/select">
+        <default key="_controller">sfynx.auth.controller.query.selectajax.users:coordinate</default>
+    </route>
+
+    <route id="users" path="/">
+        <default key="_controller">sfynx.auth.controller.query.index.users:coordinate</default>
+        <default key="isServerSide">1</default>
+    </route>
+
+    <route id="users_show" path="/show/{id}" >
+        <default key="_controller">sfynx.auth.controller.query.show.users:coordinate</default>
+    </route>
+
+</routes>

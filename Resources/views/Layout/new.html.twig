@@ -1,13 +1,13 @@
 {% initJquery 'FORM:prototype-bytab' %}
 {% if app.request.query.get('NoLayout') %}
-	{% set layout_nav = getParameter('sfynx.auth.theme.layout.ajax') %}
+	{% set layout_nav = getParameter('sfynx.template.theme.layout.ajax') %}
 {% else %}
 	{% set layout_nav = app.request.attributes.get('sfynx-layout') %}
 {% endif %}	
 {% extends layout_nav %}
 
 {% block title %}
-	<h1><a href="{{ path('admin_redirection') }}">{{ "pi.home"|trans }}</a> > <a href="{{ path_url('admin_layout') }}">{{ 'pi.page.layout.title'|trans }}</a> > {{ 'pi.grid.action.create'|trans }}</h1>
+	<h1><a href="{{ path('admin_redirection') }}">{{ "pi.home"|trans }}</a> > <a href="{{ path_url('sfynx_layout') }}">{{ 'pi.page.layout.title'|trans }}</a> > {{ 'pi.grid.action.create'|trans }}</h1>
 {% endblock %}
  
 {% block content %}
@@ -16,9 +16,9 @@
     
 	<!-- Begin tag markup -->
 	<div id="tabs">
-		{% include getParameter('sfynx.auth.theme.layout.admin.pc')|replace({'::': ':'})~"Crud:new-header.html.twig" %}
-		{% form_theme form getParameter('sfynx.auth.theme.layout.admin.form.template') %}
-		<form class="myform" action="{{ path('admin_layout_create') }}" method="post" {{ form_enctype(form) }} novalidate>
+		{% include getParameter('sfynx.template.theme.layout.admin.pc')|replace({'::': ':'})~"Crud:new-header.html.twig" %}
+		{% form_theme form getParameter('sfynx.template.theme.layout.admin.form.template') %}
+		{{ form_start(form, {'action': path('sfynx_layout_create'), 'method': 'POST', 'attr': {'class': 'myform', 'novalidate': 'novalidate', 'enctype': 'application/x-www-form-urlencoded'}}) }}
 			<div id="tabs-1">
 				{{ form_widget(form) }}
 			</div>
@@ -26,11 +26,11 @@
 			    <li>
 			    	<!-- <input id="add_tab" type="button" value="{{ 'pi.grid.action.add-tab'|trans }}" /> -->
 			    	<button type="submit" class="button-ui-create">{{ 'pi.grid.action.create'|trans }}</button>
-		            <a href="{{ path('admin_layout') }}" class="button-ui-back-list">{{ 'pi.grid.action.back-to-the-list'|trans }}</a>
+		            <a href="{{ path('sfynx_layout') }}" class="button-ui-back-list">{{ 'pi.grid.action.back-to-the-list'|trans }}</a>
 			    </li>
 			</ul>
-		</form>
-		{% include getParameter('sfynx.auth.theme.layout.admin.pc')|replace({'::': ':'})~"Crud:new-footer.html.twig" %}
+        {{ form_end(form) }}
+		{% include getParameter('sfynx.template.theme.layout.admin.pc')|replace({'::': ':'})~"Crud:new-footer.html.twig" %}
 	</div>
 	<!-- End tag markup -->		
 	

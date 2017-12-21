@@ -7,6 +7,10 @@ All available configuration options are listed below with their default values.
 # SfynxAuthBundle configuration
 #  
 sfynx_auth:
+    mapping:
+      provider: orm
+      firewall_name: main
+      user_class: Sfynx\AuthBundle\Domain\Entity\User
     loginfailure:
         authorized: true
         time_expire: 3600
@@ -79,5 +83,6 @@ sfynx_auth:
             css: ""
         connexion:
             login: "SfynxSmoothnessBundle::Login\\Security\\login-layout.html.twig"
+            dashboard : "SfynxSmoothnessBundle::Login\\Security\\connexion-dashboard.html.twig"
             widget : "SfynxSmoothnessBundle::Login\\Security\\connexion-widget.html.twig" 
 ```

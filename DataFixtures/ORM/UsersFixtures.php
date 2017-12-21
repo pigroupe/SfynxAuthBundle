@@ -12,10 +12,15 @@
  */
 namespace Sfynx\AuthBundle\DataFixtures\ORM;
 
+use Doctrine\Common\DataFixtures\FixtureInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Sfynx\AuthBundle\Entity\User;
+use Sfynx\AuthBundle\Domain\Entity\User;
+use Sfynx\ToolBundle\Util\PiStringManager;
 
 /**
  * Users DataFixtures.
@@ -24,97 +29,125 @@ use Sfynx\AuthBundle\Entity\User;
  * @package    DataFixtures
  * @author Etienne de Longeaux <etienne.delongeaux@gmail.com>
  */
-class UsersFixtures extends AbstractFixture implements OrderedFixtureInterface
+class UsersFixtures extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface, ContainerAwareInterface
 {
     const USER_EMAIL     = 'user@example.org';
-    const USER_USERNAME  = 'user123';
+    const USER_USERNAME  = 'user';
     const USER_PASS      = 'testtest';
     const USER_PASSWORD  = 'jMhPNtk/r/aDmrihsK2jw+D+zpnSxBxCL5v1tvCWZd/I4N7/gJiAjVPS0Xy2XkbVpVOPjgSHBBsskDmHWqEo4Q==';
-    
+
     const ADMIN_EMAIL    = 'admin@example.org';
-    const ADMIN_USERNAME = 'admin123';
+    const ADMIN_USERNAME = 'admin';
     const ADMIN_PASS     = 'testtest';
     const ADMIN_PASSWORD = 'jMhPNtk/r/aDmrihsK2jw+D+zpnSxBxCL5v1tvCWZd/I4N7/gJiAjVPS0Xy2XkbVpVOPjgSHBBsskDmHWqEo4Q==';
+
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
 
     /**
      * Load user fixtures
      *
      * @author Etienne de Longeaux <etienne.delongeaux@gmail.com>
      * @since 2011-12-28
-     */    
+     */
     public function load(ObjectManager $manager, $env = '')
     {
+        $encoder = $this->container
+            ->get('security.encoder_factory')
+        ;
+
         $field1 = new User();
         $field1->setUsername('admin');
         $field1->getUsernameCanonical('admin');
-        $field1->setPlainPassword('admin');
+//        $field1->setSalt(md5(uniqid()));
+        $field1->setPassword($encoder->getEncoder($field1)->encodePassword('admin', $field1->getSalt()));
+        $field1->setConfirmationToken();
         $field1->setEmail('admin@hotmail.com');
-        $field1->setEmailCanonical('admin@hotmail.com');
+        $field1->setUsernameCanonical(PiStringManager::canonicalize($field1->getUsername()));
+        $field1->setEmailCanonical(PiStringManager::canonicalize($field1->getEmail()));
         $field1->setEnabled(true);
         $field1->setRoles(array('ROLE_ADMIN'));
         $field1->setPermissions(array('VIEW', 'EDIT', 'CREATE', 'DELETE'));
-        $field1->addGroupUser($this->getReference('group-admin'));
+        $field1->addGroup($this->getReference('group-admin'));
         $field1->setLangCode($this->getReference('lang-en'));
         $manager->persist($field1);
 
         $field2 = new User();
         $field2->setUsername('superadmin');
-        $field2->getUsernameCanonical('superadmin');
-        $field2->setPlainPassword('superadmin');
+        $field2->setUsernameCanonical('superadmin');
+//        $field2->setSalt(md5(uniqid()));
+        $field2->setPassword($encoder->getEncoder($field2)->encodePassword('superadmin', $field2->getSalt()));
+        $field2->setConfirmationToken();
         $field2->setEmail('superadmin@gmail.com');
-        $field2->setEmailCanonical('superadmin@gmail.com');
+        $field2->setUsernameCanonical(PiStringManager::canonicalize($field2->getUsername()));
+        $field2->setEmailCanonical(PiStringManager::canonicalize($field2->getEmail()));
         $field2->setEnabled(true);
         $field2->setRoles(array('ROLE_ADMIN', 'ROLE_SUPER_ADMIN'));
         $field2->setPermissions(array('VIEW', 'EDIT', 'CREATE', 'DELETE'));
-        $field2->addGroupUser($this->getReference('group-superadmin'));
+        $field2->addGroup($this->getReference('group-superadmin'));
         $field2->setLangCode($this->getReference('lang-en'));
         $manager->persist($field2);
-        
+
         $field3 = new User();
         $field3->setUsername('user');
         $field3->getUsernameCanonical('user');
-        $field3->setPlainPassword('user');
+//        $field3->setSalt(md5(uniqid()));
+        $field3->setPassword($encoder->getEncoder($field3)->encodePassword('user', $field3->getSalt()));
+        $field3->setConfirmationToken();
         $field3->setEmail('user@gmail.com');
-        $field3->setEmailCanonical('user@gmail.com');
+        $field3->setUsernameCanonical(PiStringManager::canonicalize($field3->getUsername()));
+        $field3->setEmailCanonical(PiStringManager::canonicalize($field3->getEmail()));
         $field3->setEnabled(true);
         $field3->setRoles(array('ROLE_USER'));
         $field3->setPermissions(array('VIEW', 'EDIT', 'CREATE'));
-        $field3->addGroupUser($this->getReference('group-user'));
+        $field3->addGroup($this->getReference('group-user'));
         $field3->setLangCode($this->getReference('lang-fr'));
-        $manager->persist($field3);  
-        
+        $manager->persist($field3);
+
         $field4 = new User();
         $field4->setName('Islam');
         $field4->setNickname('Ahmad');
-        $field4->getUsernameCanonical('admin123');
-        $field4->setUsername('admin123');
-        $field4->setPlainPassword('testtest');
+        $field4->getUsernameCanonical(self::ADMIN_USERNAME);
+        $field4->setUsername(self::ADMIN_USERNAME);
+        $field4->setPlainPassword(self::ADMIN_PASS);
+        $field4->setConfirmationToken();
         $field4->setSalt('5467p78mqssowokg4gc0k4kcs08kkk8');
-        $field4->setPassword('jMhPNtk/r/aDmrihsK2jw+D+zpnSxBxCL5v1tvCWZd/I4N7/gJiAjVPS0Xy2XkbVpVOPjgSHBBsskDmHWqEo4Q==');
-        $field4->setEmail('admin@example.org');
-        $field4->setEmailCanonical('admin@example.org');
+        $field4->setPassword(self::ADMIN_PASSWORD);
+        $field4->setEmail(self::ADMIN_EMAIL);
+        $field4->setEmailCanonical(self::ADMIN_EMAIL);
         $field4->setEnabled(true);
         $field4->setRoles(array('ROLE_ADMIN'));
         $field4->setPermissions(array('VIEW', 'EDIT', 'CREATE', 'DELETE'));
-        $field4->addGroupUser($this->getReference('group-admin'));
-        $field4->setLangCode($this->getReference('lang-en'));        
+        $field4->addGroup($this->getReference('group-admin'));
+        $field4->setLangCode($this->getReference('lang-en'));
         $manager->persist($field4);
 
         $field5 = new User();
         $field5->setName('Islam');
         $field5->setNickname('Issa');
-        $field5->getUsernameCanonical('user123');
-        $field5->setUsername('user123');
-        $field5->setPlainPassword('testtest');
+        $field5->getUsernameCanonical(self::USER_USERNAME);
+        $field5->setUsername(self::USER_USERNAME);
+        $field5->setPlainPassword(self::USER_PASS);
+        $field5->setConfirmationToken();
         $field5->setSalt('5467p78mqssowokg4gc0k4kcs08kkk8');
-        $field5->setPassword('jMhPNtk/r/aDmrihsK2jw+D+zpnSxBxCL5v1tvCWZd/I4N7/gJiAjVPS0Xy2XkbVpVOPjgSHBBsskDmHWqEo4Q==');
-        $field5->setEmail('user@example.org');
-        $field5->setEmailCanonical('user@example.org');
+        $field5->setPassword(self::USER_PASSWORD);
+        $field5->setEmail(self::USER_EMAIL);
+        $field5->setEmailCanonical(self::USER_EMAIL);
         $field5->setEnabled(true);
         $field5->setRoles(array('ROLE_USER'));
         $field5->setPermissions(array('VIEW', 'EDIT', 'CREATE', 'DELETE'));
-        $field5->addGroupUser($this->getReference('group-user'));
-        $field5->setLangCode($this->getReference('lang-fr'));        
+        $field5->addGroup($this->getReference('group-user'));
+        $field5->setLangCode($this->getReference('lang-fr'));
         $manager->persist($field5);
 
 //         $path   = "/var/www/rapp_mr_miles/app/cache/connexion.csv";
@@ -135,14 +168,14 @@ class UsersFixtures extends AbstractFixture implements OrderedFixtureInterface
 //         }
 
         $manager->flush();
-        
+
         $this->addReference('user-admin', $field1);
         $this->addReference('user-superadmin', $field2);
         $this->addReference('user-user', $field3);
         $this->addReference('user-admin-test', $field4);
         $this->addReference('user-user-test', $field5);
     }
-    
+
     /**
      * Retrieve the order number of current fixture
      *

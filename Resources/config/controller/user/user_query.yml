@@ -1,0 +1,39 @@
+services:
+    sfynx.auth.controller.query.selectajax.users:
+        shared: false
+        class: 'Sfynx\AuthBundle\Presentation\Coordination\User\Query\SelectAjaxController'
+        arguments:
+            - '@security.authorization_checker'
+            - '@sfynx.auth.manager.user'
+            - '@sfynx.core.request.strategy'
+            - '@security.csrf.token_manager'
+            - '@sfynx.tool.twig.extension.form'
+            - '@translator'
+            - '@twig'
+
+    sfynx.auth.controller.query.index.users:
+        class: 'Sfynx\AuthBundle\Presentation\Coordination\User\Query\IndexController'
+        arguments:
+            - '@security.authorization_checker'
+            - '@sfynx.auth.manager.user'
+            - '@sfynx.core.request.strategy'
+            - '@templating'
+            - '@sfynx.tool.twig.extension.form'
+            - '@sfynx.auth.role.factory'
+            - '@sfynx.tool.twig.extension.tool'
+            - '@sfynx.tool.route.factory'
+            - '@translator'
+        calls:
+            - [ setParams, [ { sfynx_auth_theme_login: '%sfynx.template.theme.login%' } ] ]
+
+    sfynx.auth.controller.query.show.users:
+        shared: false
+        class: 'Sfynx\AuthBundle\Presentation\Coordination\User\Query\ShowController'
+        arguments:
+            - '@security.authorization_checker'
+            - '@sfynx.auth.manager.user'
+            - '@sfynx.core.request.strategy'
+            - '@templating'
+            - '@sfynx.tool.twig.extension.form'
+        calls:
+            - [ setParams, [ { sfynx_auth_theme_login: '%sfynx.template.theme.login%' } ] ]

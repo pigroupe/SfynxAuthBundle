@@ -1,0 +1,347 @@
+Sfynx\AuthBundle\Domain\EntityVO\User:
+    type: entity
+    table: Fos_user
+    id:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            column: ID
+            generator:
+                strategy: IDENTITY
+    fields:
+        user.salt:
+            type: string
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\UserVO
+            declaredField: user
+            originalField: salt
+            column: salt
+        user.password:
+            type: string
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\UserVO
+            declaredField: user
+            originalField: password
+            column: password
+        user.lastLogin:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\UserVO
+            declaredField: user
+            originalField: lastLogin
+            column: last_login
+        user.confirmationToken:
+            type: string
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\UserVO
+            declaredField: user
+            originalField: confirmationToken
+            column: confirmation_token
+        user.passwordRequestedAt:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\UserVO
+            declaredField: user
+            originalField: passwordRequestedAt
+            column: password_requested_at
+        user.username:
+            type: string
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\UserVO
+            declaredField: user
+            originalField: username
+            column: username
+        user.usernameCanonical:
+            type: string
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\UserVO
+            declaredField: user
+            originalField: usernameCanonical
+            column: username_canonical
+        user.name:
+            type: string
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\UserVO
+            declaredField: user
+            originalField: name
+            column: name
+        user.nickname:
+            type: string
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\UserVO
+            declaredField: user
+            originalField: nickname
+            column: nickname
+        user.email:
+            type: string
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\UserVO
+            declaredField: user
+            originalField: email
+            column: email
+        user.emailCanonical:
+            type: string
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\UserVO
+            declaredField: user
+            originalField: emailCanonical
+            column: email_canonical
+        user.birthday:
+            type: string
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\UserVO
+            declaredField: user
+            originalField: birthday
+            column: birthday
+        user.address:
+            type: string
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\UserVO
+            declaredField: user
+            originalField: address
+            column: address
+        user.country:
+            type: string
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\UserVO
+            declaredField: user
+            originalField: country
+            column: country
+        user.city:
+            type: string
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\UserVO
+            declaredField: user
+            originalField: city
+            column: city
+        user.zipCode:
+            type: string
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\UserVO
+            declaredField: user
+            originalField: zipCode
+            column: zip_code
+        user.createdAt:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\UserVO
+            declaredField: user
+            originalField: createdAt
+            column: created_at
+        user.updatedAt:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\UserVO
+            declaredField: user
+            originalField: updatedAt
+            column: updated_at
+        user.publishedAt:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\UserVO
+            declaredField: user
+            originalField: publishedAt
+            column: published_at
+        user.archiveAt:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\UserVO
+            declaredField: user
+            originalField: archiveAt
+            column: archive_at
+        user.archived:
+            type: boolean
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\UserVO
+            declaredField: user
+            originalField: archived
+            column: archived
+        user.expired:
+            type: boolean
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\UserVO
+            declaredField: user
+            originalField: expired
+            column: expired
+        user.expiresAt:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\UserVO
+            declaredField: user
+            originalField: expiresAt
+            column: expires_at
+        user.locked:
+            type: boolean
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\UserVO
+            declaredField: user
+            originalField: locked
+            column: locked
+        user.credentialsExpired:
+            type: boolean
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\UserVO
+            declaredField: user
+            originalField: credentialsExpired
+            column: credentials_expired
+        user.credentialsExpireAt:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\UserVO
+            declaredField: user
+            originalField: credentialsExpireAt
+            column: credentials_expire_at
+        user.globalOptIn:
+            type: boolean
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\UserVO
+            declaredField: user
+            originalField: globalOptIn
+            column: global_opt_in
+        user.siteOptIn:
+            type: boolean
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\UserVO
+            declaredField: user
+            originalField: siteOptIn
+            column: site_opt_in
+        user.enabled:
+            type: boolean
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\UserVO
+            declaredField: user
+            originalField: enabled
+            column: enabled
+    manyToOne:
+        lang_code:
+            targetEntity: Sfynx\AuthBundle\Domain\EntityVO\Langue
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                lang_code:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

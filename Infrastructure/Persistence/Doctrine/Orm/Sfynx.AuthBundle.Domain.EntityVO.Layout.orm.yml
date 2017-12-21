@@ -1,0 +1,127 @@
+Sfynx\AuthBundle\Domain\EntityVO\Layout:
+    type: entity
+    table: Pi_layout
+    id:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            column: ID
+            generator:
+                strategy: IDENTITY
+    fields:
+        layout.name:
+            type: string
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\LayoutVO
+            declaredField: layout
+            originalField: name
+            column: name
+        layout.filePc:
+            type: string
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\LayoutVO
+            declaredField: layout
+            originalField: filePc
+            column: file_pc
+        layout.fileMobile:
+            type: string
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\LayoutVO
+            declaredField: layout
+            originalField: fileMobile
+            column: file_mobile
+        layout.configxml:
+            type: string
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\LayoutVO
+            declaredField: layout
+            originalField: configxml
+            column: configXml
+        layout.createdAt:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\LayoutVO
+            declaredField: layout
+            originalField: createdAt
+            column: created_at
+        layout.updatedAt:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\LayoutVO
+            declaredField: layout
+            originalField: updatedAt
+            column: updated_at
+        layout.publishedAt:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\LayoutVO
+            declaredField: layout
+            originalField: publishedAt
+            column: published_at
+        layout.archiveAt:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\LayoutVO
+            declaredField: layout
+            originalField: archiveAt
+            column: archive_at
+        layout.archived:
+            type: boolean
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\LayoutVO
+            declaredField: layout
+            originalField: archived
+            column: archived
+        layout.enabled:
+            type: boolean
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\LayoutVO
+            declaredField: layout
+            originalField: enabled
+            column: enabled
+    lifecycleCallbacks: {  }

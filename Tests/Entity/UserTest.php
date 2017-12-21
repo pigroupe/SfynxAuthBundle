@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of the <Auth> project.
- * 
+ *
  * @category   Auth
  * @package    Tests
  * @subpackage Entity
@@ -18,7 +18,7 @@
 namespace Sfynx\AuthBundle\Tests\Entity;
 
 use Sfynx\AuthBundle\Tests\WebTestCase;
-use Sfynx\AuthBundle\Entity\User;
+use Sfynx\AuthBundle\Domain\Entity\User;
 
 /**
  * Tests the user entity
@@ -56,7 +56,7 @@ class UserTest extends WebTestCase
                 'Email' => 'test@example.org',
                 'PlainPassword' => '123456789',
                 'ZipCode' => '75017',
-                'City' => 'Paris',                
+                'City' => 'Paris',
             )
         ),
         'site_personal_data' => array(
@@ -72,7 +72,7 @@ class UserTest extends WebTestCase
             ),
         ),
     );
-    
+
     public function testInterface()
     {
         $user = new User();
@@ -99,7 +99,7 @@ class UserTest extends WebTestCase
         $user->setPlainPassword($data['PlainPassword']);
 
         $errors = $this->getValidator()->validate($user, array('registration'));
-        
+
         $this->assertCount(1, $errors, (string) $errors);
         $this->assertRegExp('/' . $field . '/', (string) $errors);
     }
@@ -141,7 +141,7 @@ class UserTest extends WebTestCase
                     'doctrine'
                 ),
                 'address'
-            ),             
+            ),
         );
     }
 
@@ -182,7 +182,7 @@ class UserTest extends WebTestCase
                     'doctrine'
                 ),
                 'zip_code'
-            ),           
+            ),
         );
     }
 
@@ -203,7 +203,7 @@ class UserTest extends WebTestCase
         $user->setLastLogin($date);
         $this->assertFalse($user->isConnected());
     }
-    
+
     /**
      * Common getter for all fixtures
      *
@@ -223,5 +223,5 @@ class UserTest extends WebTestCase
         }
 
         return array_merge(self::$fixtures[$name][$type], $invalidValues, $validValues);
-    }    
+    }
 }

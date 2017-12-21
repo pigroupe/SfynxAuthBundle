@@ -1,0 +1,129 @@
+Sfynx\AuthBundle\Domain\EntityVO\Role:
+    type: entity
+    table: Fos_role
+    id:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            column: ID
+            generator:
+                strategy: IDENTITY
+    fields:
+        heritage:
+            type: array
+            scale: 0
+            length: null
+            unique: false
+            nullable: true
+            precision: 0
+        role.label:
+            type: string
+            scale: 0
+            length: 55
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\RoleVO
+            declaredField: role
+            originalField: label
+            column: label
+        role.name:
+            type: string
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\RoleVO
+            declaredField: role
+            originalField: name
+            column: name
+        role.comment:
+            type: string
+            scale: 0
+            length: null
+            unique: false
+            nullable: true
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\RoleVO
+            declaredField: role
+            originalField: comment
+            column: comment
+        role.routeLogin:
+            type: string
+            scale: 0
+            length: null
+            unique: false
+            nullable: true
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\RoleVO
+            declaredField: role
+            originalField: routeLogin
+            column: route_login
+        role.routeLogout:
+            type: string
+            scale: 0
+            length: null
+            unique: false
+            nullable: true
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\RoleVO
+            declaredField: role
+            originalField: routeLogout
+            column: route_logout
+        role.enabled:
+            type: boolean
+            scale: 0
+            length: null
+            unique: false
+            nullable: true
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\RoleVO
+            declaredField: role
+            originalField: enabled
+            column: enabled
+    manyToOne:
+        layout_id:
+            targetEntity: Sfynx\AuthBundle\Domain\EntityVO\Layout
+            cascade:
+                - persist
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: roles
+            joinColumns:
+                layout_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    manyToMany:
+        accessControl:
+            targetEntity: Sfynx\AuthBundle\Domain\Entity\Ressource
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinTable:
+                name: fos_role_ressource
+                schema: null
+                joinColumns:
+                    -
+                        name: role_id
+                        unique: false
+                        nullable: true
+                        onDelete: null
+                        columnDefinition: null
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    -
+                        name: ressource_id
+                        unique: false
+                        nullable: true
+                        onDelete: null
+                        columnDefinition: null
+                        referencedColumnName: id
+            orderBy: null
+    lifecycleCallbacks: {  }

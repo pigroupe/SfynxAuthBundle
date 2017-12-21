@@ -18,6 +18,7 @@ namespace Sfynx\AuthBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Sfynx\AuthBundle\DependencyInjection\Compiler\ChangeProviderPass;
 
 /**
  * Sfynx configuration and managment of the user Bundle
@@ -34,12 +35,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 class SfynxAuthBundle extends Bundle
 {
     const HTTP_TYPE = "http";
-    
-    public function getParent()
-    {
-        return 'FOSUserBundle';
-    }    
-    
+
     /**
      * Builds the bundle.
      *
@@ -49,48 +45,54 @@ class SfynxAuthBundle extends Bundle
      * other extensions, ...
      *
      * @param ContainerBuilder $container A ContainerBuilder instance
-     * 
+     *
      * @author <etienne de Longeaux> <etienne.delongeaux@gmail.com>
      */
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
+
+        $container->addCompilerPass(new ChangeProviderPass());
+
         // we get the heritage.jon file if it's created
-        $path_heritages_file         = realpath($container->getParameter("kernel.root_dir"). '/cachesfynx/heritage.json');
-        if ($path_heritages_file){
+        $roles_json = '';
+        $path_heritages_file = realpath($container->getParameter("kernel.root_dir"). '/cachesfynx/heritage.json');
+        if ($path_heritages_file) {
             $roles_json = file_get_contents($path_heritages_file);
-        } else {
-            $roles_json = '';
         }
+
         // we inject all roles in the role_hierarchy param
         $heritage_role  = json_decode($roles_json);
         if (is_object($heritage_role)) {
             $heritage_role  = get_object_vars($heritage_role->HERITAGE_ROLES);
         } else {
-            $heritage_role  = array(
-                    'ROLE_SUBSCRIBER'       => array('ROLE_ALLOWED_TO_SWITCH'),
-                    'ROLE_MEMBER'           => array('ROLE_SUBSCRIBER', 'ROLE_ALLOWED_TO_SWITCH'),
-                    
-                    'ROLE_USER'             => array('ROLE_ALLOWED_TO_SWITCH'),
-            		
-                    'ROLE_CUSTOMER'         => array('ROLE_USER', 'ROLE_ALLOWED_TO_SWITCH'),
-                    'ROLE_PROVIDER'         => array('ROLE_USER', 'ROLE_ALLOWED_TO_SWITCH'),
-                        
-                    'ROLE_EDITOR'           => array('ROLE_MEMBER', 'ROLE_USER', 'ROLE_ALLOWED_TO_SWITCH'),
-                    'ROLE_MODERATOR'        => array('ROLE_EDITOR',  'ROLE_ALLOWED_TO_SWITCH'),
-                        
-                    'ROLE_DESIGNER'         => array('ROLE_MEMBER', 'ROLE_USER', 'ROLE_ALLOWED_TO_SWITCH'),
-            
-                    'ROLE_CONTENT_MANAGER'  => array('ROLE_DESIGNER', 'ROLE_MODERATOR', 'ROLE_ALLOWED_TO_SWITCH'),
-                    'ROLE_ADMIN'            => array('ROLE_CONTENT_MANAGER', 'ROLE_CUSTOMER', 'ROLE_PROVIDER','ROLE_ALLOWED_TO_SWITCH'),
-            
-                    'SONATA'                => array('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT ', 'ROLE_SONATA_PAGE_ADMIN_BLOCK_EDIT', 'ROLE_ALLOWED_TO_SWITCH'),
-            
-                    'ROLE_SUPER_ADMIN'      => array('ROLE_ADMIN', 'ROLE_ALLOWED_TO_SWITCH', 'ROLE_SONATA_ADMIN', 'SONATA'),
-            );
+            $heritage_role  = [
+                'ROLE_SUBSCRIBER'       => array(),
+                'ROLE_MEMBER'           => array('ROLE_SUBSCRIBER'),
+
+                'ROLE_USER'             => array(),
+
+                'ROLE_CUSTOMER'         => array('ROLE_USER'),
+                'ROLE_PROVIDER'         => array('ROLE_USER'),
+
+                'ROLE_EDITOR'           => array('ROLE_MEMBER', 'ROLE_USER'),
+                'ROLE_MODERATOR'        => array('ROLE_EDITOR'),
+
+                'ROLE_DESIGNER'         => array('ROLE_MEMBER', 'ROLE_USER'),
+
+                'ROLE_CONTENT_MANAGER'  => array('ROLE_DESIGNER', 'ROLE_MODERATOR'),
+                'ROLE_ADMIN'            => array('ROLE_CONTENT_MANAGER', 'ROLE_CUSTOMER', 'ROLE_PROVIDER', 'ROLE_ALLOWED_TO_SWITCH'),
+
+                'SONATA'                => array('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT ', 'ROLE_SONATA_PAGE_ADMIN_BLOCK_EDIT'),
+
+                'ROLE_SUPER_ADMIN'      => array('ROLE_ADMIN', 'ROLE_ALLOWED_TO_SWITCH', 'ROLE_SONATA_ADMIN', 'SONATA'),
+            ];
         }
-        $heritage_role['SONATA'] = array('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT ', 'ROLE_SONATA_PAGE_ADMIN_BLOCK_EDIT', 'ROLE_ALLOWED_TO_SWITCH');
+        $heritage_role['SONATA'] = array('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT ', 'ROLE_SONATA_PAGE_ADMIN_BLOCK_EDIT');
         $heritage_role['ROLE_SUPER_ADMIN'] = array('ROLE_ADMIN', 'ROLE_ALLOWED_TO_SWITCH', 'ROLE_SONATA_ADMIN', 'SONATA');
+
+        //print_r($heritage_role);
+
         // Security
         $container->loadFromExtension('security', array(
                 'role_hierarchy' => $heritage_role,
@@ -105,27 +107,15 @@ class SfynxAuthBundle extends Bundle
 //                        #  the any request matching the /login pattern or starting with /register or /resetting have been made available to anonymous users.
 //                        #  You have also specified that any request beginning with /admin will require a user to have the ROLE_ADMIN role.
 //                        #
-//        
+//
 //                        # The WDT has to be allowed to anonymous users to avoid requiring the login with the AJAX request
 //                        array('path' => '^/_wdt/', 'role' => 'IS_AUTHENTICATED_ANONYMOUSLY'),
 //                        array('path' => '^/_profiler/', 'role' => 'IS_AUTHENTICATED_ANONYMOUSLY'),
 //                        # AsseticBundle paths used when using the controller for assets
 //                        array('path' => '^/js/', 'role' => 'IS_AUTHENTICATED_ANONYMOUSLY'),
 //                        array('path' => '^/css/', 'role' => 'IS_AUTHENTICATED_ANONYMOUSLY'),
-//                        # URL of FOSUserBundle which need to be available to anonymous users
 //                        array('path' => '^/login$', 'role' => 'IS_AUTHENTICATED_ANONYMOUSLY', 'requires_channel' => self::HTTP_TYPE),
 //                        array('path' => '^/login_check$', 'role' => 'IS_AUTHENTICATED_ANONYMOUSLY', 'requires_channel' => self::HTTP_TYPE),
-//                        array('path' => '^/user/change-password$', 'role' => 'IS_AUTHENTICATED_ANONYMOUSLY', 'requires_channel' => self::HTTP_TYPE),
-//                        array('path' => '^/user/profile$', 'role' => 'IS_AUTHENTICATED_ANONYMOUSLY', 'requires_channel' => self::HTTP_TYPE),
-//                        array('path' => '^/user/profile/edit$', 'role' => 'IS_AUTHENTICATED_ANONYMOUSLY', 'requires_channel' => self::HTTP_TYPE),
-//                        array('path' => '^/user/register$', 'role' => 'IS_AUTHENTICATED_ANONYMOUSLY', 'requires_channel' => self::HTTP_TYPE),
-//                        array('path' => '^/user/register/check-email$', 'role' => 'IS_AUTHENTICATED_ANONYMOUSLY', 'requires_channel' => self::HTTP_TYPE),
-//                        array('path' => '^/user/register/confirm/', 'role' => 'IS_AUTHENTICATED_ANONYMOUSLY', 'requires_channel' => self::HTTP_TYPE),
-//                        array('path' => '^/user/register/confirmed$', 'role' => 'IS_AUTHENTICATED_ANONYMOUSLY', 'requires_channel' => self::HTTP_TYPE),
-//                        array('path' => '^/user/resseting/request$', 'role' => 'IS_AUTHENTICATED_ANONYMOUSLY', 'requires_channel' => self::HTTP_TYPE),
-//                        array('path' => '^/user/resseting/send-email$', 'role' => 'IS_AUTHENTICATED_ANONYMOUSLY', 'requires_channel' => self::HTTP_TYPE),
-//                        array('path' => '^/user/resseting/check-email$', 'role' => 'IS_AUTHENTICATED_ANONYMOUSLY', 'requires_channel' => self::HTTP_TYPE),
-//                        array('path' => '^/user/resseting/reset/', 'role' => 'IS_AUTHENTICATED_ANONYMOUSLY', 'requires_channel' => self::HTTP_TYPE),
 //                        # -> custom access control for the admin area of the URL
 //                        array('path' => '^/client/', 'role' => 'ROLE_CUSTOMER', 'requires_channel' => self::HTTP_TYPE),
 //                        array('path' => '^/provider/', 'role' => 'ROLE_PROVIDER', 'requires_channel' => self::HTTP_TYPE),
@@ -133,17 +123,17 @@ class SfynxAuthBundle extends Bundle
 //                        array('path' => '^/adminsonata/', 'role' => 'ROLE_SUPER_ADMIN', 'requires_channel' => self::HTTP_TYPE),
 //                        # DESACTIVER LE FRONT ACCES AUX NON LOGGE
 //                        #array('path' => '^/', 'role' => 'ROLE_USER', 'requires_channel' => self::HTTP_TYPE),
-//                ),                
+//                ),
         ));
     }
-    
+
     /**
      * Boots the Bundle.
      */
     public function boot()
     {
     }
-    
+
     /**
      * Shutdowns the Bundle.
      */

@@ -15,7 +15,7 @@ namespace Sfynx\AuthBundle\DataFixtures\ORM;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Sfynx\AuthBundle\Entity\Layout;
+use Sfynx\AuthBundle\Domain\Entity\Layout;
 
 /**
  * Layout DataFixtures.
@@ -48,7 +48,7 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
         $field4->setFileMobile('Default');
         $field4->setConfigXml('<?xml version="1.0"?><config></config>');
         $field4->setEnabled(true);
-        $manager->persist($field4);    
+        $manager->persist($field4);
 
         $field5 = new Layout();
         $field5->setName('pi-error');
@@ -56,10 +56,10 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
         $field5->setFileMobile('Default');
         $field5->setConfigXml('<?xml version="1.0"?><config></config>');
         $field5->setEnabled(true);
-        $manager->persist($field5);        
-        
-        
-        
+        $manager->persist($field5);
+
+
+
         $field6 = new Layout();
         $field6->setName('pi-model-head-two-columns-fixed-foot');
         $field6->setFilePc("models\layout-pi-model-head-two-columns-fixed-foot.html.twig");
@@ -78,7 +78,7 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
 </config>');
         $field6->setEnabled(true);
         $manager->persist($field6);
-        
+
         $field7 = new Layout();
         $field7->setName('pi-model-left-menu-fluid-column');
         $field7->setFilePc("models\layout-pi-model-left-menu-fluid-column.html.twig");
@@ -96,7 +96,7 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
     </blocks>
 </config>');
         $field7->setEnabled(true);
-        $manager->persist($field7);   
+        $manager->persist($field7);
 
         $field8 = new Layout();
         $field8->setName('pi-model-one-column-fixed-central');
@@ -115,7 +115,7 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
     </blocks>
 </config>');
         $field8->setEnabled(true);
-        $manager->persist($field8);      
+        $manager->persist($field8);
 
         $field9 = new Layout();
         $field9->setName('pi-model-one-column-fixed-left');
@@ -134,7 +134,7 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
     </blocks>
 </config>');
         $field9->setEnabled(true);
-        $manager->persist($field9);  
+        $manager->persist($field9);
 
         $field10 = new Layout();
         $field10->setName('pi-model-one-column');
@@ -153,7 +153,7 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
     </blocks>
 </config>');
         $field10->setEnabled(true);
-        $manager->persist($field10);  
+        $manager->persist($field10);
 
         $field11 = new Layout();
         $field11->setName('pi-model-three-columns-main-fluid');
@@ -173,7 +173,7 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
     </blocks>
 </config>');
         $field11->setEnabled(true);
-        $manager->persist($field11);       
+        $manager->persist($field11);
 
         $field12 = new Layout();
         $field12->setName('pi-model-three-fixed-columns');
@@ -193,7 +193,7 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
     </blocks>
 </config>');
         $field12->setEnabled(true);
-        $manager->persist($field12);      
+        $manager->persist($field12);
 
         $field13 = new Layout();
         $field13->setName('pi-model-three-fluid-columns');
@@ -213,7 +213,7 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
     </blocks>
 </config>');
         $field13->setEnabled(true);
-        $manager->persist($field13);    
+        $manager->persist($field13);
 
         $field14 = new Layout();
         $field14->setName('pi-model-two-columns-fixed-horiz-menu');
@@ -232,7 +232,7 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
     </blocks>
 </config>');
         $field14->setEnabled(true);
-        $manager->persist($field14);   
+        $manager->persist($field14);
 
         $field15 = new Layout();
         $field15->setName('pi-model-two-fluid-columns');
@@ -250,7 +250,7 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
     </blocks>
 </config>');
         $field15->setEnabled(true);
-        $manager->persist($field15);     
+        $manager->persist($field15);
 
         $field16 = new Layout();
         $field16->setName('pi-model-two-fluid-intelligent-columns');
@@ -269,7 +269,7 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
     </blocks>
 </config>');
         $field16->setEnabled(true);
-        $manager->persist($field16);   
+        $manager->persist($field16);
 
         $field17 = new Layout();
         $field17->setName('pi-model-responsive-two-fluid-columns');
@@ -291,7 +291,7 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
     </blocks>
 </config>');
         $field17->setEnabled(true);
-        $manager->persist($field17);  
+        $manager->persist($field17);
 
         $field18 = new Layout();
         $field18->setName('pi-model-responsive-three-fluid-columns');
@@ -312,15 +312,15 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
     </blocks>
 </config>');
         $field18->setEnabled(true);
-        $manager->persist($field18);        
+        $manager->persist($field18);
 
-        
+
         $manager->flush();
-        
+
         $this->addReference('layout-pi-admin', $field1);
         $this->addReference('layout-pi-sfynx', $field4);
         $this->addReference('layout-pi-error', $field5);
-        
+
         $this->addReference('layout-pi-model-head-two-columns-fixed-foot', $field6);
         $this->addReference('layout-pi-model-left-menu-fluid-column', $field7);
         $this->addReference('layout-pi-model-one-column-fixed-central', $field8);
@@ -335,7 +335,7 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
         $this->addReference('layout-pi-model-responsive-two-fluid-columns', $field17);
         $this->addReference('layout-pi-model-responsive-three-fluid-columns', $field18);
     }
-    
+
     /**
      * Retrieve the order number of current fixture
      *
@@ -347,5 +347,5 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
     {
         // The order in which fixtures will be loaded
         return 2;
-    }    
+    }
 }

@@ -61,7 +61,7 @@ abstract class WebTestCase extends BaseWebTestCase
         
         static::$kernel->boot();
         
-        static::$kernel->getContainer()->get('request')->setLocale('en_EN');
+        static::$kernel->getContainer()->get('request_stack')->getCurrentRequest()->setLocale('en_EN');
 
         static::$em = static::$kernel->getContainer()->get('doctrine.orm.entity_manager');
         

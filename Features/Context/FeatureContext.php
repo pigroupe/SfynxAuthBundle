@@ -1,6 +1,12 @@
 <?php
+namespace Sfynx\AuthBundle\Features\Context;
+
+use Sfynx\BehatBundle\Behat\MinkExtension\Context\FeatureContext as baseFeatureContext;
+
 /**
- * This file is part of the <Auth> project.
+ * Defines application features from the specific context.
+ *
+ * class FeatureContext extends MinkContext implements Context, SnippetAcceptingContext
  *
  * @category   Auth
  * @package    Feature
@@ -11,28 +17,6 @@
  * @version    2.3
  * @link       http://opensource.org/licenses/gpl-license.php
  * @since      2015-03-02
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-namespace Sfynx\AuthBundle\Features\Context;
-
-use Sfynx\BehatBundle\Behat\MinkExtension\Context\FeatureContext as baseFeatureContext;
-
-/**
- * Defines application features from the specific context.
- * 
- * class FeatureContext extends MinkContext implements Context, SnippetAcceptingContext
- * 
- * @category   Auth
- * @package    Feature
- * @subpackage Extends
- * @author     Etienne de Longeaux <etienne.delongeaux@gmail.com>
- * @copyright  2015 PI-GROUPE
- * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version    2.3
- * @link       http://opensource.org/licenses/gpl-license.php
- * @since      2015-03-02 
  */
 class FeatureContext extends baseFeatureContext
 {

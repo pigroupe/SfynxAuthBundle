@@ -1,0 +1,70 @@
+parameters:
+    sfynx.auth.controller.command.form.class: Sfynx\AuthBundle\Presentation\Coordination\User\Command\FormController
+
+services:
+    sfynx.auth.controller.command.form.users:
+        shared: false
+        class: '%sfynx.auth.controller.command.form.class%'
+        arguments:
+            - '@security.authorization_checker'
+            - '@sfynx.auth.manager.user'
+            - '@sfynx.auth.manager.group'
+            - '@sfynx.auth.manager.langue'
+            - '@sfynx.core.request.strategy'
+            - '@templating'
+            - '@form.factory'
+            - '@validator'
+            - '@translator'
+        calls:
+            - [ setParams, [ { sfynx_auth_theme_login: '%sfynx.template.theme.login%' } ] ]
+
+    sfynx.auth.controller.command.enabledajax.users:
+        shared: false
+        class: '%sfynx.core.controller.command.enabledajax.class%'
+        arguments:
+            - '@security.authorization_checker'
+            - '@sfynx.auth.manager.user'
+            - '@sfynx.core.request.strategy'
+            - '@security.csrf.token_manager'
+            - '@sfynx.tool.twig.extension.form'
+
+
+    sfynx.auth.controller.command.disableajax.users:
+        shared: false
+        class: '%sfynx.core.controller.command.disableajax.class%'
+        arguments:
+            - '@security.authorization_checker'
+            - '@sfynx.auth.manager.user'
+            - '@sfynx.core.request.strategy'
+            - '@security.csrf.token_manager'
+            - '@sfynx.tool.twig.extension.form'
+
+    sfynx.auth.controller.command.deletajax.users:
+        shared: false
+        class: '%sfynx.core.controller.command.deletajax.class%'
+        arguments:
+            - '@security.authorization_checker'
+            - '@sfynx.auth.manager.user'
+            - '@sfynx.core.request.strategy'
+            - '@security.csrf.token_manager'
+            - '@sfynx.tool.twig.extension.form'
+
+    sfynx.auth.controller.command.archiveajax.users:
+        shared: false
+        class: '%sfynx.core.controller.command.archiveajax.class%'
+        arguments:
+            - '@security.authorization_checker'
+            - '@sfynx.auth.manager.user'
+            - '@sfynx.core.request.strategy'
+            - '@security.csrf.token_manager'
+            - '@sfynx.tool.twig.extension.form'
+
+    sfynx.auth.controller.command.positionajax.users:
+        shared: false
+        class: '%sfynx.core.controller.command.positionajax.class%'
+        arguments:
+            - '@security.authorization_checker'
+            - '@sfynx.auth.manager.user'
+            - '@sfynx.core.request.strategy'
+            - '@security.csrf.token_manager'
+            - '@sfynx.tool.twig.extension.form'

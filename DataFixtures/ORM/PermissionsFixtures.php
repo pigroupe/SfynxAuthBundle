@@ -15,7 +15,7 @@ namespace Sfynx\AuthBundle\DataFixtures\ORM;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Sfynx\AuthBundle\Entity\Permission;
+use Sfynx\AuthBundle\Domain\Entity\Permission;
 
 /**
  * Permissions DataFixtures.
@@ -31,7 +31,7 @@ class PermissionsFixtures extends AbstractFixture implements OrderedFixtureInter
      *
      * @author Etienne de Longeaux <etienne.delongeaux@gmail.com>
      * @since 2011-12-28
-     */    
+     */
     public function load(ObjectManager $manager)
     {
         $field1 = new Permission();
@@ -39,24 +39,24 @@ class PermissionsFixtures extends AbstractFixture implements OrderedFixtureInter
         $field1->setComment('Utilisateur autorisé à voir l\'objet de domaine.');
         $field1->setEnabled(true);
         $manager->persist($field1);
-        
+
         $field2 = new Permission();
         $field2->setName('EDIT');
         $field2->setComment('Utilisateur autorisé à apporter des changements à l\'objet de domaine.');
         $field2->setEnabled(true);
-        $manager->persist($field2);    
+        $manager->persist($field2);
 
         $field3 = new Permission();
         $field3->setName('CREATE');
         $field3->setComment('Utilisateur autorisé à créer l\'objet de domaine.');
         $field3->setEnabled(true);
-        $manager->persist($field3);       
+        $manager->persist($field3);
 
         $field4 = new Permission();
         $field4->setName('DELETE');
         $field4->setComment('Utilisateur autorisé à supprimer l\'objet de domaine.');
         $field4->setEnabled(true);
-        $manager->persist($field4); 
+        $manager->persist($field4);
 
         $field5 = new Permission();
         $field5->setName('UNDELETE');
@@ -68,22 +68,22 @@ class PermissionsFixtures extends AbstractFixture implements OrderedFixtureInter
         $field6->setName('OPERATOR');
         $field6->setComment('Utilisateur autorisé à effectuer toutes les actions possibles sur les objets de domaine.');
         $field6->setEnabled(true);
-        $manager->persist($field6);        
-        
+        $manager->persist($field6);
+
         $field7 = new Permission();
         $field7->setName('MASTER');
         $field7->setComment('Utilisateur disposant des mêmes permissions qu\'un OPERATOR, étant en plus autorisé à accorder les autorisations des actions à d\'autres.');
         $field7->setEnabled(true);
-        $manager->persist($field7);  
+        $manager->persist($field7);
 
         $field8 = new Permission();
         $field8->setName('OWNER');
         $field8->setComment('Utilisateur disposant des mêmes permissions qu\'un MASTER, et possédant le domaine est en plus autorisé à accorder les autorisations de MASTER ET OWNER.');
         $field8->setEnabled(true);
-        $manager->persist($field8);   
+        $manager->persist($field8);
 
         $manager->flush();
-        
+
         $this->addReference('permission-view', $field1);
         $this->addReference('permission-edit', $field2);
         $this->addReference('permission-create', $field3);
@@ -91,9 +91,9 @@ class PermissionsFixtures extends AbstractFixture implements OrderedFixtureInter
         $this->addReference('permission-undelete', $field5);
         $this->addReference('permission-operator', $field6);
         $this->addReference('permission-master', $field7);
-        $this->addReference('permission-owner', $field8); 
+        $this->addReference('permission-owner', $field8);
     }
-    
+
     /**
      * Retrieve the order number of current fixture
      *

@@ -4,26 +4,22 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="sfynx.auth.form.type.security_roles" class="Sfynx\AuthBundle\Form\Type\SecurityRolesType">
+        <service id="sfynx.auth.form.type.security_roles" class="Sfynx\AuthBundle\Application\Validation\Type\SecurityRolesType">
             <tag name="form.type" alias="sfynx_security_roles" />
             <argument type="service" id="service_container" />
         </service>
-        <service id="sfynx.auth.form.type.security_permissions" class="Sfynx\AuthBundle\Form\Type\SecurityPermissionsType">
+        <service id="sfynx.auth.form.type.security_permissions" class="Sfynx\AuthBundle\Application\Validation\Type\SecurityPermissionsType">
             <tag name="form.type" alias="sfynx_security_permissions" />
             <argument type="service" id="service_container" />
         </service>
-        <service id="sfynx.auth.form.type.routes" class="Sfynx\AuthBundle\Form\Type\RoutesType">
+        <service id="sfynx.auth.form.type.routes" class="Sfynx\AuthBundle\Application\Validation\Type\RoutesType">
             <tag name="form.type" alias="sfynx_routes" />
             <argument type="service" id="service_container" />
-        </service>    
-        <service id="sfynx.auth.form.type.profile" class="Sfynx\AuthBundle\Form\Type\ProfileFormType">
+        </service>
+        <service id="sfynx.auth.form.type.profile" class="Sfynx\AuthBundle\Application\Validation\Type\ProfileFormType">
             <tag name="form.type" alias="bootstrap_user_profile" />
-            <argument>%fos_user.model.user.class%</argument>
-        </service> 
-        <service id="sfynx.auth.form.type.registration" class="Sfynx\AuthBundle\Form\Type\RegistrationFormType">
-            <tag name="form.type" alias="bootstrap_user_registration" />
-            <argument>%fos_user.model.user.class%</argument>
-        </service>                     
+            <argument>%sfynx.auth.user_class%</argument>
+        </service>
     </services>
 
 </container>
