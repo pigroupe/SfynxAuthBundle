@@ -15,7 +15,7 @@ namespace Sfynx\AuthBundle\DataFixtures\ORM;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Sfynx\AuthBundle\Entity\Role;
+use Sfynx\AuthBundle\Domain\Entity\Role;
 
 /**
  * Roles DataFixtures.
@@ -31,22 +31,22 @@ class RolesFixtures extends AbstractFixture implements OrderedFixtureInterface
      *
      * @author Etienne de Longeaux <etienne.delongeaux@gmail.com>
      * @since 2011-12-28
-     */    
+     */
     public function load(ObjectManager $manager)
     {
         $field0 = new Role();
-        $field0->setLabel('Default');
+        $field0->setLabel('Switch');
         $field0->setName('ROLE_ALLOWED_TO_SWITCH');
         $field0->setComment('Utilisateur disposant du droit par default');
         $field0->setEnabled(true);
         $manager->persist($field0);
-        
+
         $field1 = new Role();
         $field1->setLabel('Subscriber');
         $field1->setName('ROLE_SUBSCRIBER');
         $field1->setComment('Utilisateur enregistré sur le site.');
         $field1->setEnabled(true);
-        $field1->setHeritage(array('ROLE_ALLOWED_TO_SWITCH'));
+        $field1->setHeritage([]);
         $manager->persist($field1);
 
         $field2 = new Role();
@@ -54,47 +54,47 @@ class RolesFixtures extends AbstractFixture implements OrderedFixtureInterface
         $field2->setName('ROLE_MEMBER');
         $field2->setComment('Utilisateur enregistré sur le site et identifié comme membre.');
         $field2->setEnabled(true);
-        $field2->setHeritage(array('ROLE_SUBSCRIBER', 'ROLE_ALLOWED_TO_SWITCH'));
-        $manager->persist($field2);        
-                
+        $field2->setHeritage(array('ROLE_SUBSCRIBER'));
+        $manager->persist($field2);
+
         $field3 = new Role();
         $field3->setLabel('User');
         $field3->setName('ROLE_USER');
         $field3->setComment('Utilisateur disposant d\'un accès à un espace.');
         $field3->setEnabled(true);
-        $field3->setHeritage(array('ROLE_ALLOWED_TO_SWITCH'));
-        $manager->persist($field3); 
-        
+        $field3->setHeritage([]);
+        $manager->persist($field3);
+
         $field31 = new Role();
         $field31->setLabel('Customer');
         $field31->setName('ROLE_CUSTOMER');
         $field31->setComment('Utilisateur client disposant d\'un accès à un espace.');
         $field31->setEnabled(true);
-        $field31->setHeritage(array('ROLE_USER', 'ROLE_ALLOWED_TO_SWITCH'));
-        $manager->persist($field31);    
-        
+        $field31->setHeritage(array('ROLE_USER'));
+        $manager->persist($field31);
+
         $field32 = new Role();
         $field32->setLabel('Provider');
         $field32->setName('ROLE_PROVIDER');
         $field32->setComment('Utilisateur fournisseur disposant d\'un accès à un espace.');
         $field32->setEnabled(true);
-        $field32->setHeritage(array('ROLE_USER', 'ROLE_ALLOWED_TO_SWITCH'));
-        $manager->persist($field32);         
+        $field32->setHeritage(array('ROLE_USER'));
+        $manager->persist($field32);
 
         $field4 = new Role();
         $field4->setLabel('Editor');
         $field4->setName('ROLE_EDITOR');
         $field4->setComment('Utilisateur ayant un accès restreint du backoffice, et pouvant ecrire, modifier des pages sans les publier.');
         $field4->setEnabled(true);
-        $field4->setHeritage(array('ROLE_MEMBER', 'ROLE_USER', 'ROLE_ALLOWED_TO_SWITCH'));
-        $manager->persist($field4); 
+        $field4->setHeritage(array('ROLE_MEMBER', 'ROLE_USER'));
+        $manager->persist($field4);
 
         $field5 = new Role();
         $field5->setLabel('Moderator');
         $field5->setName('ROLE_MODERATOR');
         $field5->setComment('Utilisateur disposant des mêmes droits qu\'un redacteur, et capable en plus de publier une page et de la supprimer.');
         $field5->setEnabled(true);
-        $field5->setHeritage(array('ROLE_EDITOR', 'ROLE_ALLOWED_TO_SWITCH'));
+        $field5->setHeritage(array('ROLE_EDITOR'));
         $manager->persist($field5);
 
         $field6 = new Role();
@@ -102,16 +102,16 @@ class RolesFixtures extends AbstractFixture implements OrderedFixtureInterface
         $field6->setName('ROLE_DESIGNER');
         $field6->setComment('Utilisateur ayant un accès restreint du backoffice, et capable de modifier seulement le code des block des pages, des css et layout.');
         $field6->setEnabled(true);
-        $field6->setHeritage(array('ROLE_MEMBER', 'ROLE_USER', 'ROLE_ALLOWED_TO_SWITCH'));
-        $manager->persist($field6);        
-        
+        $field6->setHeritage(array('ROLE_MEMBER', 'ROLE_USER'));
+        $manager->persist($field6);
+
         $field7 = new Role();
         $field7->setLabel('Content manager');
         $field7->setName('ROLE_CONTENT_MANAGER');
         $field7->setComment('Utilisateur disposant des mêmes droits qu\'un designer et un modérateur mais ayant un accès total des services CMS du backoffice.');
         $field7->setEnabled(true);
-        $field7->setHeritage(array('ROLE_DESIGNER', 'ROLE_MODERATOR', 'ROLE_ALLOWED_TO_SWITCH'));
-        $manager->persist($field7);  
+        $field7->setHeritage(array('ROLE_DESIGNER', 'ROLE_MODERATOR'));
+        $manager->persist($field7);
 
         $field8 = new Role();
         $field8->setLabel('Administrator');
@@ -119,26 +119,26 @@ class RolesFixtures extends AbstractFixture implements OrderedFixtureInterface
         $field8->setComment('Utilisateur ayant un accès total du backoffice sans l\'accès à l\'admin SONATA.');
         $field8->setEnabled(true);
         $field8->setHeritage(array('ROLE_CONTENT_MANAGER', 'ROLE_CUSTOMER', 'ROLE_PROVIDER', 'ROLE_ALLOWED_TO_SWITCH'));
-        $manager->persist($field8);   
+        $manager->persist($field8);
 
         $field9 = new Role();
         $field9->setLabel('Sonata');
         $field9->setName('SONATA');
         $field9->setComment('Utilisateur ayant un accès à SONATA.');
         $field9->setEnabled(true);
-        $field9->setHeritage(array('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT ', 'ROLE_SONATA_PAGE_ADMIN_BLOCK_EDIT', 'ROLE_ALLOWED_TO_SWITCH'));
-        $manager->persist($field9);        
-        
+        $field9->setHeritage(array('ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT ', 'ROLE_SONATA_PAGE_ADMIN_BLOCK_EDIT'));
+        $manager->persist($field9);
+
         $field10 = new Role();
         $field10->setLabel('Super administrator');
         $field10->setName('ROLE_SUPER_ADMIN');
         $field10->setComment('Utilisateur ayant un accès total du backoffice avec l\'accès à l\'admin SONATA.');
         $field10->setEnabled(true);
         $field10->setHeritage(array('ROLE_ADMIN', 'ROLE_ALLOWED_TO_SWITCH', 'ROLE_SONATA_ADMIN', 'SONATA'));
-        $manager->persist($field10);        
+        $manager->persist($field10);
 
         $manager->flush();
-        
+
         $this->addReference('role-default', $field0);
         $this->addReference('role-subscriber', $field1);
         $this->addReference('role-member', $field2);
@@ -152,9 +152,9 @@ class RolesFixtures extends AbstractFixture implements OrderedFixtureInterface
         $this->addReference('role-admin', $field8);
         $this->addReference('role-sonata', $field9);
         $this->addReference('role-superadmin', $field10);
-        
+
     }
-    
+
     /**
      * Retrieve the order number of current fixture
      *

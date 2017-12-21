@@ -15,11 +15,11 @@ group:
 "Bad credentials": Username or password incorrect
 
 security:
-    login:
-        username: "Username :"
-        password: "Password :"
-        remember_me: Remember Me
-        submit: Login
+    login:
+        username: "Username"
+        password: "Password :"
+        remember_me: Remember Me
+        submit: Login
 
 # Profile
 profile:
@@ -77,28 +77,20 @@ resetting:
             Sincerely,
             Team.
 
-# Global strings
-layout:
-    logout: Logout
-    login: Login
-    register: Register
-    logged_in_as: Logged in as %username%
-
 # Form field labels
-fos_user_group_form_name: "Group Name"
+form:
+    group_name: Group name
+    username: Username
+    email: Email
+    current_password: Current password
+    password: Password
+    password_confirmation: Repeat password
+    new_password: New password
+    new_password_confirmation: Repeat new password
 
-fos_user_profile_form_user_username: "Username"
-fos_user_profile_form_user_email: "E-mail"
-fos_user_profile_form_current: "Current Password"
 
-fos_user_registration_form_username: "Username"
-fos_user_registration_form_email: "E-mail"
-fos_user_registration_form_plainPassword_first: "Password:"
-fos_user_registration_form_plainPassword_second: "Checking"
-
-fos_user_resetting_form_new_first: "New password:"
-fos_user_resetting_form_new_second: "Checking"
-
-fos_user_change_password_form_new_first: "New password:"
-fos_user_change_password_form_new_second: "Checking"
-fos_user_change_password_form_current: "Current Password"
+# Global strings
+layout.logout: Logout
+layout.login: Login
+layout.register: Register
+layout.logged_in_as: 'Logged in as %username%'

@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of the <Auth> project.
- * 
+ *
  * @category   Auth
  * @package    Tests
  * @subpackage Validator
@@ -17,8 +17,8 @@
  */
 namespace Sfynx\AuthBundle\Tests\Validator\Constraint;
 
-use Sfynx\AuthBundle\Validator\Constraint\EmailBlackList;
-use Sfynx\AuthBundle\Validator\Constraint\EmailBlackListValidator;
+use Sfynx\AuthBundle\Application\Validation\Validator\Constraint\EmailBlackList;
+use Sfynx\AuthBundle\Application\Validation\Validator\Constraint\EmailBlackListValidator;
 use Phake;
 
 /**
@@ -32,7 +32,7 @@ use Phake;
  * @link       http://opensource.org/licenses/gpl-license.php
  * @since      2015-02-16
  */
-class EmailBlackList extends \PHPUnit_Framework_TestCase
+class EmailBlackListTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider getValidateData

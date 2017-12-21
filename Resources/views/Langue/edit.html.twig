@@ -1,6 +1,6 @@
 {% initJquery 'FORM:prototype-bytab' %}
 {% if app.request.query.get('NoLayout') %}
-	{% set layout_nav = getParameter('sfynx.auth.theme.layout.ajax') %}
+	{% set layout_nav = getParameter('sfynx.template.theme.layout.ajax') %}
 {% else %}
 	{% set layout_nav = app.request.attributes.get('sfynx-layout') %}
 {% endif %}	
@@ -16,9 +16,9 @@
     
     <!-- Begin tag markup -->
 	<div id="tabs">
-		{% include getParameter('sfynx.auth.theme.layout.admin.pc')|replace({'::': ':'})~"Crud:edit-header.html.twig" %}
-		{% form_theme edit_form getParameter('sfynx.auth.theme.layout.admin.form.template') %}
-		<form class="myform" action="{{ path('admin_langue_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate>
+		{% include getParameter('sfynx.template.theme.layout.admin.pc')|replace({'::': ':'})~"Crud:edit-header.html.twig" %}
+		{% form_theme edit_form getParameter('sfynx.template.theme.layout.admin.form.template') %}
+		{{ form_start(edit_form, {'action': path('sfynx_langue_update', { 'id': entity.id }), 'method': 'POST', 'attr': {'class': 'myform', 'novalidate': 'novalidate', 'enctype': 'application/x-www-form-urlencoded'}}) }}
 			<div id="tabs-1">
 				    {{ form_widget(edit_form) }} 
 			</div>
@@ -31,15 +31,15 @@
 		            <a data-id="delete-form" class="button-ui-delete">{{ 'pi.grid.action.delete'|trans }}</a> 
 				    {% endif %}
 			    </li>
-			</ul>		    
-		</form>
-		{% include getParameter('sfynx.auth.theme.layout.admin.pc')|replace({'::': ':'})~"Crud:edit-footer.html.twig" %}
+			</ul>
+        {{ form_end(edit_form) }}
+		{% include getParameter('sfynx.template.theme.layout.admin.pc')|replace({'::': ':'})~"Crud:edit-footer.html.twig" %}
 	</div>
 	<!-- End tag markup -->	
 	
     {% if is_granted('ROLE_ADMIN') %}
 	<div style="display:none">		
-    	<form id="delete-form" action="{{ path('admin_langue_delete', { 'id': entity.id }) }}" method="post">
+    	<form id="delete-form" action="{{ path('sfynx_langue_delete', { 'id': entity.id }) }}" method="post">
         	{{ form_widget(delete_form) }}
         	<button type="submit">{{ 'pi.grid.action.delete'|trans }}</button>
     	</form>

@@ -1,6 +1,6 @@
 {% initJquery 'FORM:prototype-bytab' %}
 {% if app.request.query.get('NoLayout') %}
-	{% set layout_nav = getParameter('sfynx.auth.theme.layout.ajax') %}
+	{% set layout_nav = getParameter('sfynx.template.theme.layout.ajax') %}
 {% else %}
 	{% set layout_nav = app.request.attributes.get('sfynx-layout') %}
 {% endif %}	
@@ -16,9 +16,9 @@
     
     <!-- Begin tag markup -->
 	<div id="tabs">
-		{% include getParameter('sfynx.auth.theme.layout.admin.pc')|replace({'::': ':'})~"Crud:new-header.html.twig" %}
-		{% form_theme form getParameter('sfynx.auth.theme.layout.admin.form.template') %}
-		<form class="myform" action="{{ path('admin_langue_create') }}" method="post" {{ form_enctype(form) }} novalidate>
+		{% include getParameter('sfynx.template.theme.layout.admin.pc')|replace({'::': ':'})~"Crud:new-header.html.twig" %}
+		{% form_theme form getParameter('sfynx.template.theme.layout.admin.form.template') %}
+		{{ form_start(form, {'action': path('sfynx_langue_create'), 'method': 'POST', 'attr': {'class': 'myform', 'novalidate': 'novalidate', 'enctype': 'application/x-www-form-urlencoded'}}) }}
 			<div id="tabs-1">
 				    {{ form_widget(form) }} 
 			</div>
@@ -28,9 +28,9 @@
 			    	<button type="submit" class="button-ui-create">{{ 'pi.grid.action.create'|trans }}</button>
 		            <a href="{{ path('admin_langue') }}" class="button-ui-back-list">{{ 'pi.grid.action.back-to-the-list'|trans }}</a>
 			    </li>
-			</ul>		    
-		</form>
-    {% include getParameter('sfynx.auth.theme.layout.admin.pc')|replace({'::': ':'})~"Crud:new-footer.html.twig" %}
+			</ul>
+        {{ form_end(form) }}
+    {% include getParameter('sfynx.template.theme.layout.admin.pc')|replace({'::': ':'})~"Crud:new-footer.html.twig" %}
 	</div>
 	<!-- End tag markup -->	
 	

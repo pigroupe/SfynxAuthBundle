@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-
 <routes xmlns="http://symfony.com/schema/routing"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="pi_layout_choisir_langue" pattern="/local/{langue}">
-        <default key="_controller">SfynxAuthBundle:Frontend:setLocal</default>
-    </route>  
-    
-    <route id="login_failure" pattern="/login_failure" >
-        <default key="_controller">SfynxAuthBundle:Frontend:loginfailure</default>
-    </route>   
-    
-    <route id="pi_routename_redirection" pattern="/redirection/{routename}/{langue}" >
-        <default key="_controller">SfynxAuthBundle:Frontend:redirection</default>
-    </route>          
-    
-    <route id="admin_redirection" pattern="/redirectionuser" >
-        <default key="_controller">SfynxAuthBundle:Frontend:redirectionuser</default>
-    </route>     
-    
-    <route id="admin_homepage" pattern="/admin/home" >
-        <default key="_controller">SfynxAuthBundle:Frontend:index</default>
+    <route id="pi_layout_choisir_langue" path="/local/{langue}">
+        <default key="_controller">sfynx.auth.controller.frontend:setLocalAction</default>
     </route>
 
-    <route id="admin_licence" pattern="/licence" >
-        <default key="_controller">SfynxAuthBundle:Frontend:licence</default>
-    </route>  
-   
+    <route id="login_failure" path="/login_failure" >
+        <default key="_controller">sfynx.auth.controller.frontend:loginfailureAction</default>
+    </route>
+
+    <route id="pi_routename_redirection" path="/redirection/{routename}/{locale}" >
+        <default key="_controller">sfynx.auth.controller.frontend:redirectionAction</default>
+    </route>
+
+    <route id="admin_redirection" path="/redirectionuser" >
+        <default key="_controller">sfynx.auth.controller.frontend:redirectionuserAction</default>
+    </route>
+
+    <route id="admin_homepage" path="/admin/home" >
+        <default key="_controller">sfynx.auth.controller.frontend:indexAction</default>
+    </route>
+
+    <route id="admin_licence" path="/licence" >
+        <default key="_controller">sfynx.auth.controller.frontend:licenceAction</default>
+    </route>
+
 </routes>

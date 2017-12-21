@@ -1,0 +1,64 @@
+services:
+    sfynx.auth.controller.error:
+        class: 'Sfynx\AuthBundle\Presentation\Coordination\ErrorController'
+        calls:
+            - [ setParameter, [ { security.role_hierarchy.roles: '%security.role_hierarchy.roles%' } ] ]
+
+    sfynx.auth.controller.frontend:
+        class: 'Sfynx\AuthBundle\Presentation\Coordination\FrontendController'
+        arguments:
+            - '@sfynx.core.cookie.factory'
+            - '@sfynx.core.request.strategy'
+            - '@sfynx.tool.route.factory'
+            - '@sfynx.auth.manager.user'
+            - '@templating'
+            - '@event_dispatcher'
+            - '@security.token_storage'
+            - '@doctrine'
+        calls:
+            - [ setParameter, [ { sfynx.template.theme.layout.admin.home: '%sfynx.template.theme.layout.admin.home%' } ] ]
+            - [ setParameter, [ { sfynx.core.cookies.date_expire: '%sfynx.core.cookies.date_expire%' } ] ]
+            - [ setParameter, [ { sfynx.core.cookies.date_interval: '%sfynx.core.cookies.date_interval%' } ] ]
+
+    sfynx.auth.controller.langue:
+        class: 'Sfynx\AuthBundle\Presentation\Coordination\LangueController'
+        arguments:
+            - '@sfynx.core.request.strategy'
+            - '@doctrine'
+            - '@templating'
+            - '@session'
+            - '@form.factory'
+
+    sfynx.auth.controller.resetting:
+        class: 'Sfynx\AuthBundle\Presentation\Coordination\ResettingController'
+        arguments:
+            - '@sfynx.tool.route.factory'
+            - '@sfynx.core.request.strategy'
+            - '@sfynx.auth.manager.user'
+
+    sfynx.auth.controller.security:
+        class: 'Sfynx\AuthBundle\Presentation\Coordination\SecurityController'
+        arguments:
+            - '@sfynx.tool.route.factory'
+            - '@sfynx.core.request.strategy'
+            - '@service_container'
+            - '%sfynx.template.theme.login%'
+
+    sfynx.auth.controller.profile:
+        class: 'Sfynx\AuthBundle\Presentation\Coordination\ProfileController'
+        arguments:
+            - '@sfynx.tool.route.factory'
+            - '@templating'
+            - '@security.token_storage'
+            - '%sfynx.template.theme.login%'
+
+    sfynx.auth.controller.layout:
+        class: 'Sfynx\AuthBundle\Presentation\Coordination\LayoutController'
+        arguments:
+            - '@security.authorization_checker'
+            - '@validator'
+            - '@sfynx.core.request.strategy'
+            - '@doctrine'
+            - '@templating'
+            - '@form.factory'
+            - '@sfynx.tool.twig.extension.form'

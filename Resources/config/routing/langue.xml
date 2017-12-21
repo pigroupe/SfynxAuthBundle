@@ -4,35 +4,40 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="admin_langue" pattern="/">
-        <default key="_controller">SfynxAuthBundle:Langue:index</default>
+    <route id="sfynx_langue_enabledentity_ajax" path="/enabled">
+        <default key="_controller">sfynx.auth.controller.langue:enabledajaxAction</default>
     </route>
 
-    <route id="admin_langue_show" pattern="/{id}/show">
-        <default key="_controller">SfynxAuthBundle:Langue:show</default>
+    <route id="sfynx_langue_disablentity_ajax" path="/disable">
+        <default key="_controller">sfynx.auth.controller.langue:disableajaxAction</default>
     </route>
 
-    <route id="admin_langue_new" pattern="/new">
-        <default key="_controller">SfynxAuthBundle:Langue:new</default>
+    <route id="admin_langue" path="/">
+        <default key="_controller">sfynx.auth.controller.langue:indexAction</default>
     </route>
 
-    <route id="admin_langue_create" pattern="/create">
-        <default key="_controller">SfynxAuthBundle:Langue:create</default>
-        <requirement key="_method">post</requirement>
+    <route id="sfynx_langue_show" path="/{id}/show">
+        <default key="_controller">sfynx.auth.controller.langue:showAction</default>
     </route>
 
-    <route id="admin_langue_edit" pattern="/{id}/edit">
-        <default key="_controller">SfynxAuthBundle:Langue:edit</default>
+    <route id="sfynx_langue_new" path="/new">
+        <default key="_controller">sfynx.auth.controller.langue:newAction</default>
     </route>
 
-    <route id="admin_langue_update" pattern="/{id}/update">
-        <default key="_controller">SfynxAuthBundle:Langue:update</default>
-        <requirement key="_method">post</requirement>
+    <route id="sfynx_langue_create" path="/create" methods="POST">
+        <default key="_controller">sfynx.auth.controller.langue:createAction</default>
     </route>
 
-    <route id="admin_langue_delete" pattern="/{id}/delete">
-        <default key="_controller">SfynxAuthBundle:Langue:delete</default>
-        <requirement key="_method">post</requirement>
+    <route id="sfynx_langue_edit" path="/{id}/edit">
+        <default key="_controller">sfynx.auth.controller.langue:editAction</default>
+    </route>
+
+    <route id="sfynx_langue_update" path="/{id}/update" methods="POST">
+        <default key="_controller">sfynx.auth.controller.langue:updateAction</default>
+    </route>
+
+    <route id="sfynx_langue_delete" path="/{id}/delete" methods="POST">
+        <default key="_controller">sfynx.auth.controller.langue:deleteAction</default>
     </route>
 
 </routes>

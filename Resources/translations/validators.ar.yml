@@ -1,27 +1,27 @@
-fos_user:
+sfynx_user:
     username:
-        already_used: Le nom d'utilisateur est déjà utilisé
-        blank: Entrez un nom d'utilisateur s'il vous plait
-        short: Le nom d'utilisateur est trop court
-        long: Le nom d'utilisateur est trop long
+        already_used: نام‌کاربری قبلا ثبت شده است
+        blank: لطفا نام‌کاربری خود را وارد کنید
+        short: "[-Inf,Inf]تعداد حروف نام‌کاربری کمتر از حد مجاز است"
+        long: "[-Inf,Inf]تعداد حروف نام‌کاربری بیشتر از حد مجاز است"
     email:
-        already_used: L'adresse e-mail est déjà utilisée
-        blank: Entrez une adresse e-mail s'il vous plait
-        short: L'adresse e-mail est trop courte
-        long: L'adresse e-mail est trop longue
-        invalid: L'adresse e-mail est invalide
+        already_used: رایانامه قبلا ثبت شده است
+        blank: لطفا رایانامه خود را وارد کنید
+        short: "[-Inf,Inf]تعداد حروف رایانامه کمتر از حد مجاز است"
+        long: "[-Inf,Inf]تعداد حروف رایانامه بیشتر از حد مجاز است"
+        invalid: رایانامه وارد شده مجاز نیست
     password:
-        blank: Entrez un mot de passe s'il vous plait
-        short: Le mot de passe est trop court
+        blank: لطفا کلمه‌عبور خود را وارد کنید
+        short: "[-Inf,Inf]تعداد حروف کلمه‌عبور کمتر از حد مجاز است"
     new_password:
-        blank: Entrez un nouveau mot de passe s'il vous plait
-        short: Le nouveau mot de passe est trop court
+        blank: لطفا کلمه‌عبور خود را دوباره وارد کنید
+        short: "[-Inf,Inf]تعداد حروف تکرار‌کلمه‌عبور کمتر از حد مجاز است"
     current_password:
-        invalid: Le mot de passe est invalide
+        invalid: کلمه‌عبور فعلی مجاز نیست
     group:
-        blank: Entrez un nom s'il vous plait
-        short: Le nom est trop court
-        long: Le nom est trop long
+        blank: لطفا نام‌گروه را وارد کنید
+        short: "[-Inf,Inf]تعداد حروف نام‌گروه وارد شده کمتر از حد مجاز است"
+        long: "[-Inf,Inf]تعداد حروف نام‌گروه وارد شده بیشتر از حد مجاز است"
 
 erreur.unauthorized.method: غير مسموح هذه الميزة
         

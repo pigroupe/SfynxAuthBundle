@@ -1,0 +1,61 @@
+Sfynx\AuthBundle\Domain\EntityVO\LangueTranslation:
+    type: entity
+    table: Pi_langue_translations
+    id:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            column: ID
+            generator:
+                strategy: IDENTITY
+    fields:
+        langueTranslation.locale:
+            type: string
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\LangueTranslationVO
+            declaredField: langueTranslation
+            originalField: locale
+            column: locale
+        langueTranslation.field:
+            type: string
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\LangueTranslationVO
+            declaredField: langueTranslation
+            originalField: field
+            column: field
+        langueTranslation.content:
+            type: string
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            originalClass: Sfynx\AuthBundle\Domain\ValueObject\LangueTranslationVO
+            declaredField: langueTranslation
+            originalField: content
+            column: content
+    manyToOne:
+        object_id:
+            targetEntity: Sfynx\AuthBundle\Domain\EntityVO\Langue
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                object_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

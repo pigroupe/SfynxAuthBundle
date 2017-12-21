@@ -1,0 +1,26 @@
+parameters:
+    # Manager class
+    sfynx.auth.manager.permission.entity.class: Sfynx\AuthBundle\Domain\Service\Permission\Manager\EntityManager
+    # Adapter factory class
+    sfynx.auth.factory.permission.class: Sfynx\CoreBundle\Layers\Infrastructure\Persistence\Factory\MultiAdapterFactory
+    # Entity class value
+    sfynx.auth.manager.permission.params:
+      class: '%sfynx.auth.user_class%'
+    # Reposioty names
+    sfynx.auth.repository.permission.orm.command.class: Sfynx\AuthBundle\Infrastructure\Persistence\Adapter\Command\Orm\PermissionRepository
+    sfynx.auth.repository.permission.orm.query.class: Sfynx\AuthBundle\Infrastructure\Persistence\Adapter\Query\Orm\PermissionRepository
+
+services:
+    #
+    # configuration of the user manager working with Orm, Odm, Couchdb
+    #
+    sfynx.auth.manager.permission.entity:
+        class: '%sfynx.auth.manager.permission.entity.class%'
+        arguments:
+            - '@sfynx.auth.factory.permission'
+            - '@security.encoder_factory'
+            - '@sfynx.core.request.strategy'
+            - '@security.token_storage'
+            - '@service_container'
+        calls:
+            - [ setParams, [ '%sfynx.auth.manager.permission.params%' ] ]

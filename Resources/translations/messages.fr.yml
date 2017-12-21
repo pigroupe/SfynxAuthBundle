@@ -12,7 +12,7 @@ group:
         deleted: Le groupe a été supprimé
 
 # Security
-"Bad credentials": Nom d'utilisateur ou mot de passe incorrect
+"Bad credentials.": Nom d'utilisateur ou mot de passe incorrect
 
 security:
     login:
@@ -77,28 +77,20 @@ resetting:
             Cordialement,
             L'équipe.
 
-# Global strings
-layout:
-    logout: Déconnexion
-    login: Connexion
-    register: Inscription
-    logged_in_as: Connecté en tant que %username%
-
 # Form field labels
-fos_user_group_form_name: "Nom du groupe :"
+form:
+    group_name: Nom du groupe
+    username: Nom d'utilisateur
+    email: Adresse e-mail
+    current_password: Mot de passe actuel
+    password: Mot de passe
+    password_confirmation: Vérification
+    new_password: Nouveau mot de passe
+    new_password_confirmation: Vérification
 
-fos_user_profile_form_user_username: "Nom d'utilisateur :"
-fos_user_profile_form_user_email: "Adresse e-mail :"
-fos_user_profile_form_current: "Mot de passe actuel :"
 
-fos_user_registration_form_username: "Nom d'utilisateur :"
-fos_user_registration_form_email: "Adresse e-mail :"
-fos_user_registration_form_plainPassword_first: "Mot de passe :"
-fos_user_registration_form_plainPassword_second: "Vérification :"
-
-fos_user_resetting_form_new_first: "Nouveau mot de passe :"
-fos_user_resetting_form_new_second: "Vérification :"
-
-fos_user_change_password_form_new_first: "Nouveau mot de passe :"
-fos_user_change_password_form_new_second: "Vérification :"
-fos_user_change_password_form_current: "Mot de passe actuel :"
+# Global strings
+layout.logout: Déconnexion
+layout.login: Connexion
+layout.register: Inscription
+layout.logged_in_as: 'Connecté en tant que %username%'

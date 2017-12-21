@@ -1,0 +1,29 @@
+parameters:
+    # Manager class
+    sfynx.auth.manager.user.entity.class: Sfynx\AuthBundle\Domain\Service\User\Manager\EntityManager
+    # Adapter factory class
+    sfynx.auth.factory.user.class: Sfynx\CoreBundle\Layers\Infrastructure\Persistence\Factory\MultiAdapterFactory
+    # Entity class value
+    sfynx.auth.manager.user.params:
+      class: '%sfynx.auth.user_class%'
+      firewall_name: '%sfynx.auth.firewall_name%'
+      date_expire: '%sfynx.core.cookies.date_expire%'
+      date_interval: '%sfynx.core.cookies.date_interval%'
+    # Reposioty names
+    sfynx.auth.repository.user.orm.command.class: Sfynx\AuthBundle\Infrastructure\Persistence\Adapter\Command\Orm\UserRepository
+    sfynx.auth.repository.user.orm.query.class: Sfynx\AuthBundle\Infrastructure\Persistence\Adapter\Query\Orm\UserRepository
+
+services:
+    #
+    # configuration of the user manager working with Orm, Odm, Couchdb
+    #
+    sfynx.auth.manager.user.entity:
+        class: '%sfynx.auth.manager.user.entity.class%'
+        arguments:
+            - '@sfynx.auth.factory.user'
+            - '@security.encoder_factory'
+            - '@sfynx.core.request.strategy'
+            - '@security.token_storage'
+            - '@service_container'
+        calls:
+            - [ setParams, [ '%sfynx.auth.manager.user.params%' ] ]

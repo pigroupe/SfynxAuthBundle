@@ -1,4 +1,4 @@
-fos_user:
+sfynx_user:
     username:
         already_used: Le nom d'utilisateur est déjà utilisé
         blank: Entrez un nom d'utilisateur s'il vous plait

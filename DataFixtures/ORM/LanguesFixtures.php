@@ -15,7 +15,7 @@ namespace Sfynx\AuthBundle\DataFixtures\ORM;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Sfynx\AuthBundle\Entity\Langue;
+use Sfynx\AuthBundle\Domain\Entity\Langue;
 
 /**
  * Langues DataFixtures.
@@ -53,7 +53,7 @@ class LanguesFixtures extends AbstractFixture implements OrderedFixtureInterface
         $field2->translate('ar_SA')->setLabel('الفرنسية');
         $field2->setEnabled(true);
         $manager->persist($field2);
-        
+
         $field3 = new Langue();
         $field3->setId('ar_SA');
         $field3->setTranslatableLocale('fr_FR');
@@ -62,15 +62,15 @@ class LanguesFixtures extends AbstractFixture implements OrderedFixtureInterface
         $field3->translate('en_GB')->setLabel('Arabic');
         $field3->translate('ar_SA')->setLabel('العربية');
         $field3->setEnabled(true);
-        $manager->persist($field3);        
+        $manager->persist($field3);
 
         $manager->flush();
-        
+
         $this->addReference('lang-en', $field1);
         $this->addReference('lang-fr', $field2);
         $this->addReference('lang-ar', $field3);
     }
-    
+
     /**
      * Retrieve the order number of current fixture
      *
@@ -82,5 +82,5 @@ class LanguesFixtures extends AbstractFixture implements OrderedFixtureInterface
     {
         // The order in which fixtures will be loaded
         return 1;
-    }    
+    }
 }

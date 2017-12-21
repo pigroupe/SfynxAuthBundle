@@ -1,0 +1,26 @@
+parameters:
+    # Manager class
+    sfynx.auth.manager.langue.entity.class: Sfynx\AuthBundle\Domain\Service\Langue\Manager\EntityManager
+    # Adapter factory class
+    sfynx.auth.factory.langue.class: Sfynx\CoreBundle\Layers\Infrastructure\Persistence\Factory\MultiAdapterFactory
+    # Entity class value
+    sfynx.auth.manager.langue.params:
+      class: '%sfynx.auth.langue_class%'
+    # Reposioty names
+    sfynx.auth.repository.langue.orm.command.class: Sfynx\AuthBundle\Infrastructure\Persistence\Adapter\Command\Orm\LangueRepository
+    sfynx.auth.repository.langue.orm.query.class: Sfynx\AuthBundle\Infrastructure\Persistence\Adapter\Query\Orm\LangueRepository
+
+services:
+    #
+    # configuration of the user manager working with Orm, Odm, Couchdb
+    #
+    sfynx.auth.manager.langue.entity:
+        class: '%sfynx.auth.manager.langue.entity.class%'
+        arguments:
+            - '@sfynx.auth.factory.langue'
+            - '@security.encoder_factory'
+            - '@sfynx.core.request.strategy'
+            - '@security.token_storage'
+            - '@service_container'
+        calls:
+            - [ setParams, [ '%sfynx.auth.manager.langue.params%' ] ]

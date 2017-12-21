@@ -25,10 +25,10 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  * This is the class that validates and merges configuration from your app/config files
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html#cookbook-bundles-extension-config-class}
- * 
- * @category   Auth
- * @package    DependencyInjection
- * @subpackage Configuration
+ *
+ * @category   Bundle
+ * @package    Sfynx\AuthBundle
+ * @subpackage DependencyInjection
  * @author     Etienne de Longeaux <etienne.delongeaux@gmail.com>
  * @copyright  2015 PI-GROUPE
  * @license    http://opensource.org/licenses/gpl-license.php GNU Public License
@@ -44,18 +44,56 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('symf_auth');
+        $rootNode = $treeBuilder->root('sfynx_auth');
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for
         // more information on that topic.
+        $this->addMapping($rootNode);
         $this->addLoginFailureConfig($rootNode);
         $this->addLocaleConfig($rootNode);
         $this->addBrowserConfig($rootNode);
         $this->addRedirectionLoginConfig($rootNode);
         $this->addLayoutConfig($rootNode);
-        $this->addThemeConfig($rootNode);
 
         return $treeBuilder;
+    }
+
+    /**
+     * Mapping config
+     *
+     * @param $rootNode \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
+     *
+     * @return void
+     * @access protected
+     *
+     * @author Etienne de Longeaux <etienne.delongeaux@gmail.com>
+     */
+    protected function addMapping(ArrayNodeDefinition $rootNode)
+    {
+        $rootNode
+        ->children()
+            ->arrayNode('mapping')
+                ->addDefaultsIfNotSet()
+                ->children()
+                    ->scalarNode('provider')->isRequired()->defaultValue('orm')->end()
+                    ->scalarNode('firewall_name')->isRequired()->defaultValue('main')->end()
+                    ->scalarNode('user_class')->isRequired()->defaultValue('Sfynx\AuthBundle\Domain\Entity\User')->end()
+                    ->scalarNode('user_entitymanager_command')->defaultValue('doctrine.orm.entity_manager')->end()
+                    ->scalarNode('user_entitymanager_query')->defaultValue('doctrine.orm.entity_manager')->end()
+                    ->scalarNode('user_entitymanager')->defaultValue('doctrine.orm.entity_manager')->end()
+
+                    ->scalarNode('group_class')->isRequired()->defaultValue('Sfynx\AuthBundle\Domain\Entity\Group')->end()
+                    ->scalarNode('group_entitymanager_command')->defaultValue('doctrine.orm.entity_manager')->end()
+                    ->scalarNode('group_entitymanager_query')->defaultValue('doctrine.orm.entity_manager')->end()
+                    ->scalarNode('group_entitymanager')->defaultValue('doctrine.orm.entity_manager')->end()
+
+                    ->scalarNode('langue_class')->isRequired()->defaultValue('Sfynx\AuthBundle\Domain\Entity\Langue')->end()
+                    ->scalarNode('langue_entitymanager_command')->defaultValue('doctrine.orm.entity_manager')->end()
+                    ->scalarNode('langue_entitymanager_query')->defaultValue('doctrine.orm.entity_manager')->end()
+                    ->scalarNode('langue_entitymanager')->defaultValue('doctrine.orm.entity_manager')->end()
+                ->end()
+            ->end()
+        ->end();
     }
     
     /**
@@ -101,7 +139,7 @@ class Configuration implements ConfigurationInterface
         	->arrayNode('locale')
         	    ->addDefaultsIfNotSet()
                 ->children()
-                    ->arrayNode('authorized')->prototype('scalar')->end()->defaultValue(array('fr_FR', 'en_GB', 'ar_SA'))->end()
+                    ->arrayNode('authorized')->prototype('scalar')->end()->defaultValue(['fr_FR', 'en_GB', 'ar_SA'])->end()
                     ->scalarNode('cache_file')->defaultValue('%kernel.root_dir%/cachesfynx/languages.json')->cannotBeEmpty()->end()
                 ->end()
             ->end()
@@ -190,143 +228,4 @@ class Configuration implements ConfigurationInterface
         	->end()
     	->end();
     }  
-
-    /**
-     * Browser config
-     *
-     * @param $rootNode \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
-     *
-     * @return void
-     * @access protected
-     *
-     * @author Etienne de Longeaux <etienne.delongeaux@gmail.com>
-     */
-    protected function addThemeConfig(ArrayNodeDefinition $rootNode)
-    {
-    	$rootNode
-    	->children()
-        	->arrayNode('theme')
-            	->addDefaultsIfNotSet()
-            	->children()
-            	    ->scalarNode('name')->isRequired()->defaultValue("smoothness")->cannotBeEmpty()->end()
-            	    ->scalarNode('login')->isRequired()->defaultValue('SfynxSmoothnessBundle::Login\\')->cannotBeEmpty()->end()
-            	    ->scalarNode('layout')->isRequired()->defaultValue('SfynxSmoothnessBundle::Layout\\')->cannotBeEmpty()->end()
-                
-                    ->arrayNode('email')
-                            ->addDefaultsIfNotSet()
-                            ->children()
-                                ->arrayNode('registration')
-                                    ->addDefaultsIfNotSet()
-                                    ->children()
-                                        ->arrayNode('from_email')
-                                            ->canBeUnset()
-                                            ->children()
-                                                ->scalarNode('address')->isRequired()->cannotBeEmpty()->end()
-                                            ->end()
-                                        ->end()
-                                        ->scalarNode('template')->defaultValue('FOSUserBundle:Registration:email.txt.twig')->end()
-                                    ->end()
-                                ->end()
-                                ->arrayNode('resetting')
-                                    ->addDefaultsIfNotSet()
-                                    ->children()
-                                        ->arrayNode('from_email')
-                                            ->canBeUnset()
-                                            ->children()
-                                                ->scalarNode('address')->isRequired()->cannotBeEmpty()->end()
-                                            ->end()
-                                        ->end()
-                                        ->scalarNode('template')->defaultValue('FOSUserBundle:Registration:email.txt.twig')->end()
-                                    ->end()
-                                ->end()
-                            ->end()
-                    ->end()
-            	    
-            	    ->arrayNode('global')
-                	    ->addDefaultsIfNotSet()
-                	    ->children()
-                	        ->scalarNode('layout')->isRequired()->defaultValue('SfynxSmoothnessBundle::Layout\\layout-global-cmf.html.twig')->cannotBeEmpty()->end()
-                	        ->scalarNode('css')->isRequired()->defaultValue('SfynxSmoothnessBundle::Layout\\layout-global-cmf.html.twig')->cannotBeEmpty()->end()
-                	    ->end()
-            	    ->end()
-            	    
-            	    ->arrayNode('ajax')
-                	    ->addDefaultsIfNotSet()
-                	    ->children()
-                	        ->scalarNode('layout')->isRequired()->defaultValue('SfynxSmoothnessBundle::Layout\\layout-ajax.html.twig')->cannotBeEmpty()->end()
-                	        ->scalarNode('css')->isRequired()->defaultValue('SfynxSmoothnessBundle::Layout\\layout-ajax.html.twig')->cannotBeEmpty()->end()
-                	    ->end()
-            	    ->end()           	    
-            	    
-            	    ->arrayNode('error')
-            	        ->addDefaultsIfNotSet()
-                	    ->children()
-                	        ->scalarNode('route_name')->defaultValue('')->end()
-            	            ->scalarNode('html')->defaultValue('@SfynxSmoothnessBundle/Resources/views/Error/error.html.twig')->end()
-                	    ->end()
-            	    ->end()
-            	    
-            	    ->arrayNode('admin')
-                	    ->addDefaultsIfNotSet()
-                	    ->children()
-                	        ->scalarNode('pc')->isRequired()->defaultValue('SfynxSmoothnessBundle::Layout\\Pc\\')->cannotBeEmpty()->end()
-                    	    ->scalarNode('mobile')->isRequired()->defaultValue('SfynxSmoothnessBundle::Layout\\Mobile\\Admin\\')->cannotBeEmpty()->end()
-                    	    ->scalarNode('css')->defaultValue('bundles/sfynxsmoothness/admin/screen.css')->end()
-                    	    ->scalarNode('home')->isRequired()->defaultValue('SfynxSmoothnessBundle:Home:admin.html.twig')->cannotBeEmpty()->end()
-                    	    ->scalarNode('dashboard')->isRequired()->defaultValue('dashboard.default.html.twig')->cannotBeEmpty()->end()
-
-                    	    ->arrayNode('grid')
-                        	    ->addDefaultsIfNotSet()
-                        	    ->children()
-                        	        ->scalarNode('img')->isRequired()->defaultValue('/bundles/sfynxsmoothness/admin/grid/')->cannotBeEmpty()->end()
-                        	        ->scalarNode('css')->defaultValue('')->end()                        	        
-                        	        ->scalarNode('type')->isRequired()->defaultValue('simple')->end()
-                        	        ->booleanNode('state_save')->isRequired()->defaultValue(false)->end()
-                        	        ->scalarNode('row_select')->isRequired()->defaultValue('multi')->end()
-                        	        ->booleanNode('pagination')->isRequired()->defaultValue(true)->end()
-                        	        ->scalarNode('pagination_type')->isRequired()->defaultValue("full_numbers")->end()
-                        	        ->booleanNode('pagination_top')->isRequired()->defaultValue(false)->end()
-                        	        ->scalarNode('lengthmenu')->isRequired()->defaultValue(20)->end()
-                        	        ->booleanNode('filters_tfoot_up')->isRequired()->defaultValue(true)->end()
-                        	        ->booleanNode('filters_active')->isRequired()->defaultValue(false)->end()
-                        	    ->end()
-                    	    ->end()
-                    	    
-                    	    ->arrayNode('form')
-                        	    ->addDefaultsIfNotSet()
-                        	    ->children()
-                        	        ->scalarNode('builder')->isRequired()->defaultValue('SfynxSmoothnessBundle:Form')->cannotBeEmpty()->end()
-                        	        ->scalarNode('template')->isRequired()->defaultValue('SfynxSmoothnessBundle:Form:fields.html.twig')->cannotBeEmpty()->end()
-                            	    ->scalarNode('css')->defaultValue('')->end()
-                        	    ->end()
-                    	    ->end()                    	    
-                    	    
-                    	    ->scalarNode('flash')->isRequired()->defaultValue("SfynxFlatlabBundle:Flash:flash.html.twig")->cannotBeEmpty()->end()
-                	    ->end()
-            	    ->end()            	    
-            	    
-            	    ->arrayNode('front')
-                	    ->addDefaultsIfNotSet()
-                	    ->children()
-                    	    ->scalarNode('pc')->isRequired()->defaultValue('SfynxSmoothnessBundle::Layout\\Pc\\')->cannotBeEmpty()->end()
-                    	    ->scalarNode('pc_path')->isRequired()->defaultValue('@SfynxSmoothnessBundle/Resources/views/Layout/Pc/')->cannotBeEmpty()->end()
-                    	    ->scalarNode('mobile')->isRequired()->defaultValue('SfynxSmoothnessBundle::Layout\\Mobile\\')->cannotBeEmpty()->end()
-                    	    ->scalarNode('mobile_path')->isRequired()->defaultValue('@SfynxSmoothnessBundle/Resources/views/Layout/Mobile/')->cannotBeEmpty()->end()
-                    	    ->scalarNode('css')->defaultValue('bundles/sfynxsmoothness/front/screen.css')->end()
-                	    ->end()
-            	    ->end()            	    
-            	    
-            	    ->arrayNode('connexion')
-                	    ->addDefaultsIfNotSet()
-                	    ->children()
-                	        ->scalarNode('login')->isRequired()->defaultValue('SfynxSmoothnessBundle::Login\\Security\\login-layout.html.twig')->cannotBeEmpty()->end()
-                	        ->scalarNode('widget')->isRequired()->defaultValue('SfynxSmoothnessBundle::Login\\Security\\connexion-widget.html.twig')->cannotBeEmpty()->end()
-                	    ->end()
-            	    ->end()
-            	                	    
-            	->end()
-        	->end()
-    	->end();
-    }    
-       
 }

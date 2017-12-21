@@ -1,5 +1,5 @@
 {% if app.request.query.get('NoLayout') %}
-	{% set layout_nav = getParameter('sfynx.auth.theme.layout.ajax') %}
+	{% set layout_nav = getParameter('sfynx.template.theme.layout.ajax') %}
 {% else %}
 	{% set layout_nav = app.request.attributes.get('sfynx-layout') %}
 {% endif %}	
@@ -42,13 +42,13 @@
 	    </tbody>
 	</table>
 	
-	{% if is_granted('ROLE_ALLOWED_TO_SWITCH') %}
+	{% if is_granted('ROLE_EDITOR') %}
 	<ul class="ui-widget-header ui-footer">
 		<li>
-	        <a href="{{ path('admin_layout') }}" class="button-ui-back-list">{{ 'pi.grid.action.back-to-the-list'|trans }}</a>      
+	        <a href="{{ path('sfynx_layout') }}" class="button-ui-back-list">{{ 'pi.grid.action.back-to-the-list'|trans }}</a>
 		</li>
 		<li>
-	        <form action="{{ path('admin_layout_edit', { 'id': entity.id }) }}" method="post">
+	        <form action="{{ path('sfynx_layout_edit', { 'id': entity.id }) }}" method="post">
 	            <button type="submit" class="button-ui-update">{{ 'pi.grid.action.update'|trans }}</button>
 	        </form>	        
 		</li>
@@ -58,13 +58,13 @@
 	        {% endif %}
         </li>
         <li>
-            <a href="{{ path('admin_layout_new') }}" class="button-ui-create">{{ 'pi.grid.action.create'|trans }}</a>
+            <a href="{{ path('sfynx_layout_new') }}" class="button-ui-create">{{ 'pi.grid.action.create'|trans }}</a>
         </li>
 	</ul>
 
     {% if is_granted('ROLE_ADMIN') %}   
 	<div style="display:none">		
-    	<form id="delete-form" action="{{ path('admin_layout_delete', { 'id': entity.id }) }}" method="post">
+    	<form id="delete-form" action="{{ path('sfynx_layout_delete', { 'id': entity.id }) }}" method="post">
         	{{ form_widget(delete_form) }}
         	<button type="submit">{{ 'pi.grid.action.delete'|trans }}</button>
     	</form>

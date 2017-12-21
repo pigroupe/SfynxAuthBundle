@@ -1,5 +1,5 @@
 {% if app.request.query.get('NoLayout') %}
-	{% set layout_nav = getParameter('sfynx.auth.theme.layout.ajax') %}
+	{% set layout_nav = getParameter('sfynx.template.theme.layout.ajax') %}
 {% else %}
 	{% set layout_nav = app.request.attributes.get('sfynx-layout') %}
 {% endif %}	
@@ -36,7 +36,7 @@
 	    </tbody>
 	</table>
 	
-	{% if is_granted('ROLE_ALLOWED_TO_SWITCH') %}
+	{% if is_granted('ROLE_EDITOR') %}
 	<ul class="ui-widget-header">
 	    <li>
 	        <form action="{{ path('admin_langue') }}" method="post">
@@ -44,13 +44,13 @@
 	        </form>	        
 	    </li>
 	    <li>
-	        <form action="{{ path('admin_langue_edit', { 'id': entity.id }) }}" method="post">
+	        <form action="{{ path('sfynx_langue_edit', { 'id': entity.id }) }}" method="post">
 	            <button type="submit">{{ 'pi.grid.action.update'|trans }}</button>
 	        </form>	        
 	    </li>
 	    {% if is_granted('ROLE_ADMIN') %}    
 	    <li>
-	        <form action="{{ path('admin_langue_delete', { 'id': entity.id }) }}" method="post">
+	        <form action="{{ path('sfynx_langue_delete', { 'id': entity.id }) }}" method="post">
 	            {{ form_widget(delete_form) }}
 	            <button type="submit">{{ 'pi.grid.action.delete'|trans }}</button>
 	        </form>
