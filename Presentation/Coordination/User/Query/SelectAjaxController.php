@@ -26,9 +26,9 @@ class SelectAjaxController extends AbstractSelectAjaxController
     protected function init(): void
     {
         // we set param
-        $this->setParams('pagination', $this->request->get('pagination', null));
-        $this->setParams('max', $this->request->get('max', 10));
-        $this->setParams('keyword', [
+        $this->setParam('pagination', $this->request->get('pagination', null));
+        $this->setParam('max', $this->request->get('max', 10));
+        $this->setParam('keyword', [
             0 => [
                 'field_name' => 'title',
                 'field_value' => $this->request->get('keyword', ''),
@@ -40,7 +40,7 @@ class SelectAjaxController extends AbstractSelectAjaxController
             'time'      => 3600,
             'namespace' => 'hash_list_auth_user'
         ]);
-        $this->setParams('query', $this->manager->getQueryRepository()->getAllEditorUsersWithLazy());
+        $this->setParam('query', $this->manager->getQueryRepository()->getAllEditorUsersWithLazy());
     }
 
     /**

@@ -34,7 +34,7 @@ class LangueRepository extends AbstractQueryRepository implements TranslationRep
         $query = $this->createQueryBuilder('a')
             ->select("a.id, a.label");
         if (!$with_archive){
-            $query->where('a.archived = 0');
+            $query->where('a.archived IS NULL');
         }
         if ( !(null === $enabled) ) {
             $query
