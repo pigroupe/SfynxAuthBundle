@@ -22,7 +22,7 @@ use Sfynx\CoreBundle\Layers\Application\Common\Handler\WorkflowHandler;
 use Sfynx\CoreBundle\Layers\Application\Command\WorkflowCommand;
 use Sfynx\CoreBundle\Layers\Domain\Service\Manager\Generalisation\Interfaces\ManagerInterface;
 use Sfynx\CoreBundle\Layers\Domain\Service\Request\Generalisation\RequestInterface;
-use Sfynx\CoreBundle\Layers\Domain\Workflow\Observer\Response\OBCreateFormView;
+use Sfynx\CoreBundle\Layers\Domain\Workflow\Observer\Response\OBCreateEntityFormView;
 use Sfynx\CoreBundle\Layers\Domain\Workflow\Observer\Response\OBInjectFormErrors;
 use Sfynx\CoreBundle\Layers\Domain\Workflow\Observer\Response\OBCreateFormBody;
 use Sfynx\CoreBundle\Layers\Domain\Workflow\Observer\Response\OBCreateResponseHtml;
@@ -124,7 +124,7 @@ class FormController extends AbstractFormController
         // 4. Implement the Response workflow
         $this->param->templating = str_replace('::', ':', $this->getParamOrThrow('sfynx_auth_theme_login')) . 'Users:edit.html.twig';
         $Observer1 = new OBUserCreateFormData($this->request, $this->managerGroup, $this->managerLangue);
-        $Observer2 = new OBCreateFormView($this->request, $this->formFactory, new UsersFormType($this->manager));
+        $Observer2 = new OBCreateEntityFormView($this->request, $this->formFactory, new UsersFormType($this->manager));
         $Observer3 = new OBInjectFormErrors($this->request, $this->translator);
         $Observer4 = new OBCreateFormBody($this->request, $this->templating, $this->param);
         $Observer5 = new OBCreateResponseHtml($this->request);

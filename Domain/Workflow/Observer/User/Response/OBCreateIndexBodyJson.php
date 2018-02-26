@@ -70,8 +70,8 @@ class OBCreateIndexBodyJson extends AbstractCreateIndexBodyJson
                 // create action links
                 $route_path_edit = $this->generateUrl('users_edit', [
                     'id' => $entity->getId(),
-                    'NoLayout' => $this->wfHandler->query->NoLayout,
-                    'category' => $this->wfHandler->query->category
+                    'NoLayout' => $this->wfHandler->query->getNoLayout(),
+                    'category' => $this->wfHandler->query->getCategory()
                 ]);
                 $actions  = '<a href="'.$route_path_edit.'" title="'.$this->translator->trans('pi.grid.action.edit').'" data-ui-icon="ui-icon-edit-user" class="button-ui-icon-edit-user info-tooltip" >'.$this->translator->trans('pi.grid.action.edit').'</a>'; //actions
 //                $actions .= '<a href="'.$route_path_edit.'" title="'.$this->translator->trans('pi.grid.action.delete').'" data-ui-icon="ui-icon-delete-user" class="button-ui-icon-delete-user info-tooltip" >'.$this->translator->trans('pi.grid.action.delete').'</a>'; //actions

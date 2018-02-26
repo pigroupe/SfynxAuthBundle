@@ -25,7 +25,7 @@ class OBEntityEdit extends AbstractEntityEditHandler
     protected function onSuccess(): void
     {
         try {
-            (new ValueToDuplicatesTransformer(['first', 'second']))->reverseTransform($this->wfCommand->plainPassword);
+            (new ValueToDuplicatesTransformer(['first', 'second']))->reverseTransform($this->wfCommand->getPlainPassword());
         } catch (Exception $e) {
             $this->wfCommand->errors['plainPassword']['first'] = 'Oops! This is a error message for first field of RepeatedField ';
             $this->wfCommand->errors['plainPassword']['second'] = 'Oops! This is error message for confirm field';

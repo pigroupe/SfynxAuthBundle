@@ -94,9 +94,9 @@ class SecurityRolesType extends AbstractType
         }
 
         $resolver->setDefaults(array(
-                'choices' => function (Options $options, $parentChoices) use ($roles) {
-                    return empty($parentChoices) ? $roles : [];
-                },
+            'choices' => function (Options $options, $parentChoices) use ($roles) {
+                return empty($parentChoices) ? $roles : [];
+            },
         ));
     }
 

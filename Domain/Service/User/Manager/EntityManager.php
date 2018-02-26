@@ -306,24 +306,24 @@ class EntityManager extends AbstractManager implements UserManagerInterface
      */
     protected function transformEntity(EntityInterface &$entity, CommandInterface $command): EntityManager
     {
-        if (null !== $command->permissions) {
-            $entity->setPermissions($command->permissions);
+        if (null !== $command->getPermissions()) {
+            $entity->setPermissions($command->getPermissions());
         }
-        $entity->setEnabled($command->enabled);
-        $entity->setUsername($command->username);
-        $entity->setName($command->name);
-        $entity->setNickname($command->nickname);
-        $entity->setEmail($command->email);
-        if ('' !== $command->langCode && null !== $command->langCode) {
+        $entity->setEnabled($command->getEnabled());
+        $entity->setUsername($command->getUsername());
+        $entity->setName($command->getName());
+        $entity->setNickname($command->getNickname());
+        $entity->setEmail($command->getEmail());
+        if ('' !== $command->getLangCode() && null !== $command->getLangCode()) {
             $entity->setLangCode(
                 $this->getQueryRepository()->getEntityManager()->getReference(
                     '\Sfynx\AuthBundle\Domain\Entity\Langue',
-                    $command->langCode)
+                    $command->getLangCode())
             );
         }
         $entity->initGroups();
-        if (null !== $command->groups) {
-            foreach ($command->groups as $key => $groupId) {
+        if (null !== $command->getGroups()) {
+            foreach ($command->getGroups() as $key => $groupId) {
                 $entity->addGroup(
                     $this->getQueryRepository()->getEntityManager()->getReference(
                         '\Sfynx\AuthBundle\Domain\Entity\Group',
@@ -332,17 +332,17 @@ class EntityManager extends AbstractManager implements UserManagerInterface
             }
         }
 
-        if(!empty($command->plainPassword['first'])
-            && !empty($command->plainPassword['second']))
+        if(!empty($command->getPlainPassword()['first'])
+            && !empty($command->getPlainPassword()['second']))
         {
             $entity->setPassword($this->getEncoder($entity)->encodePassword(
-                $command->plainPassword['first'],
+                $command->getPlainPassword()['first'],
                 $entity->getSalt()));
         }
         $entity->eraseCredentials()
             ->setConfirmationToken()
-            ->setUsernameCanonical($command->username)
-            ->setEmailCanonical($command->email);
+            ->setUsernameCanonical($command->getUsername())
+            ->setEmailCanonical($command->getEmail());
 
         return $this;
     }

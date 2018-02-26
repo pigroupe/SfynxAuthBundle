@@ -5,7 +5,7 @@ Feature: I would like to log in to the system
     Given I am logged as "anonymous"
     And I go to "/login"
 
-  @priority_hight
+  @priority_hight @connection
   Scenario: Log in as user
     Given I am logged as "anonymous"
     And I go to "/en/"
@@ -21,7 +21,7 @@ Feature: I would like to log in to the system
     When I wait for 2 seconds
     Then the response should contain "form-connexion"
 
-  @priority_hight @testeu
+  @priority_hight @connection
   Scenario: Log in as admin
     Given I am on "/login"
     Then the response should contain "behatFormLogin"
@@ -48,7 +48,7 @@ Feature: I would like to log in to the system
     Then I should not see "Logged in as admin" and "Connecté en tant que admin"
     Then the response should contain "form-connexion"
 
-  @priority_hight @testeu
+  @priority_hight @connection
   Scenario: Unsuccessful login
     Given I go to "/login"
     Then the response should contain "behatFormLogin"

@@ -13,73 +13,73 @@ use Sfynx\CoreBundle\Layers\Application\Command\Generalisation\AbstractCommand;
 class FormCommand extends AbstractCommand
 {
     /** @var int */
-    public $entityId;
+    protected $entityId;
     /** @var string */
-    public $password;
+    protected $password;
     /** @var string */
-    public $plainPassword;
+    protected $plainPassword;
     /** @var string */
-    public $lastLogin;
+    protected $lastLogin;
     /** @var string */
-    public $confirmationToken;
+    protected $confirmationToken;
     /** @var string */
-    public $passwordRequestedAt;
+    protected $passwordRequestedAt;
     /** @var string */
-    public $username;
+    protected $username;
     /** @var string */
-    public $usernameCanonical;
+    protected $usernameCanonical;
     /** @var string */
-    public $name;
+    protected $name;
     /** @var string */
-    public $nickname;
+    protected $nickname;
     /** @var string */
-    public $email;
+    protected $email;
     /** @var string */
-    public $emailCanonical;
+    protected $emailCanonical;
     /** @var string */
-    public $birthday;
+    protected $birthday;
     /** @var string */
-    public $address;
+    protected $address;
     /** @var string */
-    public $country;
+    protected $country;
     /** @var string */
-    public $city;
+    protected $city;
     /** @var string */
-    public $zipCode;
+    protected $zipCode;
     /** @var string */
-    public $createdAt;
+    protected $createdAt;
     /** @var string */
-    public $updatedAt;
+    protected $updatedAt;
     /** @var string */
-    public $publishedAt;
+    protected $publishedAt;
     /** @var string */
-    public $archiveAt;
+    protected $archiveAt;
     /** @var bool */
-    public $archived;
+    protected $archived;
     /** @var bool */
-    public $expired;
+    protected $expired;
     /** @var string */
-    public $expiresAt;
+    protected $expiresAt;
     /** @var bool */
-    public $locked;
+    protected $locked;
     /** @var bool */
-    public $credentialsExpired;
+    protected $credentialsExpired;
     /** @var string */
-    public $credentialsExpireAt;
+    protected $credentialsExpireAt;
     /** @var bool */
-    public $globalOptIn;
+    protected $globalOptIn;
     /** @var bool */
-    public $siteOptIn;
+    protected $siteOptIn;
     /** @var bool */
-    public $enabled;
+    protected $enabled;
     /** @var array */
-    public $groups;
+    protected $groups;
     /** @var array */
-    public $roles;
+    protected $roles;
     /** @var array */
-    public $permissions;
+    protected $permissions;
     /** @var array */
-    public $applicationTokens;
+    protected $applicationTokens;
     /** @var int */
-    public $langCode;
+    protected $langCode;
 }

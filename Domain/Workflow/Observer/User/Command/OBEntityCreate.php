@@ -25,13 +25,13 @@ class OBEntityCreate extends AbstractEntityCreateHandler
     protected function onSuccess(): void
     {
         $errors = false;
-        if(empty($this->wfCommand->plainPassword['first'])
-            && empty($this->wfCommand->plainPassword['second']))
+        if(empty($this->wfCommand->getPlainPassword()['first'])
+            && empty($this->wfCommand->getPlainPassword()['second']))
         {
             $errors = true;
         }
         try {
-            (new ValueToDuplicatesTransformer(['first', 'second']))->reverseTransform($this->wfCommand->plainPassword);
+            (new ValueToDuplicatesTransformer(['first', 'second']))->reverseTransform($this->wfCommand->getPlainPassword());
         } catch (Exception $e) {
             $errors = true;
         }
