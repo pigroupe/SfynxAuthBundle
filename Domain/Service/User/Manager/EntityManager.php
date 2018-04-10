@@ -279,10 +279,10 @@ class EntityManager extends AbstractManager implements UserManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function buildFromCommand(EntityInterface $entity, CommandInterface $command): EntityInterface
+    public function buildFromCommand(EntityInterface $entity, CommandInterface $command, bool $updateCommand = false): EntityInterface
     {
         $class = $this->getClass();
-        $entity = $class::buildFromCommand($entity, $command);
+        $entity = $class::buildFromCommand($entity, $command, [], $updateCommand);
         $this->transformEntity($entity, $command);
 
         return $entity;
