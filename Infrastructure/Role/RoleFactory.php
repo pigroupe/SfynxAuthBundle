@@ -15,7 +15,6 @@ namespace Sfynx\AuthBundle\Infrastructure\Role;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Sfynx\ToolBundle\Route\AbstractFactory;
 use Sfynx\AuthBundle\Infrastructure\Role\Generalisation\RoleFactoryInterface;
-use BeSimple\I18nRoutingBundle\Routing\I18nRoute;
 
 /**
  * role factory.

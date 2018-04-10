@@ -4,6 +4,7 @@ namespace Sfynx\AuthBundle\Domain\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 use Sfynx\AuthBundle\Domain\Generalisation as TraitsAuth;
 use Sfynx\AuthBundle\Domain\Generalisation\Interfaces\UserInterface;
@@ -44,7 +45,7 @@ use Sfynx\ToolBundle\Util\PiDateManager;
  * @link       http://opensource.org/licenses/gpl-license.php
  * @since      2015-02-16
  */
-class User extends UserAbstract implements EntityInterface
+class User extends UserAbstract implements EntityInterface, AdvancedUserInterface
 {
     use Traits\TraitBuild;
 
