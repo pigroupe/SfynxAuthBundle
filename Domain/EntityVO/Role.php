@@ -5,7 +5,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\CouchDB\Mapping\Annotations as CouchDB;
 use Doctrine\ORM\Mapping as ORM;
 
-use Sfynx\CoreBundle\Layers\Domain\Model\Interfaces\EntityInterface;
+
 use Sfynx\AuthBundle\Domain\ValueObject\RoleVO;
 use Sfynx\AuthBundle\Domain\Generalisation as TraitsAuth;
 
@@ -29,7 +29,7 @@ use Sfynx\AuthBundle\Domain\Generalisation as TraitsAuth;
  * @license http://www.pigroupe.com under a proprietary license
  * @version 1.1.1
  */
-class Role implements EntityInterface
+class Role  
 {
     use TraitsAuth\TraitHeritage;
     use TraitsAuth\TraitAccessControl;

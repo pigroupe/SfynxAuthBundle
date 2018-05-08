@@ -3,7 +3,7 @@ namespace Sfynx\AuthBundle\Domain\EntityVO;
 
 use Doctrine\ODM\CouchDB\Mapping\Annotations as CouchDB;
 use Doctrine\ORM\Mapping as ORM;
-use Sfynx\CoreBundle\Layers\Domain\Model\Interfaces\EntityInterface;
+
 use Sfynx\AuthBundle\Domain\ValueObject\GroupVO;
 
 /**
@@ -22,7 +22,7 @@ use Sfynx\AuthBundle\Domain\ValueObject\GroupVO;
  *
  * CouchDB\Document
  */
-class Group implements EntityInterface
+class Group  
 {
     /**
      * @var integer|string Unique identifier of the Group.

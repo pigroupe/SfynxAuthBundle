@@ -3,7 +3,7 @@ namespace Sfynx\AuthBundle\Domain\Entity;
 
 use Sfynx\AuthBundle\Domain\Generalisation\Interfaces\GroupInterface;
 
-use Sfynx\CoreBundle\Layers\Domain\Model\Interfaces\EntityInterface;
+
 use Sfynx\CoreBundle\Layers\Domain\Model\Interfaces\TraitDatetimeInterface;
 use Sfynx\CoreBundle\Layers\Domain\Model\Traits\TraitDatetime;
 use Sfynx\CoreBundle\Layers\Domain\Model\Interfaces\TraitEnabledInterface;
@@ -30,7 +30,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @link       http://opensource.org/licenses/gpl-license.php
  * @since      2015-02-16
  */
-class Group implements EntityInterface,GroupInterface,TraitDatetimeInterface,TraitEnabledInterface
+class Group implements GroupInterface,TraitDatetimeInterface,TraitEnabledInterface
 {
     use Traits\TraitBuild;
 

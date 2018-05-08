@@ -3,7 +3,7 @@ namespace Sfynx\AuthBundle\Domain\EntityVO;
 
 use Doctrine\ODM\CouchDB\Mapping\Annotations as CouchDB;
 use Doctrine\ORM\Mapping as ORM;
-use Sfynx\CoreBundle\Layers\Domain\Model\Interfaces\EntityInterface;
+
 use Sfynx\AuthBundle\Domain\ValueObject\PermissionVO;
 
 /**
@@ -22,7 +22,7 @@ use Sfynx\AuthBundle\Domain\ValueObject\PermissionVO;
  *
  * CouchDB\Document
  */
-class Permission implements EntityInterface
+class Permission  
 {
     /**
      * @var integer|string Unique identifier of the Permission.

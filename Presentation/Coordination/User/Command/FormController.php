@@ -12,14 +12,14 @@ use Symfony\Component\HttpFoundation\Response;
 /// TEST DDD
 use Sfynx\CoreBundle\Layers\Presentation\Coordination\Generalisation\AbstractFormController;
 use Sfynx\CoreBundle\Layers\Presentation\Adapter\Command\CommandAdapter;
-use Sfynx\CoreBundle\Layers\Application\Response\Generalisation\Interfaces\ResponseHandlerInterface;
+use Sfynx\CoreBundle\Layers\Application\Response\Handler\Generalisation\Interfaces\ResponseHandlerInterface;
 use Sfynx\CoreBundle\Layers\Application\Response\Handler\ResponseHandler;
 use Sfynx\CoreBundle\Layers\Application\Common\Generalisation\Interfaces\HandlerInterface;
 use Sfynx\CoreBundle\Layers\Application\Command\Handler\FormCommandHandler;
 use Sfynx\CoreBundle\Layers\Application\Command\Handler\Decorator\CommandHandlerDecorator;
-use Sfynx\CoreBundle\Layers\Application\Validation\Generalisation\ValidationHandler\SymfonyValidatorStrategy;
+use Sfynx\CoreBundle\Layers\Application\Validation\Validator\SymfonyValidatorStrategy;
 use Sfynx\CoreBundle\Layers\Application\Common\Handler\WorkflowHandler;
-use Sfynx\CoreBundle\Layers\Application\Command\WorkflowCommand;
+use Sfynx\CoreBundle\Layers\Application\Command\Workflow\CommandWorkflow;
 use Sfynx\CoreBundle\Layers\Domain\Service\Manager\Generalisation\Interfaces\ManagerInterface;
 use Sfynx\CoreBundle\Layers\Domain\Service\Request\Generalisation\RequestInterface;
 use Sfynx\CoreBundle\Layers\Domain\Workflow\Observer\Response\OBCreateEntityFormView;
@@ -104,7 +104,7 @@ class FormController extends AbstractFormController
         // 2. Implement the command workflow
         $Observer1 = new OBUserEntityEdit($this->manager, $this->request);
         $Observer2 = new OBUserEntityCreate($this->manager, $this->request);
-        $workflowCommand = (new WorkflowCommand())
+        $workflowCommand = (new CommandWorkflow())
             ->attach($Observer1)
             ->attach($Observer2);
 

@@ -4,7 +4,7 @@ namespace Sfynx\AuthBundle\Domain\EntityVO;
 use Doctrine\ODM\CouchDB\Mapping\Annotations as CouchDB;
 use Doctrine\ORM\Mapping as ORM;
 
-use Sfynx\CoreBundle\Layers\Domain\Model\Interfaces\EntityInterface;
+
 use Sfynx\AuthBundle\Domain\ValueObject\RessourceVO;
 
 /**
@@ -23,7 +23,7 @@ use Sfynx\AuthBundle\Domain\ValueObject\RessourceVO;
  *
  * CouchDB\Document
  */
-class Ressource implements EntityInterface
+class Ressource  
 {
     /**
      * @var integer|string Unique identifier of the Ressource.
