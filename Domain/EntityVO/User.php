@@ -4,7 +4,7 @@ namespace Sfynx\AuthBundle\Domain\EntityVO;
 use Doctrine\ODM\CouchDB\Mapping\Annotations as CouchDB;
 use Doctrine\ORM\Mapping as ORM;
 
-use Sfynx\CoreBundle\Layers\Domain\Model\Interfaces\EntityInterface;
+
 use Sfynx\AuthBundle\Domain\ValueObject\UserVO;
 use Sfynx\AuthBundle\Domain\Generalisation as TraitsAuth;
 
@@ -39,7 +39,7 @@ use Sfynx\AuthBundle\Domain\Generalisation as TraitsAuth;
  *
  * CouchDB\Document
  */
-class User implements EntityInterface
+class User  
 {
     use TraitsAuth\TraitLangue;
     use TraitsAuth\TraitGroups;

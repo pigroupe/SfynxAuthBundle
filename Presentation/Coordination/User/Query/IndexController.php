@@ -23,9 +23,9 @@ use Sfynx\CoreBundle\Layers\Application\Query\IndexQuery;
 use Sfynx\CoreBundle\Layers\Application\Common\Generalisation\Interfaces\HandlerInterface;
 use Sfynx\CoreBundle\Layers\Application\Common\Handler\WorkflowHandler;
 use Sfynx\CoreBundle\Layers\Application\Response\Handler\ResponseHandler;
-use Sfynx\CoreBundle\Layers\Application\Response\Generalisation\Interfaces\ResponseHandlerInterface;
+use Sfynx\CoreBundle\Layers\Application\Response\Handler\Generalisation\Interfaces\ResponseHandlerInterface;
 use Sfynx\CoreBundle\Layers\Application\Query\Handler\IndexQueryHandler;
-use Sfynx\CoreBundle\Layers\Application\Query\WorkflowQuery;
+use Sfynx\CoreBundle\Layers\Application\Query\Workflow\QueryWorkflow;
 use Sfynx\CoreBundle\Layers\Domain\Workflow\Observer\Query\OBIndexFindEntitiesHandler;
 use Sfynx\CoreBundle\Layers\Domain\Workflow\Observer\Response\OBCreateResponseHtml;
 use Sfynx\CoreBundle\Layers\Domain\Workflow\Observer\Response\OBCreateIndexBodyHtml;
@@ -111,7 +111,7 @@ class IndexController extends AbstractQueryController
         $Observer1 = new OBUserIndexCreateQueryHandler($this->manager, $this->request);
         $Observer2 = new OBUserIndexCreateJsonQueryHandler($this->manager, $this->request);
         $Observer3 = new OBIndexFindEntitiesHandler($this->manager, $this->request);
-        $workflowQuery = (new WorkflowQuery())
+        $workflowQuery = (new QueryWorkflow())
             ->attach($Observer1)
             ->attach($Observer2)
             ->attach($Observer3);

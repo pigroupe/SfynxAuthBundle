@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 use Sfynx\AuthBundle\Domain\Generalisation as TraitsAuth;
 use Sfynx\AuthBundle\Domain\Generalisation\Interfaces\UserInterface;
-use Sfynx\CoreBundle\Layers\Domain\Model\Interfaces\EntityInterface;
+
 use Sfynx\CoreBundle\Layers\Domain\Model\Traits;
 use Sfynx\ToolBundle\Util\PiDateManager;
 
@@ -45,7 +45,7 @@ use Sfynx\ToolBundle\Util\PiDateManager;
  * @link       http://opensource.org/licenses/gpl-license.php
  * @since      2015-02-16
  */
-class User extends UserAbstract implements EntityInterface, AdvancedUserInterface
+class User extends UserAbstract implements  AdvancedUserInterface
 {
     use Traits\TraitBuild;
 

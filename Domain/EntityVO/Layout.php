@@ -4,7 +4,7 @@ namespace Sfynx\AuthBundle\Domain\EntityVO;
 
 use Doctrine\ODM\CouchDB\Mapping\Annotations as CouchDB;
 use Doctrine\ORM\Mapping as ORM;
-use Sfynx\CoreBundle\Layers\Domain\Model\Interfaces\EntityInterface;
+
 use Sfynx\AuthBundle\Domain\ValueObject\LayoutVO;
 
 /**
@@ -27,7 +27,7 @@ use Sfynx\AuthBundle\Domain\ValueObject\LayoutVO;
  * @license http://www.pigroupe.com under a proprietary license
  * @version 1.1.1
  */
-class Layout implements EntityInterface
+class Layout  
 {
     /**
      * @var integer|string Unique identifier of the Layout.

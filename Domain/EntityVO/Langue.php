@@ -3,7 +3,7 @@ namespace Sfynx\AuthBundle\Domain\EntityVO;
 
 use Doctrine\ODM\CouchDB\Mapping\Annotations as CouchDB;
 use Doctrine\ORM\Mapping as ORM;
-use Sfynx\CoreBundle\Layers\Domain\Model\Interfaces\EntityInterface;
+
 use Sfynx\AuthBundle\Domain\ValueObject\LangueVO;
 
 /**
@@ -26,7 +26,7 @@ use Sfynx\AuthBundle\Domain\ValueObject\LangueVO;
  * @license http://www.pigroupe.com under a proprietary license
  * @version 1.1.1
  */
-class Langue implements EntityInterface
+class Langue  
 {
     /**
      * @var integer|string Unique identifier of the Langue.

@@ -9,7 +9,7 @@ use Sfynx\CoreBundle\Layers\Domain\Service\Request\Generalisation\RequestInterfa
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Sfynx\AuthBundle\Domain\Generalisation\Interfaces\UserInterface;
 use Sfynx\CoreBundle\Layers\Application\Command\Generalisation\Interfaces\CommandInterface;
-use Sfynx\CoreBundle\Layers\Domain\Model\Interfaces\EntityInterface;
+
 use Sfynx\CoreBundle\Layers\Domain\Service\Manager\Generalisation\AbstractManager;
 
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -233,7 +233,7 @@ class EntityManager extends AbstractManager implements UserManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function update(EntityInterface $entity, $andFlush = true): void
+    public function update(object $entity, $andFlush = true): void
     {
         $this->updateCanonicalFields($entity);
         $this->updatePassword($entity);
@@ -266,7 +266,7 @@ class EntityManager extends AbstractManager implements UserManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function newFromCommand(CommandInterface $command): EntityInterface
+    public function newFromCommand(CommandInterface $command): object
     {
         $class = $this->getClass();
         /** @var  UserInterface */
@@ -279,7 +279,7 @@ class EntityManager extends AbstractManager implements UserManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function buildFromCommand(EntityInterface $entity, CommandInterface $command, bool $updateCommand = false): EntityInterface
+    public function buildFromCommand(object $entity, CommandInterface $command, bool $updateCommand = false): object
     {
         $class = $this->getClass();
         $entity = $class::buildFromCommand($entity, $command, [], $updateCommand);
@@ -291,7 +291,7 @@ class EntityManager extends AbstractManager implements UserManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function buildFromEntity(CommandInterface $command, EntityInterface $entity): CommandInterface
+    public function buildFromEntity(CommandInterface $command, object $entity): CommandInterface
     {
         $class = $this->getClass();
         $command =  $class::buildFromEntity($command, $entity);
@@ -300,11 +300,11 @@ class EntityManager extends AbstractManager implements UserManagerInterface
     }
 
     /**
-     * @param EntityInterface $entity
+     * @param object $entity
      * @param CommandInterface $command
      * @return EntityManager
      */
-    protected function transformEntity(EntityInterface &$entity, CommandInterface $command): EntityManager
+    protected function transformEntity(object &$entity, CommandInterface $command): EntityManager
     {
         if (null !== $command->getPermissions()) {
             $entity->setPermissions($command->getPermissions());
