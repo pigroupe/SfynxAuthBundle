@@ -68,6 +68,96 @@ class EntityManager extends AbstractManager implements UserManagerInterface
     /**
      * {@inheritDoc}
      */
+    public function newFromCommand(CommandInterface $command): object
+    {
+        $class = $this->getClass();
+        /** @var  UserInterface */
+        $entity = $class::newFromCommand($command);
+        $this->transformEntity($entity, $command);
+
+        return $entity;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function buildFromCommand(object $entity, CommandInterface $command, bool $updateCommand = false): object
+    {
+        $class = $this->getClass();
+        $entity = $class::buildFromCommand($entity, $command, [], $updateCommand);
+        $this->transformEntity($entity, $command);
+
+        return $entity;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function buildFromEntity(CommandInterface $command, object $entity): CommandInterface
+    {
+        $class = $this->getClass();
+        $command =  $class::buildFromEntity($command, $entity);
+
+        return $command;
+    }
+
+    /**
+     * @param object $entity
+     * @param CommandInterface $command
+     * @return EntityManager
+     */
+    protected function transformEntity(object &$entity, CommandInterface $command): EntityManager
+    {
+        if (null !== $command->getPermissions()) {
+            $entity->setPermissions($command->getPermissions());
+        }
+
+        $entity->setEnabled($command->getEnabled());
+        $entity->setUsername($command->getUsername());
+        $entity->setName($command->getName());
+        $entity->setNickname($command->getNickname());
+        $entity->setEmail($command->getEmail());
+
+        if ('' !== $command->getLangCode() && null !== $command->getLangCode()) {
+            $entity->setLangCode(
+                $this->getQueryRepository()->getEntityManager()->getReference(
+                    '\Sfynx\AuthBundle\Domain\Entity\Langue',
+                    $command->getLangCode())
+            );
+        }
+
+        $entity->initGroups();
+
+        if (null !== $command->getGroups()) {
+            foreach ($command->getGroups() as $key => $groupId) {
+                $entity->addGroup(
+                    $this->getQueryRepository()->getEntityManager()->getReference(
+                        '\Sfynx\AuthBundle\Domain\Entity\Group',
+                        $groupId
+                    )
+                );
+            }
+        }
+
+        if(!empty($command->getPlainPassword()['first'])
+            && !empty($command->getPlainPassword()['second']))
+        {
+            $entity->setPassword($this->getEncoder($entity)->encodePassword(
+                $command->getPlainPassword()['first'],
+                $entity->getSalt()));
+        }
+
+        $entity->eraseCredentials()
+            ->setConfirmationToken()
+            ->setUsernameCanonical($command->getUsername())
+            ->setEmailCanonical($command->getEmail());
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function authenticateUser(UserInterface $user = null, &$response = null, $deleteToken = false)
     {
         $locale    = $this->request->getLocale();
@@ -261,89 +351,5 @@ class EntityManager extends AbstractManager implements UserManagerInterface
             $user->setPassword($encoder->encodePassword($password, $user->getSalt()));
             $user->eraseCredentials();
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function newFromCommand(CommandInterface $command): object
-    {
-        $class = $this->getClass();
-        /** @var  UserInterface */
-        $entity = $class::newFromCommand($command);
-        $this->transformEntity($entity, $command);
-
-        return $entity;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function buildFromCommand(object $entity, CommandInterface $command, bool $updateCommand = false): object
-    {
-        $class = $this->getClass();
-        $entity = $class::buildFromCommand($entity, $command, [], $updateCommand);
-        $this->transformEntity($entity, $command);
-
-        return $entity;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function buildFromEntity(CommandInterface $command, object $entity): CommandInterface
-    {
-        $class = $this->getClass();
-        $command =  $class::buildFromEntity($command, $entity);
-
-        return $command;
-    }
-
-    /**
-     * @param object $entity
-     * @param CommandInterface $command
-     * @return EntityManager
-     */
-    protected function transformEntity(object &$entity, CommandInterface $command): EntityManager
-    {
-        if (null !== $command->getPermissions()) {
-            $entity->setPermissions($command->getPermissions());
-        }
-        $entity->setEnabled($command->getEnabled());
-        $entity->setUsername($command->getUsername());
-        $entity->setName($command->getName());
-        $entity->setNickname($command->getNickname());
-        $entity->setEmail($command->getEmail());
-        if ('' !== $command->getLangCode() && null !== $command->getLangCode()) {
-            $entity->setLangCode(
-                $this->getQueryRepository()->getEntityManager()->getReference(
-                    '\Sfynx\AuthBundle\Domain\Entity\Langue',
-                    $command->getLangCode())
-            );
-        }
-        $entity->initGroups();
-        if (null !== $command->getGroups()) {
-            foreach ($command->getGroups() as $key => $groupId) {
-                $entity->addGroup(
-                    $this->getQueryRepository()->getEntityManager()->getReference(
-                        '\Sfynx\AuthBundle\Domain\Entity\Group',
-                        $groupId)
-                );
-            }
-        }
-
-        if(!empty($command->getPlainPassword()['first'])
-            && !empty($command->getPlainPassword()['second']))
-        {
-            $entity->setPassword($this->getEncoder($entity)->encodePassword(
-                $command->getPlainPassword()['first'],
-                $entity->getSalt()));
-        }
-        $entity->eraseCredentials()
-            ->setConfirmationToken()
-            ->setUsernameCanonical($command->getUsername())
-            ->setEmailCanonical($command->getEmail());
-
-        return $this;
     }
 }

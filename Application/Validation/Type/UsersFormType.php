@@ -77,7 +77,10 @@ class UsersFormType extends AbstractType
             'expanded'  => false,
             'required'  => true,
         ))
-        ->add('permissions', SecurityPermissionsType::class, array( 'multiple' => true, 'required' => false))
+        ->add('permissions', SecurityPermissionsType::class, [
+            'multiple' => true,
+            'required' => false
+        ])
         ->add('plainPassword', RepeatedType::class, [
             'type' => PasswordType::class,
             'options' => array('translation_domain' => 'messages'),
