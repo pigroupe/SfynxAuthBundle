@@ -318,7 +318,7 @@ class PiDashboardManager extends PiJqueryExtension
         if ( !isset($options['template']) || empty($options['template']) ) {
             throw ExtensionException::optionValueNotSpecified('template', __CLASS__);
         } else {
-            $template    = "SfynxTemplateBundle:Template\\Widgetimport:" . $options['template'];
+            $template    = $options['template'];
         }
     	$response     = $this->container->get('templating')->renderResponse($template, $options);
 

@@ -24,7 +24,7 @@ services:
             - '@sfynx.tool.route.factory'
             - '@translator'
         calls:
-            - [ setParams, [ { sfynx_auth_theme_login: '%sfynx.template.theme.login%' } ] ]
+            - [ setParams, [ { sfynx_template_theme_login: '%sfynx.template.theme.login%' } ] ]
 
     sfynx.auth.controller.query.show.users:
         shared: false
@@ -36,4 +36,4 @@ services:
             - '@templating'
             - '@sfynx.tool.twig.extension.form'
         calls:
-            - [ setParams, [ { sfynx_auth_theme_login: '%sfynx.template.theme.login%' } ] ]
+            - [ setParams, [ { sfynx_template_theme_login: '%sfynx.template.theme.login%' } ] ]

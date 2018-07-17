@@ -1,26 +1,30 @@
 <?php
 namespace Sfynx\AuthBundle\Domain\Service\User\Manager;
 
-use Sfynx\CoreBundle\Layers\Infrastructure\Persistence\Factory\Generalisation\AdapterFactoryInterface;
-use Sfynx\AuthBundle\Domain\Service\User\Generalisation\Interfaces\UserManagerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
-use Sfynx\CoreBundle\Layers\Domain\Service\Request\Generalisation\RequestInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Sfynx\AuthBundle\Domain\Generalisation\Interfaces\UserInterface;
-use Sfynx\CoreBundle\Layers\Application\Command\Generalisation\Interfaces\CommandInterface;
-
-use Sfynx\CoreBundle\Layers\Domain\Service\Manager\Generalisation\AbstractManager;
-
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
-use Symfony\Component\HttpFoundation\Response;
 
-use Sfynx\AuthBundle\Infrastructure\Event\ViewObject\ResponseEvent;
-use Sfynx\AuthBundle\Infrastructure\Event\SfynxAuthEvents;
+use Sfynx\CoreBundle\Layers\Application\Command\Generalisation\Interfaces\CommandInterface;
+use Sfynx\CoreBundle\Layers\Domain\Service\Request\Generalisation\RequestInterface;
+use Sfynx\CoreBundle\Layers\Domain\Service\Manager\Generalisation\AbstractManager;
+use Sfynx\CoreBundle\Layers\Domain\Repository\Command\CommandRepositoryInterface;
+use Sfynx\CoreBundle\Layers\Domain\Repository\Query\QueryRepositoryInterface;
+use Sfynx\CoreBundle\Layers\Infrastructure\Persistence\Factory\Generalisation\Interfaces\AdapterFactoryInterface;
+
+use Sfynx\ToolBundle\Util\PiStringManager;
+
+use Sfynx\AuthBundle\Domain\Generalisation\Interfaces\UserInterface;
+use Sfynx\AuthBundle\Domain\Service\User\Generalisation\Interfaces\UserManagerInterface;
 use Sfynx\AuthBundle\Domain\Service\Mailer\PiMailerManager;
 use Sfynx\AuthBundle\Domain\Service\User\UserStorage;
-use Sfynx\ToolBundle\Util\PiStringManager;
+use Sfynx\AuthBundle\Domain\Repository\Query\UserQueryRepositoryInterface;
+use Sfynx\AuthBundle\Domain\Repository\Command\UserCommandRepositoryInterface;
+use Sfynx\AuthBundle\Infrastructure\Event\ViewObject\ResponseEvent;
+use Sfynx\AuthBundle\Infrastructure\Event\SfynxAuthEvents;
 
 /**
  * User manager working with entities (Orm, Odm, Couchdb)
@@ -63,6 +67,26 @@ class EntityManager extends AbstractManager implements UserManagerInterface
         $this->request = $request;
         $this->tokenStorage = new UserStorage($TokenStorage);
         $this->container = $container;
+    }
+
+    /**
+     * @param string|null $className
+     * @param array $args
+     * @return UserQueryRepositoryInterface
+     */
+    public function getQueryRepository(string $className = null, array $args = []): QueryRepositoryInterface
+    {
+        return parent::getQueryRepository($className, $args);
+    }
+
+    /**
+     * @param string|null $className
+     * @param array $args
+     * @return UserCommandRepositoryInterface
+     */
+    public function getCommandRepository(string $className = null, array $args = []): CommandRepositoryInterface
+    {
+        return parent::getCommandRepository($className, $args);
     }
 
     /**

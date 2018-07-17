@@ -10,14 +10,18 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Sfynx\AuthBundle\Layers\Domain\Repository\Query;
+namespace Sfynx\AuthBundle\Domain\Repository\Query;
 
 /**
  * UserQueryRepositoryInterface
  *
- * @subpackage   User
- * @package    Builder
- * @author Etienne de Longeaux <etienne.delongeaux@gmail.com>
+ * @category Sfynx\AuthBundle
+ * @package Domain
+ * @subpackage Repository\Query
+ *
+ * @author SFYNX <sfynx@pi-groupe.net>
+ * @link http://www.sfynx.fr
+ * @license LGPL (https://opensource.org/licenses/LGPL-3.0)
  */
 interface UserQueryRepositoryInterface
 {

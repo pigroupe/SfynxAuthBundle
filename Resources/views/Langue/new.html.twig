@@ -16,7 +16,7 @@
     
     <!-- Begin tag markup -->
 	<div id="tabs">
-		{% include getParameter('sfynx.template.theme.layout.admin.pc')|replace({'::': ':'})~"Crud:new-header.html.twig" %}
+		{% include getParameter('sfynx.template.theme.layout.admin.pc')~"Crud/new-header.html.twig" %}
 		{% form_theme form getParameter('sfynx.template.theme.layout.admin.form.template') %}
 		{{ form_start(form, {'action': path('sfynx_langue_create'), 'method': 'POST', 'attr': {'class': 'myform', 'novalidate': 'novalidate', 'enctype': 'application/x-www-form-urlencoded'}}) }}
 			<div id="tabs-1">
@@ -30,7 +30,7 @@
 			    </li>
 			</ul>
         {{ form_end(form) }}
-    {% include getParameter('sfynx.template.theme.layout.admin.pc')|replace({'::': ':'})~"Crud:new-footer.html.twig" %}
+    {% include getParameter('sfynx.template.theme.layout.admin.pc')~"Crud/new-footer.html.twig" %}
 	</div>
 	<!-- End tag markup -->	
 	

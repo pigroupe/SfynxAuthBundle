@@ -62,7 +62,7 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
 
         $field6 = new Layout();
         $field6->setName('pi-model-head-two-columns-fixed-foot');
-        $field6->setFilePc("models\layout-pi-model-head-two-columns-fixed-foot.html.twig");
+        $field6->setFilePc("models/layout-pi-model-head-two-columns-fixed-foot.html.twig");
         $field6->setFileMobile('Default');
         $field6->setConfigXml('<?xml version="1.0"?>
 <config>
@@ -81,7 +81,7 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
 
         $field7 = new Layout();
         $field7->setName('pi-model-left-menu-fluid-column');
-        $field7->setFilePc("models\layout-pi-model-left-menu-fluid-column.html.twig");
+        $field7->setFilePc("models/layout-pi-model-left-menu-fluid-column.html.twig");
         $field7->setFileMobile('Default');
         $field7->setConfigXml('<?xml version="1.0"?>
 <config>
@@ -100,7 +100,7 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
 
         $field8 = new Layout();
         $field8->setName('pi-model-one-column-fixed-central');
-        $field8->setFilePc("models\layout-pi-model-one-column-fixed-central.html.twig");
+        $field8->setFilePc("models/layout-pi-model-one-column-fixed-central.html.twig");
         $field8->setFileMobile('Default');
         $field8->setConfigXml('<?xml version="1.0"?>
 <config>
@@ -119,7 +119,7 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
 
         $field9 = new Layout();
         $field9->setName('pi-model-one-column-fixed-left');
-        $field9->setFilePc("models\layout-pi-model-one-column-fixed-left.html.twig");
+        $field9->setFilePc("models/layout-pi-model-one-column-fixed-left.html.twig");
         $field9->setFileMobile('Default');
         $field9->setConfigXml('<?xml version="1.0"?>
 <config>
@@ -138,7 +138,7 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
 
         $field10 = new Layout();
         $field10->setName('pi-model-one-column');
-        $field10->setFilePc("models\layout-pi-model-one-column.html.twig");
+        $field10->setFilePc("models/layout-pi-model-one-column.html.twig");
         $field10->setFileMobile('Default');
         $field10->setConfigXml('<?xml version="1.0"?>
 <config>
@@ -157,7 +157,7 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
 
         $field11 = new Layout();
         $field11->setName('pi-model-three-columns-main-fluid');
-        $field11->setFilePc("models\layout-pi-model-three-columns-main-fluid.html.twig");
+        $field11->setFilePc("models/layout-pi-model-three-columns-main-fluid.html.twig");
         $field11->setFileMobile('Default');
         $field11->setConfigXml('<?xml version="1.0"?>
 <config>
@@ -177,7 +177,7 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
 
         $field12 = new Layout();
         $field12->setName('pi-model-three-fixed-columns');
-        $field12->setFilePc("models\layout-pi-model-three-fixed-columns.html.twig");
+        $field12->setFilePc("models/layout-pi-model-three-fixed-columns.html.twig");
         $field12->setFileMobile('Default');
         $field12->setConfigXml('<?xml version="1.0"?>
 <config>
@@ -197,7 +197,7 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
 
         $field13 = new Layout();
         $field13->setName('pi-model-three-fluid-columns');
-        $field13->setFilePc("models\layout-pi-model-three-fluid-columns.html.twig");
+        $field13->setFilePc("models/layout-pi-model-three-fluid-columns.html.twig");
         $field13->setFileMobile('Default');
         $field13->setConfigXml('<?xml version="1.0"?>
 <config>
@@ -217,7 +217,7 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
 
         $field14 = new Layout();
         $field14->setName('pi-model-two-columns-fixed-horiz-menu');
-        $field14->setFilePc("models\layout-pi-model-two-columns-fixed-horiz-menu.html.twig");
+        $field14->setFilePc("models/layout-pi-model-two-columns-fixed-horiz-menu.html.twig");
         $field14->setFileMobile('Default');
         $field14->setConfigXml('<?xml version="1.0"?>
 <config>
@@ -236,7 +236,7 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
 
         $field15 = new Layout();
         $field15->setName('pi-model-two-fluid-columns');
-        $field15->setFilePc("models\layout-pi-model-two-fluid-columns.html.twig");
+        $field15->setFilePc("models/layout-pi-model-two-fluid-columns.html.twig");
         $field15->setFileMobile('Default');
         $field15->setConfigXml('<?xml version="1.0"?>
 <config>
@@ -254,7 +254,7 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
 
         $field16 = new Layout();
         $field16->setName('pi-model-two-fluid-intelligent-columns');
-        $field16->setFilePc("models\layout-pi-model-two-fluid-intelligent-columns.html.twig");
+        $field16->setFilePc("models/layout-pi-model-two-fluid-intelligent-columns.html.twig");
         $field16->setFileMobile('Default');
         $field16->setConfigXml('<?xml version="1.0"?>
 <config>
@@ -273,7 +273,7 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
 
         $field17 = new Layout();
         $field17->setName('pi-model-responsive-two-fluid-columns');
-        $field17->setFilePc("models\layout-pi-model-responsive-two-fluid-columns.html.twig");
+        $field17->setFilePc("models/layout-pi-model-responsive-two-fluid-columns.html.twig");
         $field17->setFileMobile('Default');
         $field17->setConfigXml('<?xml version="1.0"?>
 <config>
@@ -295,7 +295,7 @@ class LayoutsFixtures extends AbstractFixture implements OrderedFixtureInterface
 
         $field18 = new Layout();
         $field18->setName('pi-model-responsive-three-fluid-columns');
-        $field18->setFilePc("models\layout-pi-model-responsive-three-fluid-columns.html.twig");
+        $field18->setFilePc("models/layout-pi-model-responsive-three-fluid-columns.html.twig");
         $field18->setFileMobile('Default');
         $field18->setConfigXml('<?xml version="1.0"?>
 <config>

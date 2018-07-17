@@ -18,6 +18,8 @@
 
   "require": {
     "symfony/framework-bundle": "~2.8|~3.0",
+    "doctrine/orm": "*",
+    "doctrine/doctrine-bundle": "*",
     "doctrine/doctrine-fixtures-bundle": "^2.3.0",
     "sfynx-project/tool-specification-bundle": "~2.8.3",
     "sfynx-project/tool-utils-bundle": "~2.8.1",

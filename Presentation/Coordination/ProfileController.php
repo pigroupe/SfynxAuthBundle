@@ -46,18 +46,18 @@ class ProfileController extends abstractController
      * @param RouteTranslatorFactoryInterface $routeFactory
      * @param EngineInterface $templating
      * @param TokenStorageInterface $TokenStorage
-     * @param string $sfynx_auth_theme_login
+     * @param string $sfynx_template_theme_login
      */
     public function __construct(
         RouteTranslatorFactoryInterface $routeFactory,
         EngineInterface $templating,
         TokenStorageInterface $TokenStorage,
-        $sfynx_auth_theme_login
+        $sfynx_template_theme_login
     ) {
         $this->routeFactory = $routeFactory;
         $this->templating = $templating;
         $this->tokenStorage = new UserStorage($TokenStorage);
-        $this->param["sfynx_auth_theme_login"] = $sfynx_auth_theme_login;
+        $this->param["sfynx_template_theme_login"] = $sfynx_template_theme_login;
     }
 
     /**
@@ -71,7 +71,7 @@ class ProfileController extends abstractController
         }
 
         return $this->templating->renderResponse(
-            str_replace('::', ':', $this->param["sfynx_auth_theme_login"]) . 'Profile:show.html.twig',
+            str_replace('::', ':', $this->param["sfynx_template_theme_login"]) . 'Profile:show.html.twig',
             array('user' => $user)
         );
     }

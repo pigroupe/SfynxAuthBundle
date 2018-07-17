@@ -15,9 +15,13 @@ namespace Sfynx\AuthBundle\Domain\Repository\Command;
 /**
  * UserCommandRepositoryInterface
  *
- * @subpackage   User
- * @package    Builder
- * @author Etienne de Longeaux <etienne.delongeaux@gmail.com>
+ * @category Sfynx\AuthBundle
+ * @package Domain
+ * @subpackage Repository\Command
+ *
+ * @author SFYNX <sfynx@pi-groupe.net>
+ * @link http://www.sfynx.fr
+ * @license LGPL (https://opensource.org/licenses/LGPL-3.0)
  */
 interface UserCommandRepositoryInterface
 {
