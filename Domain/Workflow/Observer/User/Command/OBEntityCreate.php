@@ -4,6 +4,9 @@ namespace Sfynx\AuthBundle\Domain\Workflow\Observer\User\Command;
 use Exception;
 use Symfony\Component\Form\Extension\Core\DataTransformer\ValueToDuplicatesTransformer;
 
+use Sfynx\ToolBundle\Builder\RouteTranslatorFactoryInterface;
+use Sfynx\CoreBundle\Layers\Domain\Service\Manager\Generalisation\Interfaces\ManagerInterface;
+use Sfynx\CoreBundle\Layers\Domain\Service\Request\Generalisation\RequestInterface;
 use Sfynx\CoreBundle\Layers\Domain\Workflow\Observer\Generalisation\Command\AbstractEntityCreateHandler;
 use Sfynx\CoreBundle\Layers\Infrastructure\Exception\EntityException;
 use Sfynx\AuthBundle\Domain\Generalisation\Interfaces\UserInterface;
@@ -19,6 +22,21 @@ use Sfynx\AuthBundle\Domain\Generalisation\Interfaces\UserInterface;
  */
 class OBEntityCreate extends AbstractEntityCreateHandler
 {
+    /** @var RouteTranslatorFactoryInterface */
+    protected $router;
+
+    /**
+     * AbstractEntityCreateHandler constructor.
+     * @param ManagerInterface $manager
+     * @param RequestInterface $request
+     * @param RouteTranslatorFactoryInterface $router
+     */
+    public function __construct(ManagerInterface $manager, RequestInterface $request, RouteTranslatorFactoryInterface $router, bool $updateCommand = false)
+    {
+        parent::__construct($manager, $request, $updateCommand);
+        $this->router = $router;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -26,8 +44,8 @@ class OBEntityCreate extends AbstractEntityCreateHandler
     {
         $errors = false;
         if(empty($this->wfCommand->getPlainPassword()['first'])
-            && empty($this->wfCommand->getPlainPassword()['second']))
-        {
+            && empty($this->wfCommand->getPlainPassword()['second'])
+        ) {
             $errors = true;
         }
         try {
@@ -53,5 +71,9 @@ class OBEntityCreate extends AbstractEntityCreateHandler
         }
         // we add the last entity version
         $this->wfLastData->entity = $entity;
+
+        $this->wfLastData->url = $this->router->generate('users_edit', [
+            'id' => $this->wfLastData->entity->getId(),
+        ]);
     }
 }

@@ -14,9 +14,10 @@ services:
             - '@templating'
             - '@form.factory'
             - '@validator'
+            - '@sfynx.tool.route.factory'
             - '@translator'
         calls:
-            - [ setParams, [ { sfynx_auth_theme_login: '%sfynx.template.theme.login%' } ] ]
+            - [ setParams, [ { sfynx_template_theme_login: '%sfynx.template.theme.login%' } ] ]
 
     sfynx.auth.controller.command.enabledajax.users:
         shared: false

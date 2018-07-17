@@ -126,11 +126,11 @@ class SecurityController
      */
     protected function renderLogin(array $data)
     {
-        $template = str_replace('::', ':', $this->container->getParameter('sfynx.template.theme.login'))."Security:login.html.twig";
+        $template = str_replace('::', ':', $this->container->getParameter('sfynx.template.theme.login'))."Security/login.html.twig";
 
         return $this->container->get('templating')->renderResponse($template, $data);
     }
-
+    
     public function checkAction()
     {
         throw new \RuntimeException('You must configure the check path to be handled by the firewall using form_login in your security firewall configuration.');

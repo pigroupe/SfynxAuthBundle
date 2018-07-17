@@ -10,6 +10,8 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /// TEST DDD
+use Sfynx\ToolBundle\Builder\RouteTranslatorFactoryInterface;
+
 use Sfynx\CoreBundle\Layers\Presentation\Coordination\Generalisation\AbstractFormController;
 use Sfynx\CoreBundle\Layers\Presentation\Adapter\Command\CommandAdapter;
 use Sfynx\CoreBundle\Layers\Application\Response\Handler\Generalisation\Interfaces\ResponseHandlerInterface;
@@ -48,6 +50,8 @@ use Sfynx\AuthBundle\Domain\Workflow\Observer\User\Response\OBCreateFormData as 
  */
 class FormController extends AbstractFormController
 {
+    /** @var RouteTranslatorFactoryInterface */
+    protected $routeFactory;
     /** @var ManagerInterface */
     protected $managerGroup;
     /** @var ManagerInterface */
@@ -64,6 +68,7 @@ class FormController extends AbstractFormController
      * @param FormFactoryInterface $formFactory
      * @param EngineInterface $templating
      * @param LegacyValidatorInterface $validator
+     * @param RouteTranslatorFactoryInterface $routeFactory
      * @param TranslatorInterface $translator
      */
     public function __construct(
@@ -75,11 +80,13 @@ class FormController extends AbstractFormController
         EngineInterface $templating,
         FormFactoryInterface $formFactory,
         LegacyValidatorInterface $validator,
+        RouteTranslatorFactoryInterface $routeFactory,
         TranslatorInterface $translator
     ) {
         parent::__construct($authorizationChecker, $manager, $request, $templating, $formFactory, $validator, $translator);
         $this->managerGroup = $managerGroup;
         $this->managerLangue = $managerLangue;
+        $this->routeFactory = $routeFactory;
     }
 
     /**
@@ -102,11 +109,9 @@ class FormController extends AbstractFormController
         );
 
         // 2. Implement the command workflow
-        $Observer1 = new OBUserEntityEdit($this->manager, $this->request);
-        $Observer2 = new OBUserEntityCreate($this->manager, $this->request);
         $workflowCommand = (new CommandWorkflow())
-            ->attach($Observer1)
-            ->attach($Observer2);
+            ->attach(new OBUserEntityEdit($this->manager, $this->request))
+            ->attach(new OBUserEntityCreate($this->manager, $this->request, $this->routeFactory));
 
         // 3. Implement decorator to apply the command workflow from the command
         $this->commandHandler = new FormCommandHandler($workflowCommand);
@@ -122,18 +127,13 @@ class FormController extends AbstractFormController
         }
 
         // 4. Implement the Response workflow
-        $this->param->templating = str_replace('::', ':', $this->getParamOrThrow('sfynx_auth_theme_login')) . 'Users:edit.html.twig';
-        $Observer1 = new OBUserCreateFormData($this->request, $this->managerGroup, $this->managerLangue);
-        $Observer2 = new OBCreateEntityFormView($this->request, $this->formFactory, new UsersFormType($this->manager));
-        $Observer3 = new OBInjectFormErrors($this->request, $this->translator);
-        $Observer4 = new OBCreateFormBody($this->request, $this->templating, $this->param);
-        $Observer5 = new OBCreateResponseHtml($this->request);
+        $this->param->templating = $this->getParamOrThrow('sfynx_template_theme_login') . 'Users/edit.html.twig';
         $workflowHandler = (new WorkflowHandler())
-            ->attach($Observer1)
-            ->attach($Observer2)
-            ->attach($Observer3)
-            ->attach($Observer4)
-            ->attach($Observer5);
+            ->attach(new OBUserCreateFormData($this->request, $this->managerGroup, $this->managerLangue))
+            ->attach(new OBCreateEntityFormView($this->request, $this->formFactory, new UsersFormType($this->manager)))
+            ->attach(new OBInjectFormErrors($this->request, $this->translator))
+            ->attach(new OBCreateFormBody($this->request, $this->templating, $this->param))
+            ->attach(new OBCreateResponseHtml($this->request));
 
         // 5. Implement the responseHandler from the workflow
         $this->responseHandler = new ResponseHandler($workflowHandler);

@@ -7,7 +7,6 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Form\FormFactoryInterface;
-//use Symfony\Component\Validator\Validator\RecursiveValidator;
 use Symfony\Component\Validator\Validator\ValidatorInterface as LegacyValidatorInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -16,10 +15,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
-use Sfynx\ToolBundle\Twig\Extension\PiFormExtension;
-use Sfynx\CoreBundle\Layers\Presentation\Coordination\Generalisation\AbstractQueryController;
+use Sfynx\CoreBundle\Controller\abstractController;
 use Sfynx\CoreBundle\Layers\Domain\Service\Request\Generalisation\RequestInterface;
 use Sfynx\CoreBundle\Layers\Infrastructure\Exception\ControllerException;
+use Sfynx\ToolBundle\Twig\Extension\PiFormExtension;
 use Sfynx\AuthBundle\Domain\Entity\Layout;
 use Sfynx\AuthBundle\Application\Validation\Type\LayoutType;
 
@@ -31,10 +30,12 @@ use Sfynx\AuthBundle\Application\Validation\Type\LayoutType;
  * @author     Etienne de Longeaux <etienne.delongeaux@gmail.com>
  * @since 2012-01-03
  */
-class LayoutController extends AbstractQueryController
+class LayoutController extends abstractController
 {
     protected $_entityName = "SfynxAuthBundle:Layout";
 
+    /** @var AuthorizationCheckerInterface */
+    protected $authorizationChecker;
     /** @var LegacyValidatorInterface */
     protected $validator;
     /** @var RequestInterface */
@@ -56,7 +57,6 @@ class LayoutController extends AbstractQueryController
      * @param RequestInterface $registry
      * @param RequestInterface $templating
      * @param RequestInterface $formFactory
-     * @param PiFormExtension $form
      */
     public function __construct(
         AuthorizationCheckerInterface $authorizationChecker,
@@ -64,14 +64,14 @@ class LayoutController extends AbstractQueryController
         RequestInterface $request,
         RegistryInterface $registry,
         EngineInterface $templating,
-        FormFactoryInterface $formFactory,
-        PiFormExtension $formExtension
+        FormFactoryInterface $formFactory
     ) {
-        parent::__construct($authorizationChecker, $manager, $request, $templating, $formExtension);
-
-        $this->registry = $registry;
-        $this->formFactory = $formFactory;
+        $this->authorizationChecker = $authorizationChecker;
         $this->validator = $validator;
+        $this->request = $request;
+        $this->registry = $registry;
+        $this->templating = $templating;
+        $this->formFactory = $formFactory;
     }
 
     /**

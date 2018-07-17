@@ -2,7 +2,7 @@
 namespace Sfynx\AuthBundle\Infrastructure\Persistence\Adapter\Query\Orm;
 
 use Doctrine\ORM\EntityRepository;
-use Sfynx\AuthBundle\Layers\Domain\Repository\Query\UserQueryRepositoryInterface;
+use Sfynx\AuthBundle\Domain\Repository\Query\UserQueryRepositoryInterface;
 use Sfynx\CoreBundle\Layers\Infrastructure\Persistence\Adapter\Generalisation\Orm\Traits\TraitTranslation;
 use Sfynx\CoreBundle\Layers\Infrastructure\Persistence\Adapter\Generalisation\Orm\AbstractQueryRepository;
 

@@ -73,9 +73,9 @@ class UsersFormType extends AbstractType
 //            },
             'label' => 'pi.form.label.field.usergroup',
             'property' => 'name',
-            'multiple'	=> true,
-            'expanded'  => false,
-            'required'  => true,
+            'multiple' => true,
+            'expanded' => false,
+            'required' => true,
         ))
         ->add('permissions', SecurityPermissionsType::class, [
             'multiple' => true,

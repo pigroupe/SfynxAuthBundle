@@ -103,18 +103,13 @@ class IndexController extends AbstractQueryController
 
         // 1. Transform Request to Query.
         $adapter = new QueryAdapter(new IndexQuery());
-        $query = $adapter->createQueryFromRequest(
-            new IndexQueryRequest($this->request)
-        );
+        $query = $adapter->createQueryFromRequest(new IndexQueryRequest($this->request));
 
         // 2. Implement the query workflow
-        $Observer1 = new OBUserIndexCreateQueryHandler($this->manager, $this->request);
-        $Observer2 = new OBUserIndexCreateJsonQueryHandler($this->manager, $this->request);
-        $Observer3 = new OBIndexFindEntitiesHandler($this->manager, $this->request);
         $workflowQuery = (new QueryWorkflow())
-            ->attach($Observer1)
-            ->attach($Observer2)
-            ->attach($Observer3);
+            ->attach(new OBUserIndexCreateQueryHandler($this->manager, $this->request))
+            ->attach(new OBUserIndexCreateJsonQueryHandler($this->manager, $this->request))
+            ->attach(new OBIndexFindEntitiesHandler($this->manager, $this->request));
 
         // 3. Aapply the query workflow from the query
         $queryHandlerResult = (new IndexQueryHandler($workflowQuery))->process($query);
@@ -123,16 +118,12 @@ class IndexController extends AbstractQueryController
         }
 
         // 4. Implement the Response workflow
-        $this->param->templating = str_replace('::', ':', $this->getParamOrThrow('sfynx_auth_theme_login')) . 'Users:index.html.twig';
-        $Observer1 = new OBCreateIndexBodyHtml($this->request, $this->templating, $this->param);
-        $Observer2 = new OBCreateResponseHtml($this->request);
-        $Observer3 = new OBUserCreateIndexBodyJson($this->request, $this->roleFactory, $this->toolExtension, $this->routeFactory, $this->translator, $this->param);
-        $Observer4 = new OBCreateIndexResponseJson($this->request);
+        $this->setParam('templating', $this->getParamOrThrow('sfynx_template_theme_login') . 'Users/index.html.twig');
         $workflowHandler = (new WorkflowHandler())
-            ->attach($Observer1)
-            ->attach($Observer2)
-            ->attach($Observer3)
-            ->attach($Observer4);
+            ->attach(new OBCreateIndexBodyHtml($this->request, $this->templating, $this->param))
+            ->attach(new OBCreateResponseHtml($this->request))
+            ->attach(new OBUserCreateIndexBodyJson($this->request, $this->roleFactory, $this->toolExtension, $this->routeFactory, $this->translator, $this->param))
+            ->attach(new OBCreateIndexResponseJson($this->request));
 
         // 5. Implement the responseHandler from the workflow
         $this->responseHandler = new ResponseHandler($workflowHandler);
