@@ -33,10 +33,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Group implements GroupInterface,TraitDatetimeInterface,TraitEnabledInterface
 {
     use Traits\TraitBuild;
-
+    use Traits\TraitEnabled;
     use Traits\TraitName;
     use Traits\TraitDatetime;
-    use Traits\TraitEnabled;
     use TraitsAuth\TraitRoles;
     use TraitsAuth\TraitPermissions;
 

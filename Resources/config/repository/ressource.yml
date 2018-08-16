@@ -5,7 +5,7 @@ parameters:
     sfynx.auth.factory.ressource.class: Sfynx\CoreBundle\Layers\Infrastructure\Persistence\Factory\MultiAdapterFactory
     # Entity class value
     sfynx.auth.manager.ressource.params:
-      class: '%sfynx.auth.user_class%'
+      class: '%sfynx.auth.mapping.user.class%'
     # Reposioty names
     sfynx.auth.repository.ressource.orm.command.class: Sfynx\AuthBundle\Infrastructure\Persistence\Adapter\Command\Orm\RessourceRepository
     sfynx.auth.repository.ressource.orm.query.class: Sfynx\AuthBundle\Infrastructure\Persistence\Adapter\Query\Orm\RessourceRepository

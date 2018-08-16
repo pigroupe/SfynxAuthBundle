@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /// TEST DDD
 use Sfynx\ToolBundle\Builder\RouteTranslatorFactoryInterface;
+use Sfynx\ToolBundle\Twig\Extension\PiToolExtension;
 
 use Sfynx\CoreBundle\Layers\Presentation\Coordination\Generalisation\AbstractFormController;
 use Sfynx\CoreBundle\Layers\Presentation\Adapter\Command\CommandAdapter;
@@ -56,6 +57,8 @@ class FormController extends AbstractFormController
     protected $managerGroup;
     /** @var ManagerInterface */
     protected $managerLangue;
+    /** @var PiToolExtension */
+    protected $tool;
 
     /**
      * UsersController constructor.
@@ -70,6 +73,7 @@ class FormController extends AbstractFormController
      * @param LegacyValidatorInterface $validator
      * @param RouteTranslatorFactoryInterface $routeFactory
      * @param TranslatorInterface $translator
+     * @param PiToolExtension $tool
      */
     public function __construct(
         AuthorizationCheckerInterface $authorizationChecker,
@@ -81,12 +85,14 @@ class FormController extends AbstractFormController
         FormFactoryInterface $formFactory,
         LegacyValidatorInterface $validator,
         RouteTranslatorFactoryInterface $routeFactory,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        PiToolExtension $tool
     ) {
         parent::__construct($authorizationChecker, $manager, $request, $templating, $formFactory, $validator, $translator);
         $this->managerGroup = $managerGroup;
         $this->managerLangue = $managerLangue;
         $this->routeFactory = $routeFactory;
+        $this->tool = $tool;
     }
 
     /**
@@ -101,6 +107,7 @@ class FormController extends AbstractFormController
         if (false === $this->authorizationChecker->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException();
         }
+        $locale = $this->request->getLocale();
 
         // 1. Transform Request to Command.
         $adapter = new CommandAdapter(new UserFormCommand());
@@ -127,10 +134,10 @@ class FormController extends AbstractFormController
         }
 
         // 4. Implement the Response workflow
-        $this->param->templating = $this->getParamOrThrow('sfynx_template_theme_login') . 'Users/edit.html.twig';
+        $this->setParam('templating', 'SfynxAuthBundle:Users:edit.html.twig');
         $workflowHandler = (new WorkflowHandler())
             ->attach(new OBUserCreateFormData($this->request, $this->managerGroup, $this->managerLangue))
-            ->attach(new OBCreateEntityFormView($this->request, $this->formFactory, new UsersFormType($this->manager)))
+            ->attach(new OBCreateEntityFormView($this->request, $this->formFactory, new UsersFormType($this->manager, $this->tool, $locale)))
             ->attach(new OBInjectFormErrors($this->request, $this->translator))
             ->attach(new OBCreateFormBody($this->request, $this->templating, $this->param))
             ->attach(new OBCreateResponseHtml($this->request));

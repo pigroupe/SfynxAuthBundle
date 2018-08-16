@@ -41,6 +41,8 @@ class FormRequest extends AbstractFormRequest
         'expiresAt' => null,
         'credentialsExpireAt' => null,
         'enabled' => true,
+        'startAt' => null,
+        'endAt' => null,
         'groups' => null,
         'roles' => null,
         'permissions' => null,
@@ -100,6 +102,8 @@ class FormRequest extends AbstractFormRequest
         'globalOptIn' => ['bool', 'null'],
         'siteOptIn' => ['bool', 'null'],
         'enabled' => ['bool', 'null'],
+        'startAt' => ['DateTime', 'null'],
+        'endAt' => ['DateTime', 'null'],
     ];
 
     /**
@@ -111,11 +115,19 @@ class FormRequest extends AbstractFormRequest
 
         foreach (['archived', 'expired', 'enabled', 'siteOptIn', 'globalOptIn'] as $data) {
             if (isset($this->options[$data])) {
-                $this->options[$data] = (int)$this->options[$data] ? true : false;
+                $this->options[$data] = (boolean)$this->options[$data];
             }
         }
         $id = $this->request->get('id', '');
         $this->options['entityId'] = ('' !== $id) ? (int)$id : null;
+
+        /* datetime transformation */
+        foreach ([
+            'startAt',
+            'endAt',
+        ] as $data) {
+            $this->options[$data] = !empty($this->options[$data]) ? new \DateTime($this->options[$data]) : new \DateTime();
+        }
 
         $this->options = (null !== $this->options) ? $this->options : [];
     }

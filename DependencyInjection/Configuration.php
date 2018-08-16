@@ -48,7 +48,8 @@ class Configuration implements ConfigurationInterface
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for
         // more information on that topic.
-        $this->addMapping($rootNode);
+        \Sfynx\CoreBundle\DependencyInjection\Configuration::addMappingConfig($rootNode);
+        $this->addFirewallName($rootNode);
         $this->addLoginFailureConfig($rootNode);
         $this->addLocaleConfig($rootNode);
         $this->addBrowserConfig($rootNode);
@@ -59,7 +60,7 @@ class Configuration implements ConfigurationInterface
     }
 
     /**
-     * Mapping config
+     * Firewall name config
      *
      * @param $rootNode \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
      *
@@ -68,34 +69,14 @@ class Configuration implements ConfigurationInterface
      *
      * @author Etienne de Longeaux <etienne.delongeaux@gmail.com>
      */
-    protected function addMapping(ArrayNodeDefinition $rootNode)
+    protected function addFirewallName(ArrayNodeDefinition $rootNode)
     {
         $rootNode
         ->children()
-            ->arrayNode('mapping')
-                ->addDefaultsIfNotSet()
-                ->children()
-                    ->scalarNode('provider')->isRequired()->defaultValue('orm')->end()
-                    ->scalarNode('firewall_name')->isRequired()->defaultValue('main')->end()
-                    ->scalarNode('user_class')->isRequired()->defaultValue('Sfynx\AuthBundle\Domain\Entity\User')->end()
-                    ->scalarNode('user_entitymanager_command')->defaultValue('doctrine.orm.entity_manager')->end()
-                    ->scalarNode('user_entitymanager_query')->defaultValue('doctrine.orm.entity_manager')->end()
-                    ->scalarNode('user_entitymanager')->defaultValue('doctrine.orm.entity_manager')->end()
-
-                    ->scalarNode('group_class')->isRequired()->defaultValue('Sfynx\AuthBundle\Domain\Entity\Group')->end()
-                    ->scalarNode('group_entitymanager_command')->defaultValue('doctrine.orm.entity_manager')->end()
-                    ->scalarNode('group_entitymanager_query')->defaultValue('doctrine.orm.entity_manager')->end()
-                    ->scalarNode('group_entitymanager')->defaultValue('doctrine.orm.entity_manager')->end()
-
-                    ->scalarNode('langue_class')->isRequired()->defaultValue('Sfynx\AuthBundle\Domain\Entity\Langue')->end()
-                    ->scalarNode('langue_entitymanager_command')->defaultValue('doctrine.orm.entity_manager')->end()
-                    ->scalarNode('langue_entitymanager_query')->defaultValue('doctrine.orm.entity_manager')->end()
-                    ->scalarNode('langue_entitymanager')->defaultValue('doctrine.orm.entity_manager')->end()
-                ->end()
-            ->end()
+            ->scalarNode('firewall_name')->isRequired()->defaultValue('main')->end()
         ->end();
     }
-    
+
     /**
      * Login failure config
      *

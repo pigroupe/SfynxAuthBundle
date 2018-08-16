@@ -13,7 +13,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Sfynx\AuthBundle\Infrastructure\Command;
+namespace Sfynx\AuthBundle\Application\Cmd;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand as containerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;

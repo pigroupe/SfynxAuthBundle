@@ -35,6 +35,7 @@ class Role implements TraitEnabledInterface
     use Traits\TraitBuild;
     use Traits\TraitEnabled;
     use Traits\TraitName;
+    use Traits\TraitDatetime;
     use TraitsAuth\TraitHeritage;
     use TraitsAuth\TraitAccessControl;
 
@@ -106,26 +107,6 @@ class Role implements TraitEnabledInterface
     }
 
     /**
-     * Set layout
-     *
-     * @param Layout $layout
-     */
-    public function setLayout(Layout $layout)
-    {
-        $this->layout = $layout;
-    }
-
-    /**
-     * Get layout
-     *
-     * @return Layout
-     */
-    public function getLayout()
-    {
-        return $this->layout;
-    }
-
-    /**
      *
      * This method is used when you want to convert to string an object of
      * this Entity
@@ -144,6 +125,26 @@ class Role implements TraitEnabledInterface
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set layout
+     *
+     * @param Layout $layout
+     */
+    public function setLayout(Layout $layout)
+    {
+        $this->layout = $layout;
+    }
+
+    /**
+     * Get layout
+     *
+     * @return Layout
+     */
+    public function getLayout()
+    {
+        return $this->layout;
     }
 
     /**
