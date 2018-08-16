@@ -30,6 +30,8 @@ class Permission implements TraitEnabledInterface
     use Traits\TraitBuild;
     use Traits\TraitEnabled;
     use Traits\TraitName;
+    use Traits\TraitDatetime;
+
 
     /**
      * @var bigint $id

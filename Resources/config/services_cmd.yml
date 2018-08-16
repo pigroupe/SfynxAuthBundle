@@ -1,0 +1,8 @@
+services:
+    #
+    # commands services
+    #
+    sfynx.auth.command.create.user:
+        class: 'Sfynx\AuthBundle\Application\Cmd\CreateUserCommand'
+        tags:
+            - { name: console.command }

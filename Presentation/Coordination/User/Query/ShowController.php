@@ -60,7 +60,7 @@ class ShowController extends AbstractQueryController
         }
 
         // 4. Implement the Response workflow
-        $this->setParam('templating', str_replace('::', ':', $this->getParamOrThrow('sfynx_template_theme_login')) . 'Users:show.html.twig');
+        $this->setParam('templating', 'SfynxAuthBundle:Users:show.html.twig');
         $workflowHandler = (new WorkflowHandler())
             ->attach(new OBCreateShowBody($this->request, $this->templating, $this->param))
             ->attach(new OBCreateResponseHtml($this->request));

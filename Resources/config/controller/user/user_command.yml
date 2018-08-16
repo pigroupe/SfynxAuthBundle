@@ -16,6 +16,7 @@ services:
             - '@validator'
             - '@sfynx.tool.route.factory'
             - '@translator'
+            - '@sfynx.tool.twig.extension.tool'
         calls:
             - [ setParams, [ { sfynx_template_theme_login: '%sfynx.template.theme.login%' } ] ]
 

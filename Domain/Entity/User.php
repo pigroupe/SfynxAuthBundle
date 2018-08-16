@@ -126,6 +126,19 @@ class User extends UserAbstract implements  AdvancedUserInterface
     protected $passwordRequestedAt;
 
     /**
+     * @ORM\Column(name="startAt", type="datetime", nullable=true)
+     * Assert\Date()
+     */
+    protected $startAt;
+
+    /**
+     * @ORM\Column(name="endAt", type="datetime", nullable=true)
+     * Assert\Date()
+     * Assert\GreaterThan(propertyPath="startAt", message="La date de fin de validité doit être supérieure au {{ compared_value }}")
+     */
+    protected $endAt;
+
+    /**
      * User constructor.
      */
     public function __construct()
@@ -215,6 +228,42 @@ class User extends UserAbstract implements  AdvancedUserInterface
     }
 
     /**
+     * @return mixed
+     */
+    public function getStartAt()
+    {
+        return $this->startAt;
+    }
+
+    /**
+     * @param $startAt
+     * @return $this
+     */
+    public function setStartAt($startAt)
+    {
+        $this->startAt = $startAt;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEndAt()
+    {
+        return $this->endAt;
+    }
+
+    /**
+     * @param $endAt
+     * @return $this
+     */
+    public function setEndAt($endAt)
+    {
+        $this->endAt = $endAt;
+        return $this;
+    }
+
+    /**
      * Gets the encrypted password.
      *
      * @return string
@@ -298,11 +347,41 @@ class User extends UserAbstract implements  AdvancedUserInterface
     {
         if ($this->lastLogin) {
             $dateLastLogin = $this->lastLogin;
-            $dateTime = time() - $expired;
+            $dateTime = \time() - $expired;
             if ($dateLastLogin->getTimestamp() > $dateTime) {
                 return true;
             }
         }
+        return false;
+    }
+
+    /**
+     * Check if User is active
+     *
+     * @return bool
+     */
+    public function isActive()
+    {
+        /* User is disabled/blocked */
+        if (false === $this->isEnabled()) {
+            return false;
+        }
+
+        /* Stat date */
+        $startAtFormated = (null !== $this->startAt) ? \date_format($this->startAt, 'Ymd') : null;
+
+        /* End date */
+        $endAtFormated = (null !== $this->endAt) ? \date_format($this->endAt, 'Ymd') : null;
+
+        /* Enabled */
+        $now = date('Ymd');
+        if ( (( $startAtFormated == null && $endAtFormated == null) ||
+                (($endAtFormated >= $now) && ($startAtFormated <= $now)) )||
+            ($endAtFormated == null && $startAtFormated <= $now) ||
+            ($startAtFormated == null && $endAtFormated >= $now) ) {
+            return true;
+        }
+
         return false;
     }
 

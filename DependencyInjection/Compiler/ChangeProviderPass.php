@@ -31,12 +31,10 @@ class ChangeProviderPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        FactoryPass::create($container->getParameter('sfynx.auth.mapping.provider'), 'group', 'sfynx.auth')->process($container);
-        FactoryPass::create($container->getParameter('sfynx.auth.mapping.provider'), 'langue', 'sfynx.auth')->process($container);
-//        FactoryPass::create($container->getParameter('sfynx.auth.mapping.provider'), 'layout', 'sfynx.auth')->process($container);
-//        FactoryPass::create($container->getParameter('sfynx.auth.mapping.provider'), 'permission', 'sfynx.auth')->process($container);
-//        FactoryPass::create($container->getParameter('sfynx.auth.mapping.provider'), 'ressource', 'sfynx.auth')->process($container);
-//        FactoryPass::create($container->getParameter('sfynx.auth.mapping.provider'), 'role', 'sfynx.auth')->process($container);
-        FactoryPass::create($container->getParameter('sfynx.auth.mapping.provider'), 'user', 'sfynx.auth')->process($container);
+        if ($container->hasParameter('sfynx.auth.mapping.entities')) {
+            foreach ($container->getParameter('sfynx.auth.mapping.entities') as $entity => $parameters) {
+                FactoryPass::create($entity, 'sfynx.auth', $parameters, true)->process($container);
+            }
+        }
     }
 }

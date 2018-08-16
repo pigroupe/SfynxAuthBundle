@@ -11,16 +11,17 @@
  */
 namespace Sfynx\AuthBundle\Presentation\Coordination;
 
-use Sfynx\ToolBundle\Builder\RouteTranslatorFactoryInterface;
-use Sfynx\CoreBundle\Layers\Domain\Service\Request\Generalisation\RequestInterface;
-use Sfynx\AuthBundle\Domain\Service\User\Generalisation\Interfaces\UserManagerInterface;
-
-use Sfynx\CoreBundle\Controller\abstractController;
-use Sfynx\AuthBundle\Mailer\PiMailerManager;
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\JsonResponse;
+
+use Sfynx\CoreBundle\Controller\abstractController;
+use Sfynx\CoreBundle\Layers\Domain\Service\Request\Generalisation\RequestInterface;
+use Sfynx\ToolBundle\Builder\RouteTranslatorFactoryInterface;
+use Sfynx\AuthBundle\Domain\Service\User\Generalisation\Interfaces\UserManagerInterface;
+use Sfynx\AuthBundle\Domain\Service\User\Mailer\PiMailerManager;
 
 /**
  * Controller managing the resetting of the password
@@ -36,6 +37,10 @@ class ResettingController extends abstractController
     protected $request;
     /** @var UserManagerInterface */
     protected $UserManager;
+    /** @var EngineInterface */
+    protected $templating;
+    /** @var  PiMailerManager */
+    protected $mailer;
 
     /**
      * FrontendController constructor.
@@ -43,15 +48,22 @@ class ResettingController extends abstractController
      * @param RouteTranslatorFactoryInterface $router
      * @param RequestInterface $request
      * @param UserManagerInterface $UserManager
+     * @param EngineInterface $templating
+     * @param $mailer
      */
     public function __construct(
         RouteTranslatorFactoryInterface $router,
         RequestInterface $request,
-        UserManagerInterface $UserManager
+        UserManagerInterface $UserManager,
+        EngineInterface $templating,
+        PiMailerManager $mailer
     ) {
         $this->router = $router;
         $this->request = $request;
         $this->UserManager = $UserManager;
+
+        $this->templating = $templating;
+        $this->mailer = $mailer;
     }
 
     /**
@@ -60,13 +72,9 @@ class ResettingController extends abstractController
     public function requestAction()
     {
         $NoLayout   = $this->request->getQuery()->get('NoLayout');
+        $templateFile = '@SfynxTheme/Login/Resetting/request.html.twig';
 
-        $templateFile = str_replace('::', ':', $this->container->getParameter('sfynx.template.theme.login')).'Resetting:request.html.twig';
-
-        return $this->container->get('templating')->renderResponse(
-            $templateFile,
-            array('NoLayout' => $NoLayout)
-        );
+        return $this->templating->renderResponse($templateFile, ['NoLayout' => $NoLayout]);
     }
 
     /**
@@ -78,74 +86,67 @@ class ResettingController extends abstractController
      */
     public function sendEmailAction()
     {
-        $username   = $this->request->get('username');
-        $template   = $this->request->get('template');
+        $username = $this->request->get('username');
+        $template = $this->request->get('template');
         $routereset = $this->request->get('routereset');
-        $type       = $this->request->get('type');
+        $type = $this->request->get('type');
 
         if (empty($template)) {
-            $template = str_replace('::', ':', $this->container->getParameter('sfynx.template.theme.login')).'Resetting:request.html.twig';
+            $template = '@SfynxTheme/Login/Resetting/request.html.twig';
         }
 
-        $user  =  $this->UserManager->getQueryRepository()->findOneBy(array('username' => $username));
+        $user  =  $this->UserManager->getQueryRepository()->findOneBy(['username' => $username]);
 
         if($this->request->isXmlHttpRequest()){
             $response = new JsonResponse();
             if (null === $user) {
                 return $response->setData(
-                    json_encode(array(
+                    json_encode([
                             'text'  => 'Identifiant inconnu',
                             'error' => true,
                             'type'  => 'unknown'
-                        )
+                        ]
                     )
                 );
             } else if ($user->isPasswordRequestNonExpired($this->container->getParameter('fos_user.resetting.token_ttl')) && $type == 'send') {
                 return $response->setData(
-                    json_encode(array(
+                    json_encode([
                             'text'=> 'Vous devez au préalable activer votre compte en cliquant sur le mail de Confirmation d\'inscription reçu',
                             'error' => true,
                             'type' => '24h'
-                        )
+                        ]
                     )
                 );
             } else {
                 $this->UserManager->tokenUser($user);
-                $this->container->get('sfynx.auth.mailer')->sendResettingEmailMessage($user, $routereset);
+                $this->mailer->sendResettingEmailMessage($user, $routereset);
                 $this->UserManager->update($user);
 
                 return $response->setData(
-                    json_encode(array(
-                        'text'  => 'Un email vous a été envoyé pour créer un nouveau mot de passe sur le site',
-                        'error' => false)
+                    json_encode([
+                            'text'  => 'Un email vous a été envoyé pour créer un nouveau mot de passe sur le site',
+                            'error' => false
+                        ]
                     )
                 );
             }
         } else {
             if (null === $user) {
-                return $this->container->get('templating')
-                        ->renderResponse(
-                            $template,
-                            array('invalid_username' => $username)
-                        );
+                return $this->templating->renderResponse($template, ['invalid_username' => $username]);
             }
             if ($user->isPasswordRequestNonExpired($this->container->getParameter('fos_user.resetting.token_ttl'))) {
-                return $this->container->get('templating')->renderResponse(
-                    str_replace('::', ':', $this->container->getParameter('sfynx.template.theme.login')) . 'Resetting:passwordAlreadyRequested.html.twig'
+                return $this->templating->renderResponse(
+                    '@SfynxTheme/Login/Resetting/passwordAlreadyRequested.html.twig'
                 );
             }
             $this->UserManager->tokenUser($user);
-            $this->container->get('sfynx.auth.mailer')->sendResettingEmailMessage($user, $routereset);
+            $this->mailer->sendResettingEmailMessage($user, $routereset);
             $this->UserManager->update($user);
 
             try {
-                return $this->container->get('templating')
-                ->renderResponse(
-                    $template,
-                    array('success' => true)
-                );
+                return $this->templating->renderResponse($template, ['success' => true]);
             } catch (\Exception $e) {
-                $response     = new RedirectResponse(
+                $response = new RedirectResponse(
                     $this->router->generate('sfynx_auth_resetting_check_email')
                 );
             }
@@ -159,9 +160,9 @@ class ResettingController extends abstractController
      */
     public function checkEmailAction()
     {
-        $templateFile = str_replace('::', ':', $this->container->getParameter('sfynx.template.theme.login')).'Resetting:checkEmail.html.twig';
+        $templateFile = '@SfynxTheme/Login/Resetting/checkEmail.html.twig';
         $session = $this->request->getSession();
-        $email   = $session->get(PiMailerManager::SESSION_EMAIL);
+        $email = $session->get(PiMailerManager::SESSION_EMAIL);
         $session->remove(PiMailerManager::SESSION_EMAIL);
 
         if (empty($email)) {
@@ -171,12 +172,7 @@ class ResettingController extends abstractController
             );
         }
 
-        return $this->container->get('templating')->renderResponse(
-            $templateFile,
-            array(
-                'email' => $email,
-            )
-        );
+        return $this->templating->renderResponse($templateFile, ['email' => $email,]);
     }
 
     /**
@@ -186,17 +182,12 @@ class ResettingController extends abstractController
     {
         /** @var $formFactory \FOS\UserBundle\Form\Factory\FactoryInterface */
         $formFactory = $this->container->get('fos_user.resetting.form.factory');
-        /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
-        $dispatcher = $this->container->get('event_dispatcher');
 
         $user = $this->UserManager->findUserByConfirmationToken($token);
 
         if (null === $user) {
             throw new NotFoundHttpException(sprintf('The user with "confirmation token" does not exist for value "%s"', $token));
         }
-
-        $event = new GetResponseUserEvent($user, $request);
-        $dispatcher->dispatch(FOSUserEvents::RESETTING_RESET_INITIALIZE, $event);
 
         if (null !== $event->getResponse()) {
             return $event->getResponse();
@@ -209,22 +200,17 @@ class ResettingController extends abstractController
             $form->bind($this->request);
 
             if ($form->isValid()) {
-                $event = new FormEvent($form, $this->request);
-                $dispatcher->dispatch(FOSUserEvents::RESETTING_RESET_SUCCESS, $event);
-                $userManager->update($user);
-
                 if (null === $response = $event->getResponse()) {
                     $url = $this->router->generate('sfynx_user_profile_show');
                     $response = new RedirectResponse($url);
                 }
-                $dispatcher->dispatch(FOSUserEvents::RESETTING_RESET_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
 
                 return $response;
             }
         }
-        $templateFile = str_replace('::', ':', $this->container->getParameter('sfynx.template.theme.login')).'Resetting:reset.html.twig';
+        $templateFile = '@SfynxTheme/Login/Resetting/reset.html.twig';
 
-        return $this->container->get('templating')->renderResponse(
+        return $this->templating->renderResponse(
             $templateFile,
             array(
                 'token' => $token,

@@ -51,6 +51,7 @@ class SfynxAuthExtension extends Extension{
 //        $loader->load('repository/ressource.yml');
 //        $loader->load('repository/role.yml');
 		$loader->load('services.yml');
+        $loader->load('services_cmd.yml');
         $loader->load('services_cmfconfig.yml');
 		$loader->load('controllers.yml');
 
@@ -63,54 +64,21 @@ class SfynxAuthExtension extends Extension{
         $config  = $this->processConfiguration($configuration, $config);
 
         /*
+         * Firewall config parameter
+         */
+        if (isset($config['firewall_name'])) {
+            $container->setParameter('sfynx.auth.firewall_name', $config['firewall_name']);
+        }
+
+        /*
          * Mapping config parameter
          */
-        if (isset($config['mapping']['provider'])) {
-            $container->setParameter('sfynx.auth.mapping.provider', $config['mapping']['provider']);
+        if (isset($config['mapping']['entities'])) {
+            $container->setParameter("sfynx.auth.mapping.entities", $config['mapping']['entities']);
+            foreach ($config['mapping']['entities'] as $entity => $param) {
+                $container->setParameter("sfynx.auth.mapping.{$entity}.class", $param['class']);
+            }
         }
-        if (isset($config['mapping']['firewall_name'])) {
-            $container->setParameter('sfynx.auth.firewall_name', $config['mapping']['firewall_name']);
-        }
-
-        if (isset($config['mapping']['user_class'])) {
-            $container->setParameter('sfynx.auth.user_class', $config['mapping']['user_class']);
-        }
-        if (isset($config['mapping']['user_entitymanager_command'])) {
-            $container->setParameter('sfynx.auth.user.entitymanager.command', $config['mapping']['user_entitymanager_command']);
-        }
-        if (isset($config['mapping']['user_entitymanager_query'])) {
-            $container->setParameter('sfynx.auth.user.entitymanager.query', $config['mapping']['user_entitymanager_query']);
-        }
-        if (isset($config['mapping']['user_entitymanager'])) {
-            $container->setParameter('sfynx.auth.user.entitymanager', $config['mapping']['user_entitymanager']);
-        }
-
-        if (isset($config['mapping']['langue_class'])) {
-            $container->setParameter('sfynx.auth.langue_class', $config['mapping']['langue_class']);
-        }
-        if (isset($config['mapping']['langue_entitymanager_command'])) {
-            $container->setParameter('sfynx.auth.langue.entitymanager.command', $config['mapping']['langue_entitymanager_command']);
-        }
-        if (isset($config['mapping']['langue_entitymanager_query'])) {
-            $container->setParameter('sfynx.auth.langue.entitymanager.query', $config['mapping']['langue_entitymanager_query']);
-        }
-        if (isset($config['mapping']['langue_entitymanager'])) {
-            $container->setParameter('sfynx.auth.langue.entitymanager', $config['mapping']['langue_entitymanager']);
-        }
-
-        if (isset($config['mapping']['group_class'])) {
-            $container->setParameter('sfynx.auth.group_class', $config['mapping']['group_class']);
-        }
-        if (isset($config['mapping']['group_entitymanager_command'])) {
-            $container->setParameter('sfynx.auth.group.entitymanager.command', $config['mapping']['group_entitymanager_command']);
-        }
-        if (isset($config['mapping']['group_entitymanager_query'])) {
-            $container->setParameter('sfynx.auth.group.entitymanager.query', $config['mapping']['group_entitymanager_query']);
-        }
-        if (isset($config['mapping']['group_entitymanager'])) {
-            $container->setParameter('sfynx.auth.group.entitymanager', $config['mapping']['group_entitymanager']);
-        }
-
 
         /**
          * Login failure config parameter

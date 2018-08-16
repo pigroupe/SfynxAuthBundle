@@ -3,17 +3,19 @@ namespace Sfynx\AuthBundle\Infrastructure\EventListener\HandlerException;
 
 use Exception;
 use stdclass;
+use Symfony\Bridge\Monolog\Logger;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Sfynx\ToolBundle\Builder\RouteTranslatorFactoryInterface;
-use Sfynx\CoreBundle\Layers\Domain\Service\Request\Generalisation\RequestInterface;
-
-use Sfynx\AuthBundle\Infrastructure\Exception\InvalidArgumentException;
+use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
 use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use Symfony\Component\HttpFoundation\Response;
+
+use Sfynx\CoreBundle\Layers\Domain\Service\Request\Generalisation\RequestInterface;
+use Sfynx\ToolBundle\Builder\RouteTranslatorFactoryInterface;
+
+use Sfynx\AuthBundle\Infrastructure\Exception\InvalidArgumentException;
 
 /**
  * Class HandlerExceptionFactory.
@@ -31,10 +33,12 @@ class HandlerExceptionFactory
 {
     /** @var EngineInterface $templating */
     public $templating;
-    /** @var string $locale The locale value */
-    public $locale;
     /** @var RouteTranslatorFactoryInterface  */
     public $router;
+    /** @var Logger  */
+    protected $logger;
+    /** @var string $locale The locale value */
+    public $locale;
     /** @var KernelInterface $kernel */
     public $kernel;
     /** @var RequestInterface */
@@ -49,13 +53,16 @@ class HandlerExceptionFactory
      *
      * @param EngineInterface    $templating
      * @param RouteTranslatorFactoryInterface $router
+     * @param Logger $logger
      */
     public function __construct(
         EngineInterface $templating,
-        RouteTranslatorFactoryInterface $router
+        RouteTranslatorFactoryInterface $router,
+        Logger $logger
     ) {
         $this->templating = $templating;
         $this->router = $router;
+        $this->logger = $logger;
     }
 
     /**
@@ -73,6 +80,8 @@ class HandlerExceptionFactory
             $this->request = $event->getRequest($event);
             $this->locale  = $this->request->getLocale();
             $this->exception = $event->getException();
+
+            $this->setError();
 
             $responseException = HandlerExceptionBuild::build(
                 $event->getRequest()->getRequestFormat(),
@@ -127,9 +136,42 @@ class HandlerExceptionFactory
      */
     public function getParam($property, $defaultValue)
     {
-        if (property_exists($this->param, $property)) {
+        if (\property_exists($this->param, $property)) {
             return $this->param->$property;
         }
         return $defaultValue;
+    }
+
+    /**
+     * @return void
+     */
+    protected function setError()
+    {
+        // Starts logging exception messages
+        $this->logger->addError($this->exception->getMessage());
+        $this->logger->addError($this->exception->getTraceAsString());
+
+        // Custom messages logged out with first level of callstack informations
+        if (!\is_null($this->exception->getTrace())) {
+            $exceptionStackTrace = $this->exception->getTrace();
+            foreach($exceptionStackTrace[0] as $key => $exceptionStackTraceFirstLevelInfo){
+                if ('args' == $key) {
+                    if (isset($exceptionStackTraceFirstLevelInfo[0])) {
+
+                        if (\method_exists($exceptionStackTraceFirstLevelInfo[0],'getRequest')) {
+                            $requestParameters = $exceptionStackTraceFirstLevelInfo[0]->getRequest()->request;
+                            $requestParametersString = \print_r($requestParameters,true);
+                            $this->logger->addError($requestParametersString);
+                        } elseif ($exceptionStackTraceFirstLevelInfo[0] instanceof \Symfony\Component\HttpFoundation\Request) {
+                            $requestParameters = $exceptionStackTraceFirstLevelInfo[0]->request;
+                            $requestParametersString = \print_r($requestParameters,true);
+                            $this->logger->addError($requestParametersString);
+                        }
+                    }
+                } else {
+                    $this->logger->addError($key . ' : ' . $exceptionStackTraceFirstLevelInfo);
+                }
+            }
+        }
     }
 }

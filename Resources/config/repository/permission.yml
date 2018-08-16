@@ -5,7 +5,7 @@ parameters:
     sfynx.auth.factory.permission.class: Sfynx\CoreBundle\Layers\Infrastructure\Persistence\Factory\MultiAdapterFactory
     # Entity class value
     sfynx.auth.manager.permission.params:
-      class: '%sfynx.auth.user_class%'
+      class: '%sfynx.auth.mapping.user.class%'
     # Reposioty names
     sfynx.auth.repository.permission.orm.command.class: Sfynx\AuthBundle\Infrastructure\Persistence\Adapter\Command\Orm\PermissionRepository
     sfynx.auth.repository.permission.orm.query.class: Sfynx\AuthBundle\Infrastructure\Persistence\Adapter\Query\Orm\PermissionRepository

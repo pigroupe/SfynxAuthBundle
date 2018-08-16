@@ -118,7 +118,7 @@ class IndexController extends AbstractQueryController
         }
 
         // 4. Implement the Response workflow
-        $this->setParam('templating', $this->getParamOrThrow('sfynx_template_theme_login') . 'Users/index.html.twig');
+        $this->setParam('templating', 'SfynxAuthBundle:Users:index.html.twig');
         $workflowHandler = (new WorkflowHandler())
             ->attach(new OBCreateIndexBodyHtml($this->request, $this->templating, $this->param))
             ->attach(new OBCreateResponseHtml($this->request))

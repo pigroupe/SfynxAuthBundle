@@ -39,14 +39,6 @@ parameters:
 
 services:
     #
-    # commands services
-    #
-    sfynx.auth.command.create.user:
-        class: Sfynx\AuthBundle\Infrastructure\Command\CreateUserCommand
-        tags:
-            - { name: console.command }
-
-    #
     # MONOLOG:::configuration of the user monolog processor
     #
     sfynx.auth.monolog.processor.user:
@@ -65,6 +57,7 @@ services:
         arguments:
             - '@templating'
             - '@sfynx.tool.route.factory'
+            - '@logger'
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
         calls:

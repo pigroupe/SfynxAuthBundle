@@ -35,6 +35,8 @@ services:
             - '@sfynx.tool.route.factory'
             - '@sfynx.core.request.strategy'
             - '@sfynx.auth.manager.user'
+            - '@templating'
+            - '@sfynx.auth.mailer'
 
     sfynx.auth.controller.security:
         class: 'Sfynx\AuthBundle\Presentation\Coordination\SecurityController'

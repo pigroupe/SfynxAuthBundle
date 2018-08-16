@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace SfynxAuthContext\Infrastructure\Persistence\FieldsDefinition;
 
-use Sfynx\DddBundle\Layer\Infrastructure\Persistence\FieldsDefinition\FieldsDefinitionAbstract;
+use Sfynx\CoreBundle\Layers\Infrastructure\Persistence\FieldsDefinition\Generalisation\FieldsDefinitionAbstract;
 
 /**
  * Class LangueTranslation

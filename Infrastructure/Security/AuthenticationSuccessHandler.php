@@ -1,7 +1,6 @@
 <?php
 namespace Sfynx\AuthBundle\Infrastructure\Security;
 
-use Sfynx\AuthBundle\Infrastructure\Role\Generalisation\RoleFactoryInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Authentication\DefaultAuthenticationSuccessHandler;
@@ -12,20 +11,31 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
 
+use Sfynx\AuthBundle\Infrastructure\Role\Generalisation\RoleFactoryInterface;
+use Sfynx\AuthBundle\Infrastructure\Security\Specification\UserHasStartDateSpec;
+use Sfynx\AuthBundle\Infrastructure\Security\Specification\UserHasStartAndEndDateSpec;
+use Sfynx\AuthBundle\Infrastructure\Security\Specification\UserHasEndDateSpec;
+
+/**
+ * Class AuthenticationSuccessHandler
+ * @package Sfynx\AuthBundle\Infrastructure\Security
+ */
 class AuthenticationSuccessHandler extends DefaultAuthenticationSuccessHandler
 {
-    private $roleFactory;
-    private $dispatcher;
+    /** @var RoleFactoryInterface */
+    protected $roleFactory;
+    /** @var EventDispatcherInterface  */
+    protected $dispatcher;
 
     /**
      * Constructs a new instance of SecurityListener.
      *
-     * @param RoleFactoryInterface     $roleFactory
-     * @param LoggerInterface          $logger
+     * @param RoleFactoryInterface $roleFactory
+     * @param LoggerInterface $logger
      * @param EventDispatcherInterface $dispatcher
-     * @param AuthorizationChecker     $AuthorizationChecker
-     * @param HttpUtils                $httpUtils
-     * @param array                    $options
+     * @param AuthorizationChecker $AuthorizationChecker
+     * @param HttpUtils $httpUtils
+     * @param array $options
      */
     public function __construct(
         RoleFactoryInterface $roleFactory,
@@ -58,13 +68,27 @@ class AuthenticationSuccessHandler extends DefaultAuthenticationSuccessHandler
     {
         $user = $token->getUser();
         // Log handler
-        $this->logger->info("User ".$user->getId()." has been saved", array('user' => $user));
+        $this->logger->info("User ".$user->getId()." has been connected", array('user' => $user));
 
         if (isset($_POST['roles']) && !empty($_POST['roles'])) {
             $all_authorization_roles = json_decode($_POST['roles'], true);
             $best_roles_name = $this->roleFactory->getBestRoleUser();
-            if (is_array($all_authorization_roles)
-                && !in_array($best_roles_name, $all_authorization_roles)
+
+            $hasStartDateInFuture =  (new UserHasStartDateSpec())->isSatisfiedBy($user);
+            $hasEndDateInPast =  (new UserHasEndDateSpec())->isSatisfiedBy($user);
+            $hasStartAndEndDateInPast =  (new UserHasStartAndEndDateSpec())->isSatisfiedBy($user);
+
+            if ($hasStartDateInFuture) {
+                $request->getSession()->getFlashBag()->add('notice', "Votre compte n'est pas encore actif");
+                $request->getSession()->invalidate();
+            } elseif ($hasEndDateInPast) {
+                $request->getSession()->getFlashBag()->add('notice', "Votre compte n'est plus actif");
+                $request->getSession()->invalidate();
+            } elseif ($hasStartAndEndDateInPast) {
+                $request->getSession()->getFlashBag()->add('notice', "Votre compte n'est plus actif");
+                $request->getSession()->invalidate();
+            } elseif (\is_array($all_authorization_roles)
+                && !\in_array($best_roles_name, $all_authorization_roles)
             ) {
                 // Set a flash message
                 $request->getSession()->getFlashBag()->add('notice', "Vous n'êtes pas autorisé à vous connecté !");

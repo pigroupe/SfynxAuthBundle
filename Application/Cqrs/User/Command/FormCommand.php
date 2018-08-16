@@ -72,6 +72,10 @@ class FormCommand extends AbstractCommand
     protected $siteOptIn;
     /** @var bool */
     protected $enabled;
+    /** @var string */
+    protected $startAt;
+    /** @var string */
+    protected $endAt;
     /** @var array */
     protected $groups;
     /** @var array */
