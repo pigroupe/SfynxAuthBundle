@@ -48,7 +48,7 @@ public function registerBundles()
 {
     $bundles = [
         //
-        new Sfynx\AuthBundle\SfynxAuthMediaBundle(),
+        new Sfynx\AuthBundle\SfynxAuthBundle(),
     ];
 }
 ```
@@ -62,7 +62,7 @@ $ phpunit --coverage-text
 
 ## Reporting an issue or a feature request
 
-Issues and feature requests are tracked in the [Github issue tracker](https://github.com/pigroupe/SfynxAuthMediaBundle/issues).
+Issues and feature requests are tracked in the [Github issue tracker](https://github.com/pigroupe/SfynxAuthBundle/issues).
 
 When reporting a bug, it may be a good idea to reproduce it in a basic project
 built using the [Symfony Standard Edition](https://github.com/symfony/symfony-standard)
@@ -95,7 +95,7 @@ SFYNX is a free software distributed under the GPL license. This license guarant
 
 ## About
 
-SfynxAuthMediaBundle is a [Project PI-GROUPE Development](https://github.com/pigroupe) initiative.
+SfynxAuthBundle is a [Project PI-GROUPE Development](https://github.com/pigroupe) initiative.
 See also the list of [contributors](https://github.com/orgs/pigroupe/people).
 
 **For more information** :
