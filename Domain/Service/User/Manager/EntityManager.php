@@ -195,7 +195,7 @@ class EntityManager extends AbstractManager implements UserManagerInterface
         $this->tokenStorage->setToken($token); //now the user is logged in
         $request->getSession()->set('_security_'.$this->param->providerKey, serialize($token));
         $request->getSession()->set('_security_secured_area', serialize($token));
-	    // we delete token user
+        // we delete token user
         if ($deleteToken) {
             $user->setConfirmationToken(null);
             $this->update($user, true);
@@ -273,9 +273,9 @@ class EntityManager extends AbstractManager implements UserManagerInterface
     public function getTokenByUserIdAndApplication($userId, $application)
     {
         $entity = $userId;
-    	if (!($userId instanceof UserInterface)) {
+        if (!($userId instanceof UserInterface)) {
             $entity = $this->find($userId);
-    	}
+        }
         if ($entity instanceof UserInterface) {
             return $entity->getTokenByApplicationName($application);
         }

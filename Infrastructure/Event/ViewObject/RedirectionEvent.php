@@ -59,7 +59,7 @@ class RedirectionEvent extends Event
             $response = new RedirectResponse($redirection);
         } elseif (!empty($this->redirect)) {
             $response = new RedirectResponse($this->router->generate($this->getRouteName()));
-    	}
+        }
 
         return $response;
     }
@@ -77,7 +77,7 @@ class RedirectionEvent extends Event
      */
     public function setRouteName($routeName)
     {
-    	$this->route_name = $routeName;
+        $this->route_name = $routeName;
     }
 
     /**
@@ -93,7 +93,7 @@ class RedirectionEvent extends Event
      */
     public function setParams(array $params)
     {
-    	$this->params = $params;
+        $this->params = $params;
     }
 
     /**
@@ -101,7 +101,7 @@ class RedirectionEvent extends Event
      */
     public function getUrl()
     {
-    	return $this->url;
+        return $this->url;
     }
 
     /**
@@ -109,7 +109,7 @@ class RedirectionEvent extends Event
      */
     public function setUrl($url)
     {
-    	$this->url = $url;
+        $this->url = $url;
     }
 
     public function getRedirection()

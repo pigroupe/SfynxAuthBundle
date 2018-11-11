@@ -4,7 +4,7 @@ namespace Sfynx\AuthBundle\Application\EventListener\HandlerRequest;
 use SplSubject;
 use SplObserver;
 
-use Sfynx\AuthBundle\Infrastructure\Role\Generalisation\RoleFactoryInterface;
+use Sfynx\AuthBundle\Domain\Service\Role\Generalisation\RoleFactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Sfynx\AuthBundle\Application\EventListener\HandlerRequest\Observer\LayoutConfiguration;

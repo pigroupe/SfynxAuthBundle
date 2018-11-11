@@ -125,10 +125,10 @@ EOT
             // Try and commit the transaction
             $this->em->getConnection()->commit();            
         } catch (\Exception $e) {
-        	$output->writeln($e->getMessage());        	
-        	// Rollback the failed transaction attempt
-        	$this->em->getConnection()->rollback();
-        	$this->em->close();
+            $output->writeln($e->getMessage());            
+            // Rollback the failed transaction attempt
+            $this->em->getConnection()->rollback();
+            $this->em->close();
         }
         
         $end_date = time();

@@ -120,9 +120,9 @@ class PiDashboardManager extends PiJqueryExtension
         } else {
             $template    = $options['template'];
         }
-    	// We open the buffer.
-    	ob_start ();
-    	?>
+        // We open the buffer.
+        ob_start ();
+        ?>
                     var PIimportwidget = {
 
                         jQuery : $,
@@ -320,9 +320,9 @@ class PiDashboardManager extends PiJqueryExtension
         } else {
             $template    = $options['template'];
         }
-    	$response     = $this->container->get('templating')->renderResponse($template, $options);
+        $response     = $this->container->get('templating')->renderResponse($template, $options);
 
-    	return $response->getContent();
+        return $response->getContent();
     }
 
 }

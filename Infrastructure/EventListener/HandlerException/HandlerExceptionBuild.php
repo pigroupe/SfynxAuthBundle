@@ -39,7 +39,7 @@ class HandlerExceptionBuild
      */
     public static function build($requestFormat, HandlerExceptionFactory $factory)
     {
-        if (array_key_exists($requestFormat, self::$responseExceptionList)) {
+        if (\array_key_exists($requestFormat, self::$responseExceptionList)) {
             return new self::$responseExceptionList["$requestFormat"]($factory);
         }
         throw InvalidArgumentException::invalidArgument();

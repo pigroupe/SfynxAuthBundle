@@ -214,7 +214,7 @@ class Role implements TraitEnabledInterface
      */
     public function setRouteLogout($routeName)
     {
-    	$this->route_logout = $routeName;
+        $this->route_logout = $routeName;
     }
 
     /**
@@ -224,6 +224,6 @@ class Role implements TraitEnabledInterface
      */
     public function getRouteLogout()
     {
-    	return $this->route_logout;
+        return $this->route_logout;
     }
 }

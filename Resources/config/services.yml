@@ -27,7 +27,7 @@ parameters:
     sfynx.auth.handler.profilerhandler.class: Sfynx\AuthBundle\Application\EventListener\HandlerProfiler\HandlerProfilerFactory
     sfynx.auth.handler.hashauthhandler.class: Sfynx\AuthBundle\Application\EventListener\HandlerHashAuth
 
-    sfynx.auth.role.factory.class: Sfynx\AuthBundle\Infrastructure\Role\RoleFactory
+    sfynx.auth.role.factory.class: Sfynx\AuthBundle\Domain\Service\Role\RoleFactory
     sfynx.auth.repository.class: Sfynx\AuthBundle\Infrastructure\Persistence\Adapter\Repository
     sfynx.auth.validator.emailblacklist.class: Sfynx\AuthBundle\Application\Validation\Validator\Constraint\EmailBlackListValidator
 
@@ -196,6 +196,9 @@ services:
         class: '%sfynx.auth.role.factory.class%'
         arguments:
             - '@service_container'
+            - '@security.token_storage'
+            - '%kernel.root_dir%'
+            - '%security.role_hierarchy.roles%'
 
     #
     # configuration of the main repository manager allowed for the User management

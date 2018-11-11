@@ -16,7 +16,7 @@ use Sfynx\CoreBundle\Layers\Domain\Service\Request\Generalisation\RequestInterfa
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -60,18 +60,18 @@ class SecurityController
         $this->session = $request->getSession();
         $error = '';
         // get the error if any (works with forward and redirect -- see below)
-        if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
-            $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
-        } elseif (null !== $this->session && $this->session->has(SecurityContext::AUTHENTICATION_ERROR)) {
-            $error = $this->session->get(SecurityContext::AUTHENTICATION_ERROR);
-            $this->session->remove(SecurityContext::AUTHENTICATION_ERROR);
+        if ($request->attributes->has(Security::AUTHENTICATION_ERROR)) {
+            $error = $request->attributes->get(Security::AUTHENTICATION_ERROR);
+        } elseif (null !== $this->session && $this->session->has(Security::AUTHENTICATION_ERROR)) {
+            $error = $this->session->get(Security::AUTHENTICATION_ERROR);
+            $this->session->remove(Security::AUTHENTICATION_ERROR);
         }
         if ($error) {
             // TODO: this is a potential security risk (see http://trac.symfony-project.org/ticket/9523)
             $error = $error->getMessage();
         }
         // last username entered by the user
-        $lastUsername = (null === $this->session) ? '' : $this->session->get(SecurityContext::LAST_USERNAME);
+        $lastUsername = (null === $this->session) ? '' : $this->session->get(Security::LAST_USERNAME);
         // we register the username in session used in dispatcherLoginFailureResponse
         $this->session->set('login-username', $lastUsername);
         // we test if the number of attempts allowed connections number with the username have been exceeded.
@@ -79,7 +79,7 @@ class SecurityController
             $key = $this->container->get('sfynx.auth.dispatcher.login_failure.change_response')->getKeyValue();
             if ($key == "stop-client") {
                 $this->session->set('login-username', '');
-                $this->session->remove(SecurityContext::LAST_USERNAME);
+                $this->session->remove(Security::LAST_USERNAME);
                 if ($request->isXmlHttpRequest()) {
                     $response = new Response(json_encode('error'));
                     $response->headers->set('Content-Type', 'application/json');
@@ -99,13 +99,13 @@ class SecurityController
 
         if ($request->isXmlHttpRequest()) {
             $statut = "ok";
-        	if ($error) {
-        		$statut = "error";
-        	}
-        	$response = new Response(json_encode($statut));
-        	$response->headers->set('Content-Type', 'application/json');
+            if ($error) {
+                $statut = "error";
+            }
+            $response = new Response(json_encode($statut));
+            $response->headers->set('Content-Type', 'application/json');
 
-        	return $response;
+            return $response;
         }
 
         return $this->renderLogin([

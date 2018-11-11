@@ -11,7 +11,7 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
 
-use Sfynx\AuthBundle\Infrastructure\Role\Generalisation\RoleFactoryInterface;
+use Sfynx\AuthBundle\Domain\Service\Role\Generalisation\RoleFactoryInterface;
 use Sfynx\AuthBundle\Infrastructure\Security\Specification\UserHasStartDateSpec;
 use Sfynx\AuthBundle\Infrastructure\Security\Specification\UserHasStartAndEndDateSpec;
 use Sfynx\AuthBundle\Infrastructure\Security\Specification\UserHasEndDateSpec;
@@ -24,6 +24,8 @@ class AuthenticationSuccessHandler extends DefaultAuthenticationSuccessHandler
 {
     /** @var RoleFactoryInterface */
     protected $roleFactory;
+    /** @var LoggerInterface */
+    protected $logger;
     /** @var EventDispatcherInterface  */
     protected $dispatcher;
 
@@ -68,9 +70,9 @@ class AuthenticationSuccessHandler extends DefaultAuthenticationSuccessHandler
     {
         $user = $token->getUser();
         // Log handler
-        $this->logger->info("User ".$user->getId()." has been connected", array('user' => $user));
+        $this->logger->info("User ".$user->getId()." has been connected", ['user' => $user]);
 
-        if (isset($_POST['roles']) && !empty($_POST['roles'])) {
+        if (!empty($_POST['roles'])) {
             $all_authorization_roles = json_decode($_POST['roles'], true);
             $best_roles_name = $this->roleFactory->getBestRoleUser();
 

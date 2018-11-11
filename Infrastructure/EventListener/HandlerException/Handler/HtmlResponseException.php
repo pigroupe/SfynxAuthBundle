@@ -45,7 +45,7 @@ class HtmlResponseException implements ResponseExceptionInterface
         $response->setStatusCode($httpCode);
 
         // HttpExceptionInterface also holds header details.
-        if (method_exists($this->factory->exception, 'getHeaders')) {
+        if (\method_exists($this->factory->exception, 'getHeaders')) {
             $response->headers->replace($this->factory->exception->getHeaders());
         }
         // set the new $response object to the $event

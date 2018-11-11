@@ -18,7 +18,7 @@ use Sfynx\CoreBundle\Layers\Presentation\Adapter\Command\CommandAdapter;
 use Sfynx\CoreBundle\Layers\Application\Response\Handler\Generalisation\Interfaces\ResponseHandlerInterface;
 use Sfynx\CoreBundle\Layers\Application\Response\Handler\ResponseHandler;
 use Sfynx\CoreBundle\Layers\Application\Common\Generalisation\Interfaces\HandlerInterface;
-use Sfynx\CoreBundle\Layers\Application\Command\Handler\FormCommandHandler;
+use Sfynx\CoreBundle\Layers\Application\Command\Handler\CommandHandler;
 use Sfynx\CoreBundle\Layers\Application\Command\Handler\Decorator\CommandHandlerDecorator;
 use Sfynx\CoreBundle\Layers\Application\Validation\Validator\SymfonyValidatorStrategy;
 use Sfynx\CoreBundle\Layers\Application\Common\Handler\WorkflowHandler;
@@ -109,43 +109,53 @@ class FormController extends AbstractFormController
         }
         $locale = $this->request->getLocale();
 
-        // 1. Transform Request to Command.
-        $adapter = new CommandAdapter(new UserFormCommand());
-        $command = $adapter->createCommandFromRequest(
-            new UserFormRequest($this->request)
-        );
+        try {
+            // 1. Transform Request to Command.
+            $adapter = new CommandAdapter(new UserFormCommand());
+            $command = $adapter->createCommandFromRequest(new UserFormRequest($this->request), false);
+    
+            // 2. Implement the command workflow
+            $workflowCommand = (new CommandWorkflow())
+                ->attach(new OBUserEntityEdit($this->manager, $this->request))
+                ->attach(new OBUserEntityCreate($this->manager, $this->request, $this->routeFactory));
+    
+            // 3. Implement decorator to apply the command workflow from the command
+            $this->commandHandler = new CommandHandler($workflowCommand, $this->manager);
+            $this->commandHandler = new UserFormCommandValidationHandler($this->commandHandler,
+                new SymfonyValidatorStrategy($this->validator),
+                false
+            );
+            $this->commandHandler = (new UserFormCommandSpecHandler($this->commandHandler))->setObject(null);
+            $commandHandlerResult = $this->commandHandler->process($command);
 
-        // 2. Implement the command workflow
-        $workflowCommand = (new CommandWorkflow())
-            ->attach(new OBUserEntityEdit($this->manager, $this->request))
-            ->attach(new OBUserEntityCreate($this->manager, $this->request, $this->routeFactory));
+            // 4. Implement the Response workflow
+            $this->setParam('templating', 'SfynxAuthBundle:Users:edit.html.twig');
+            $workflowHandler = (new WorkflowHandler())
+                ->attach(new OBUserCreateFormData($this->request, $this->managerGroup, $this->managerLangue))
+                ->attach(new OBCreateEntityFormView($this->request, $this->formFactory, new UsersFormType($this->manager, $this->tool, $locale)))
+                ->attach(new OBInjectFormErrors($this->request, $this->translator))
+                ->attach(new OBCreateFormBody($this->request, $this->templating, $this->param))
+                ->attach(new OBCreateResponseHtml($this->request));
+    
+            // 5. Implement the responseHandler from the workflow
+            $this->responseHandler = new ResponseHandler($workflowHandler);
+            $responseHandlerResult = $this->responseHandler->process($commandHandlerResult);
 
-        // 3. Implement decorator to apply the command workflow from the command
-        $this->commandHandler = new FormCommandHandler($workflowCommand);
-        $this->commandHandler = new UserFormCommandValidationHandler(
-            $this->commandHandler,
-            new SymfonyValidatorStrategy($this->validator),
-            false
-        );
-        $this->commandHandler = (new UserFormCommandSpecHandler($this->commandHandler))->setObject(null);
-        $commandHandlerResult = $this->commandHandler->process($command);
-        if (!($commandHandlerResult instanceof HandlerInterface)) {
-            throw PresentationException::invalidCommandHandlerResponse();
+            $response = $responseHandlerResult->getResponse();
+        }  catch (NotFoundEntityException $e) {
+            $response = new Response();
+            $response->setStatusCode(Response::HTTP_NOT_FOUND);
+            $response->setContent($e->getMessage());
+        }  catch (ViolationEntityException $e) {
+            $response = new Response();
+            $response->setStatusCode(Response::HTTP_CONFLICT);
+            $response->setContent($e->getMessage());
+        }  catch (Exception $e) {
+            $response = new Response();
+            $response->setStatusCode(Response::HTTP_SERVICE_UNAVAILABLE);
+            $response->setContent($e->getMessage());
         }
 
-        // 4. Implement the Response workflow
-        $this->setParam('templating', 'SfynxAuthBundle:Users:edit.html.twig');
-        $workflowHandler = (new WorkflowHandler())
-            ->attach(new OBUserCreateFormData($this->request, $this->managerGroup, $this->managerLangue))
-            ->attach(new OBCreateEntityFormView($this->request, $this->formFactory, new UsersFormType($this->manager, $this->tool, $locale)))
-            ->attach(new OBInjectFormErrors($this->request, $this->translator))
-            ->attach(new OBCreateFormBody($this->request, $this->templating, $this->param))
-            ->attach(new OBCreateResponseHtml($this->request));
-
-        // 5. Implement the responseHandler from the workflow
-        $this->responseHandler = new ResponseHandler($workflowHandler);
-        $responseHandlerResult = $this->responseHandler->process($commandHandlerResult);
-
-        return $responseHandlerResult->response;
+        return $response;
     }
 }

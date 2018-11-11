@@ -1,5 +1,6 @@
 services:
     sfynx.auth.controller.query.selectajax.users:
+        public: true
         shared: false
         class: 'Sfynx\AuthBundle\Presentation\Coordination\User\Query\SelectAjaxController'
         arguments:
@@ -12,6 +13,7 @@ services:
             - '@twig'
 
     sfynx.auth.controller.query.index.users:
+        public: true
         class: 'Sfynx\AuthBundle\Presentation\Coordination\User\Query\IndexController'
         arguments:
             - '@security.authorization_checker'
@@ -27,6 +29,7 @@ services:
             - [ setParams, [ { sfynx_template_theme_login: '%sfynx.template.theme.login%' } ] ]
 
     sfynx.auth.controller.query.show.users:
+        public: true
         shared: false
         class: 'Sfynx\AuthBundle\Presentation\Coordination\User\Query\ShowController'
         arguments:

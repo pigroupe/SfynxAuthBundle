@@ -121,7 +121,7 @@ class FrontendController extends abstractController
      */
     public function licenceAction()
     {
-    	return $this->templating->renderResponse(
+        return $this->templating->renderResponse(
             'SfynxAuthBundle:Frontend:licence.html.twig',
             []
         );
@@ -182,14 +182,14 @@ class FrontendController extends abstractController
      */
     public function redirectionuserAction()
     {
-    	if ($this->request->cookies->has('sfynx-redirection')) {
+        if ($this->request->cookies->has('sfynx-redirection')) {
             $parameters  = [];
             $redirection = $this->request->cookies->get('sfynx-redirection');
 
             return $this->redirect(
                 $this->routeFactory->generate($redirection, $parameters)
             );
-    	}
+        }
 
         return new RedirectResponse(
             $this->routeFactory->generate('home_page')

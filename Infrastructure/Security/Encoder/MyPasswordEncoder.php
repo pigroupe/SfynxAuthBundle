@@ -27,7 +27,7 @@ class MyPasswordEncoder extends BasePasswordEncoder
         $this->iterations = 5000;
 
         if (!in_array($this->algorithm, hash_algos(), true)) {
-        	throw new \LogicException(sprintf('The algorithm "%s" is not supported.', $this->algorithm));
+            throw new \LogicException(sprintf('The algorithm "%s" is not supported.', $this->algorithm));
         }
 
         $salted = $this->mergePasswordAndSalt($raw, $salt);
@@ -35,7 +35,7 @@ class MyPasswordEncoder extends BasePasswordEncoder
 
         // "stretch" hash
         for ($i = 1; $i < $this->iterations; $i++) {
-        	$digest = hash($this->algorithm, $digest.$salted, true);
+            $digest = hash($this->algorithm, $digest.$salted, true);
         }
 
         return $this->encodeHashAsBase64 ? base64_encode($digest) : bin2hex($digest);

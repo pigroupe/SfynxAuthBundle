@@ -1,7 +1,7 @@
 <?php
 namespace Sfynx\AuthBundle\Infrastructure\Security;
 
-use Sfynx\AuthBundle\Infrastructure\Role\Generalisation\RoleFactoryInterface;
+use Sfynx\AuthBundle\Domain\Service\Role\Generalisation\RoleFactoryInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Sfynx\ToolBundle\Builder\RouteTranslatorFactoryInterface;

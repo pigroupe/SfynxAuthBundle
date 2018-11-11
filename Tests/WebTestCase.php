@@ -322,7 +322,7 @@ abstract class WebTestCase extends BaseWebTestCase
             ->method('getUser')                                                               
             ->will($this->returnValue($user));                                                
         // I mock the service. PHPUnit don't return an error here.
-        $securityContext = $this->getMockBuilder('Symfony\Component\Security\Core\SecurityContextInterface')
+        $securityContext = $this->getMockBuilder('Symfony\Component\Security\Core\Security')
             ->disableOriginalConstructor()                                                    
             ->getMock();  
         $securityContext->expects($this->once()) //->expects($this->any()) 

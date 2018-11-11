@@ -157,7 +157,6 @@ class HandlerExceptionFactory
             foreach($exceptionStackTrace[0] as $key => $exceptionStackTraceFirstLevelInfo){
                 if ('args' == $key) {
                     if (isset($exceptionStackTraceFirstLevelInfo[0])) {
-
                         if (\method_exists($exceptionStackTraceFirstLevelInfo[0],'getRequest')) {
                             $requestParameters = $exceptionStackTraceFirstLevelInfo[0]->getRequest()->request;
                             $requestParametersString = \print_r($requestParameters,true);

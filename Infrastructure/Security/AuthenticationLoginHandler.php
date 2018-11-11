@@ -17,23 +17,23 @@
  */
 namespace Sfynx\AuthBundle\Infrastructure\Security;
 
-use Sfynx\CoreBundle\Layers\Domain\Service\Cookie\Generalisation\CookieInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Bridge\Doctrine\RegistryInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Psr\Log\LoggerInterface;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
-use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use Psr\Log\LoggerInterface;
 
 use Sfynx\AuthBundle\Infrastructure\Event\ViewObject\ResponseEvent;
 use Sfynx\AuthBundle\Infrastructure\Event\SfynxAuthEvents;
-
+use Sfynx\CoreBundle\Layers\Domain\Service\Cookie\Generalisation\CookieInterface;
 
 /**
  * Custom login handler.
@@ -51,44 +51,21 @@ use Sfynx\AuthBundle\Infrastructure\Event\SfynxAuthEvents;
  */
 class AuthenticationLoginHandler
 {
-    /**
-     * @var CookieInterface
-     */
+    /** @var CookieInterface */
     protected $cookie;
-
-    /**
-     * @var LoggerInterface
-     */
+    /** @var LoggerInterface */
     protected $logger;
-
-    /**
-     * @var TokenStorageInterface
-     */
+    /** @var TokenStorageInterface */
     protected $TokenStorage;
-
-    /**
-     * @var EventDispatcherInterface
-     */
+    /** @var EventDispatcherInterface */
     protected $dispatcher;
-
-    /**
-     * @var \Doctrine\ORM\EntityManagerInterface
-     */
+    /** @var EntityManagerInterface */
     protected $em;
-
-    /**
-     * @var InteractiveLoginEvent
-     */
+    /** @var InteractiveLoginEvent */
     protected $event;
-
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
-    /**
-     * @var string
-     */
+    /** @var ContainerInterface */
+    protected $container; 
+    /** @var string */
     protected $locale;
 
     /**
@@ -110,11 +87,11 @@ class AuthenticationLoginHandler
         ContainerInterface $container
     ) {
         $this->cookieFactory = $cookie;
-        $this->logger        = $logger;
-        $this->tokenStorage  = $TokenStorage;
+        $this->logger = $logger;
+        $this->tokenStorage = $TokenStorage;
         $this->dispatcher = $dispatcher;
-        $this->em         = $doctrine->getManager();
-        $this->container  = $container;
+        $this->em = $doctrine->getManager();
+        $this->container = $container;
     }
 
     /**
@@ -129,7 +106,7 @@ class AuthenticationLoginHandler
     public function onSecurityInteractiveLogin(InteractiveLoginEvent  $event)
     {
         // Sets event.
-        $this->event    = $event;
+        $this->event = $event;
         // Sets the user local value.
         $this->setLocaleUser();
         // Associate to the dispatcher the onKernelResponse event.
@@ -150,16 +127,16 @@ class AuthenticationLoginHandler
      */
     protected function setLocaleUser()
     {
-    	if (method_exists($this->getUser()->getLangCode(), 'getId')) {
+        if (method_exists($this->getUser()->getLangCode(), 'getId')) {
             $this->locale = $this->getUser()
                 ->getLangCode()
                 ->getId();
-    	} else {
+        } else {
             $this->locale = $this->container->get('request_stack')
                 ->getCurrentRequest()
                 ->getPreferredLanguage();
-    	}
-    	$this->getRequest()->setLocale($this->locale);
+        }
+        $this->getRequest()->setLocale($this->locale);
     }
 
     /**

@@ -11,7 +11,7 @@ use Sfynx\ToolBundle\Builder\RouteTranslatorFactoryInterface;
 use Sfynx\ToolBundle\Twig\Extension\PiToolExtension;
 use Sfynx\ToolBundle\Twig\Extension\PiFormExtension;
 
-use Sfynx\AuthBundle\Infrastructure\Role\Generalisation\RoleFactoryInterface;
+use Sfynx\AuthBundle\Domain\Service\Role\Generalisation\RoleFactoryInterface;
 use Sfynx\AuthBundle\Domain\Workflow\Observer\User\Query\OBIndexCreateQueryHandler as OBUserIndexCreateQueryHandler;
 use Sfynx\AuthBundle\Domain\Workflow\Observer\User\Query\OBIndexCreateJsonQueryHandler as OBUserIndexCreateJsonQueryHandler;
 use Sfynx\AuthBundle\Domain\Workflow\Observer\Response\OBCreateIndexBodyJson as OBUserCreateIndexBodyJson;
