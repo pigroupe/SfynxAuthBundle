@@ -104,7 +104,7 @@ class PiLocaleManager implements PiLocaleManagerBuilderInterface
     public function getAllLocales($all = false)
     {
         $return = true;
-    	// we set the json file if does not exist
+        // we set the json file if does not exist
         if (!realpath($this->path_json_file)) {
             $return = $this->setJsonFileLocales();
         }
@@ -116,12 +116,12 @@ class PiLocaleManager implements PiLocaleManagerBuilderInterface
                 if ($all) {
                     $locales[] = $locale;
                 } else {
-            	    $locales[] = $locale['id'];
+                    $locales[] = $locale['id'];
                 }
             }
         }
 
-    	return $locales;
+        return $locales;
     }
 
     /**
@@ -145,8 +145,8 @@ class PiLocaleManager implements PiLocaleManagerBuilderInterface
                 FROM
                     pi_langue as a
                 WHERE
-    		    a.enabled = 1
-    		";
+                a.enabled = 1
+            ";
             $entities     = $db->executeQuery($req, array());
 
             return file_put_contents($this->path_json_file, json_encode($entities,JSON_UNESCAPED_UNICODE));

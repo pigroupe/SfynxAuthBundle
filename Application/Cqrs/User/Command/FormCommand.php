@@ -2,6 +2,7 @@
 namespace Sfynx\AuthBundle\Application\Cqrs\User\Command;
 
 use Sfynx\CoreBundle\Layers\Application\Command\Generalisation\AbstractCommand;
+use Sfynx\CoreBundle\Layers\Application\Common\Generalisation\Traits\TraitCreateInstanceFromNative;
 
 /**
  * Class FormCommand.
@@ -12,6 +13,8 @@ use Sfynx\CoreBundle\Layers\Application\Command\Generalisation\AbstractCommand;
  */
 class FormCommand extends AbstractCommand
 {
+    use TraitCreateInstanceFromNative;
+
     /** @var int */
     protected $entityId;
     /** @var string */

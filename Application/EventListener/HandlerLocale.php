@@ -44,7 +44,7 @@ class HandlerLocale
    /**
     * Constructor.
     *
-    * @param string             $defaultLocale	Locale value
+    * @param string             $defaultLocale    Locale value
     * @param ContainerInterface $container      The container service
     */
    public function __construct(ContainerInterface $container, $defaultLocale = 'fr_FR')
@@ -72,7 +72,7 @@ class HandlerLocale
        //if (!$this->request->hasPreviousSession()) {
        //    return;
        //}
-   	   // print_r('priority 1');
+          // print_r('priority 1');
        // we set locale
        $locale = $this->request->cookies->has('_locale');
        $localevalue = $this->request->cookies->get('_locale');

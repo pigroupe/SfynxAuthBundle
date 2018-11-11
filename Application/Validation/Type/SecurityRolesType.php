@@ -21,6 +21,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -85,13 +86,14 @@ class SecurityRolesType extends AbstractType
         // get roles from the service container
         foreach ($this->container->getParameter('security.role_hierarchy.roles') as $name => $rolesHierarchy)
         {
-            $roles[$name] = $name . ': ' . implode(', ', $rolesHierarchy);
+            $roles[$name] = $name . ': ' . \implode(', ', $rolesHierarchy);
             foreach ($rolesHierarchy as $role) {
                 if (!isset($roles[$role])) {
                     $roles[$role] = $role;
                 }
             }
         }
+        $roles = \array_flip($roles);
 
         $resolver->setDefaults(array(
             'choices' => function (Options $options, $parentChoices) use ($roles) {
@@ -102,7 +104,7 @@ class SecurityRolesType extends AbstractType
 
     public function getParent()
     {
-        return 'choice';
+        return Type\ChoiceType::class;
     }
 
     /**

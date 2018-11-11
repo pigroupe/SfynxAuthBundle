@@ -168,7 +168,7 @@ class User extends UserAbstract implements  AdvancedUserInterface
      */
     public function setId($id)
     {
-    	$this->id = (int) $id;
+        $this->id = (int) $id;
     }
 
     /**

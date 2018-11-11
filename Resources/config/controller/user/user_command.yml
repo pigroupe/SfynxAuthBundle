@@ -3,6 +3,7 @@ parameters:
 
 services:
     sfynx.auth.controller.command.form.users:
+        public: true
         shared: false
         class: '%sfynx.auth.controller.command.form.class%'
         arguments:
@@ -21,6 +22,7 @@ services:
             - [ setParams, [ { sfynx_template_theme_login: '%sfynx.template.theme.login%' } ] ]
 
     sfynx.auth.controller.command.enabledajax.users:
+        public: true
         shared: false
         class: '%sfynx.core.controller.command.enabledajax.class%'
         arguments:
@@ -32,6 +34,7 @@ services:
 
 
     sfynx.auth.controller.command.disableajax.users:
+        public: true
         shared: false
         class: '%sfynx.core.controller.command.disableajax.class%'
         arguments:
@@ -42,6 +45,7 @@ services:
             - '@sfynx.tool.twig.extension.form'
 
     sfynx.auth.controller.command.deletajax.users:
+        public: true
         shared: false
         class: '%sfynx.core.controller.command.deletajax.class%'
         arguments:
@@ -52,6 +56,7 @@ services:
             - '@sfynx.tool.twig.extension.form'
 
     sfynx.auth.controller.command.archiveajax.users:
+        public: true
         shared: false
         class: '%sfynx.core.controller.command.archiveajax.class%'
         arguments:
@@ -62,6 +67,7 @@ services:
             - '@sfynx.tool.twig.extension.form'
 
     sfynx.auth.controller.command.positionajax.users:
+        public: true
         shared: false
         class: '%sfynx.core.controller.command.positionajax.class%'
         arguments:

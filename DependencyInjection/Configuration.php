@@ -89,10 +89,10 @@ class Configuration implements ConfigurationInterface
      */
     protected function addLoginFailureConfig(ArrayNodeDefinition $rootNode)
     {
-    	$rootNode
-    	->children()
-        	->arrayNode('loginfailure')
-        	    ->addDefaultsIfNotSet()
+        $rootNode
+        ->children()
+            ->arrayNode('loginfailure')
+                ->addDefaultsIfNotSet()
                 ->children()
                     ->booleanNode('authorized')->isRequired()->defaultValue(true)->end()
                     ->scalarNode('time_expire')->defaultValue(3600)->end()
@@ -100,7 +100,7 @@ class Configuration implements ConfigurationInterface
                     ->scalarNode('cache_dir')->defaultValue('%kernel.root_dir%/cachesfynx/loginfailure/')->cannotBeEmpty()->end()
                 ->end()
             ->end()
-    	->end();
+        ->end();
     }      
     
     /**
@@ -115,16 +115,16 @@ class Configuration implements ConfigurationInterface
      */
     protected function addLocaleConfig(ArrayNodeDefinition $rootNode)
     {
-    	$rootNode
-    	->children()
-        	->arrayNode('locale')
-        	    ->addDefaultsIfNotSet()
+        $rootNode
+        ->children()
+            ->arrayNode('locale')
+                ->addDefaultsIfNotSet()
                 ->children()
                     ->arrayNode('authorized')->prototype('scalar')->end()->defaultValue(['fr_FR', 'en_GB', 'ar_SA'])->end()
                     ->scalarNode('cache_file')->defaultValue('%kernel.root_dir%/cachesfynx/languages.json')->cannotBeEmpty()->end()
                 ->end()
             ->end()
-    	->end();
+        ->end();
     }  
     
     /**
@@ -139,16 +139,16 @@ class Configuration implements ConfigurationInterface
      */
     protected function addBrowserConfig(ArrayNodeDefinition $rootNode)
     {
-    	$rootNode
-    	->children()
-        	->arrayNode('browser')
-        	    ->addDefaultsIfNotSet()
-        	    ->children()
-        	        ->booleanNode('switch_language_authorized')->isRequired()->defaultValue(false)->end()
-        	        ->booleanNode('switch_layout_mobile_authorized')->isRequired()->defaultValue(false)->end()
-        	    ->end()
-        	->end()        	
-    	->end();
+        $rootNode
+        ->children()
+            ->arrayNode('browser')
+                ->addDefaultsIfNotSet()
+                ->children()
+                    ->booleanNode('switch_language_authorized')->isRequired()->defaultValue(false)->end()
+                    ->booleanNode('switch_layout_mobile_authorized')->isRequired()->defaultValue(false)->end()
+                ->end()
+            ->end()            
+        ->end();
     }    
     
     /**
@@ -163,8 +163,8 @@ class Configuration implements ConfigurationInterface
      */
     protected function addRedirectionLoginConfig(ArrayNodeDefinition $rootNode)
     {
-    	$rootNode
-    	->children()
+        $rootNode
+        ->children()
             ->arrayNode('default_login_redirection')
                 ->addDefaultsIfNotSet()
                 ->children()
@@ -172,7 +172,7 @@ class Configuration implements ConfigurationInterface
                     ->scalarNode('template')->defaultValue('layout-pi-admin.html.twig')->cannotBeEmpty()->end()
                 ->end()
             ->end()
-    	->end();
+        ->end();
     } 
 
     /**
@@ -187,12 +187,12 @@ class Configuration implements ConfigurationInterface
      */
     protected function addLayoutConfig(ArrayNodeDefinition $rootNode)
     {
-    	$rootNode
-    	->children()
-        	->arrayNode('default_layout')
-        	    ->addDefaultsIfNotSet()
-        	    ->children()
-                	    ->arrayNode('init_pc')
+        $rootNode
+        ->children()
+            ->arrayNode('default_layout')
+                ->addDefaultsIfNotSet()
+                ->children()
+                        ->arrayNode('init_pc')
                             ->addDefaultsIfNotSet()
                             ->children()
                                 ->scalarNode('template')->defaultValue('layout-pi-page1.html.twig')->cannotBeEmpty()->end()
@@ -205,8 +205,8 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('template')->defaultValue('Default')->cannotBeEmpty()->end()                                    
                             ->end()
                         ->end()
-            	->end()
-        	->end()
-    	->end();
+                ->end()
+            ->end()
+        ->end();
     }  
 }

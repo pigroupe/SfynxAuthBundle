@@ -50,10 +50,10 @@ class SfynxAuthExtension extends Extension{
 //        $loader->load('repository/permission.yml');
 //        $loader->load('repository/ressource.yml');
 //        $loader->load('repository/role.yml');
-		$loader->load('services.yml');
+        $loader->load('services.yml');
         $loader->load('services_cmd.yml');
         $loader->load('services_cmfconfig.yml');
-		$loader->load('controllers.yml');
+        $loader->load('controllers.yml');
 
         $loader->load('repository/user.yml');
         $loader->load('controller/user/user_command.yml');
@@ -151,6 +151,6 @@ class SfynxAuthExtension extends Extension{
 
     public function getAlias()
     {
-    	return 'sfynx_auth';
+        return 'sfynx_auth';
     }
 }

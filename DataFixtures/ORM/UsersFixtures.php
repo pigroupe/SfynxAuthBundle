@@ -153,18 +153,18 @@ class UsersFixtures extends AbstractFixture implements FixtureInterface, Ordered
 //         $path   = "/var/www/rapp_mr_miles/app/cache/connexion.csv";
 //         file_put_contents($path, 'username,password'."\n", LOCK_EX);
 //         for ($i=1; $i< 10000; $i++){
-//         	$field = new User();
-//         	$field->setPlainPassword('user_'.$i);
-//         	$field->setUsername('user_'.$i.'@mail.com');
-//         	$field->getUsernameCanonical('user_'.$i.'@mail.com');
-//         	$field->setFirstName('user_'.$i);
-//         	$field->setLastName('user_'.$i);
-//         	$field->setEmail('user_'.$i.'@mail.com');
-//         	$field->setEmailCanonical('user_'.$i.'@mail.com');
-//         	$field->setEnabled(true);
-//         	$field->setRoles(array('ROLE_USER'));
-//         	$manager->persist($field);
-//         	file_put_contents($path, 'user_'.$i.'@mail.com,user_'.$i."\n", FILE_APPEND);
+//             $field = new User();
+//             $field->setPlainPassword('user_'.$i);
+//             $field->setUsername('user_'.$i.'@mail.com');
+//             $field->getUsernameCanonical('user_'.$i.'@mail.com');
+//             $field->setFirstName('user_'.$i);
+//             $field->setLastName('user_'.$i);
+//             $field->setEmail('user_'.$i.'@mail.com');
+//             $field->setEmailCanonical('user_'.$i.'@mail.com');
+//             $field->setEnabled(true);
+//             $field->setRoles(array('ROLE_USER'));
+//             $manager->persist($field);
+//             file_put_contents($path, 'user_'.$i.'@mail.com,user_'.$i."\n", FILE_APPEND);
 //         }
 
         $manager->flush();

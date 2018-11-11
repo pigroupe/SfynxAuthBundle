@@ -53,15 +53,15 @@ class UsersFormType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $groups = $this->data_form['groups'];
-        $langCode = $this->data_form['langCode'];
+        $groups = $this->dataForm['groups'];
+        $langCode = $this->dataForm['langCode'];
 
         $format_date = $this->tool->getDatePatternByLocalFunction($this->locale);
 
         $builder
         ->add('enabled', Type\CheckboxType::class, array(
             'data'  => true,
-            'label'	=> 'pi.form.label.field.enabled',
+            'label'    => 'pi.form.label.field.enabled',
             'label_attr' => array(
                 'class'=>"connexion_collection",
             ),
@@ -151,7 +151,7 @@ class UsersFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => $this->data_class,
+            'data_class' => $this->dataClass,
         ]);
     }
 

@@ -103,7 +103,7 @@ class PiSessionFlashManager extends PiJqueryExtension
                     var layout_flash_message = $("#<?php echo $options['dialog-name']; ?>").html();
                     if (layout_flash_message != null && layout_flash_message.length != 0) {
                         $.fancybox({
-                        	'wrapCSS': 'fancybox-sfynx',
+                            'wrapCSS': 'fancybox-sfynx',
                             'type': 'inline',
                             'autoDimensions':true,
                             'height': 'auto',

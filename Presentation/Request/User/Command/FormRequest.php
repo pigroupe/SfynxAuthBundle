@@ -114,7 +114,9 @@ class FormRequest extends AbstractFormRequest
         $this->options = $this->request->getRequest()->get('user_from');
 
         foreach (['archived', 'expired', 'enabled', 'siteOptIn', 'globalOptIn'] as $data) {
-            if (isset($this->options[$data])) {
+            if (isset($this->options[$data])
+                && (is_bool($this->options[$data]) || \in_array($this->options[$data], [0, 1], true))
+            ) {
                 $this->options[$data] = (boolean)$this->options[$data];
             }
         }

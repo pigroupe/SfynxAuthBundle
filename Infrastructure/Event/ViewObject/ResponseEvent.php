@@ -90,7 +90,7 @@ class ResponseEvent extends Event
      */
     public function setResponse(Response $response)
     {
-    	$this->response = $response;
+        $this->response = $response;
     }
 
     /**
@@ -98,7 +98,7 @@ class ResponseEvent extends Event
      */
     public function getDateExpire()
     {
-    	return $this->dateExpire;
+        return $this->dateExpire;
     }
 
     /**
@@ -106,7 +106,7 @@ class ResponseEvent extends Event
      */
     public function setDateExpire(\DateTime $dateExpire)
     {
-    	$this->dateExpire = $dateExpire;
+        $this->dateExpire = $dateExpire;
     }
 
     /**
@@ -122,7 +122,7 @@ class ResponseEvent extends Event
      */
     public function setRequest(Request $request)
     {
-    	$this->request = $request;
+        $this->request = $request;
     }
 
     /**
@@ -130,7 +130,7 @@ class ResponseEvent extends Event
      */
     public function getUser()
     {
-    	return $this->user;
+        return $this->user;
     }
 
     /**
@@ -138,7 +138,7 @@ class ResponseEvent extends Event
      */
     public function setUser(User $user)
     {
-    	$this->user = $user;
+        $this->user = $user;
     }
 
     /**
@@ -146,7 +146,7 @@ class ResponseEvent extends Event
      */
     public function getLocale()
     {
-    	return $this->locale;
+        return $this->locale;
     }
 
     /**
@@ -154,7 +154,7 @@ class ResponseEvent extends Event
      */
     public function setLocale($locale)
     {
-    	$this->locale = $locale;
+        $this->locale = $locale;
     }
 
     /**
@@ -162,7 +162,7 @@ class ResponseEvent extends Event
      */
     public function getRedirect()
     {
-    	return $this->redirect;
+        return $this->redirect;
     }
 
     /**
@@ -170,6 +170,6 @@ class ResponseEvent extends Event
      */
     public function setRedirect($route_name)
     {
-    	$this->redirect = $route_name;
+        $this->redirect = $route_name;
     }
 }

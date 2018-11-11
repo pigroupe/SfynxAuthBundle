@@ -21,6 +21,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -89,6 +90,7 @@ class SecurityPermissionsType extends AbstractType
                $permissions[ $value['name'] ] = $value['name'];
            }
         }
+        $permissions = \array_flip($permissions);
 
         $resolver->setDefaults([
                 'choices' => function (Options $options, $parentChoices) use ($permissions) {
@@ -99,7 +101,7 @@ class SecurityPermissionsType extends AbstractType
 
     public function getParent()
     {
-        return 'choice';
+        return Type\ChoiceType::class;
     }
 
     /**

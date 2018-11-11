@@ -14,6 +14,7 @@ namespace Sfynx\AuthBundle\Domain\Service\Util\PiJquery;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Sfynx\ToolBundle\Twig\Extension\PiJqueryExtension;
 use Sfynx\CoreBundle\Layers\Infrastructure\Exception\ExtensionException;
 
@@ -32,6 +33,11 @@ class PiLanguageChoiceManager extends PiJqueryExtension
      */
     static $actions = array('renderbox','renderlist');
 
+    /** @var Request */
+    protected $request;
+    /** @var string */
+    protected $projectWebDir;
+
     /**
      * Constructor.
      *
@@ -41,6 +47,17 @@ class PiLanguageChoiceManager extends PiJqueryExtension
     public function __construct(ContainerInterface $container, TranslatorInterface $translator)
     {
         parent::__construct($container, $translator);
+        $this->request = $container->get('request_stack')->getCurrentRequest();
+    }
+
+    /**
+     * @return string
+     */
+    public function getProjectWebDir()
+    {
+        $this->projectWebDir = $this->projectWebDir ?? $this->request->server->get('DOCUMENT_ROOT') . '/';
+
+        return $this->projectWebDir;
     }
 
     /**
@@ -67,16 +84,16 @@ class PiLanguageChoiceManager extends PiJqueryExtension
      */
     protected function render($options = null)
     {
-    	// Options management
-    	if (!isset($options['action']) || empty($options['action']) || (isset($options['action']) && !in_array(strtolower($options['action']), self::$actions)) )
-    		$options['action'] = "renderbox";
+        // Options management
+        if (!isset($options['action']) || empty($options['action']) || (isset($options['action']) && !in_array(strtolower($options['action']), self::$actions)) )
+            $options['action'] = "renderbox";
 
-    	$method = strtolower($options['action']) . "Action";
-    	if (method_exists($this, $method)) {
-    		return $this->$method($options);
-    	} else {
-    		return $this->renderbox($options);
-    	}
+        $method = strtolower($options['action']) . "Action";
+        if (method_exists($this, $method)) {
+            return $this->$method($options);
+        } else {
+            return $this->renderbox($options);
+        }
     }
 
     /**
@@ -101,11 +118,11 @@ class PiLanguageChoiceManager extends PiJqueryExtension
 
         // if the file doesn't exist, we call an exception
         $img = "bundles/sfynxtemplate/images/arrow/".$options['img-arrow'];
-        $is_file_exist = realpath($this->container->get('kernel')->getRootDir(). '/../web/' . $img);
+        $is_file_exist = realpath($this->getProjectWebDir() . $img);
         if (!$is_file_exist)
             throw ExtensionException::FileUnDefined('img', __CLASS__);
 
-        $Urlpath = $this->container->get('templating.helper.assets')->getUrl($img);
+        $Urlpath = $this->container->get('assets.packages')->getUrl($img);
 
         // We open the buffer.
         ob_start ();
@@ -178,25 +195,25 @@ class PiLanguageChoiceManager extends PiJqueryExtension
 
         // if the file doesn't exist, we call an exception
         $img = "bundles/sfynxtemplate/images/arrow/".$options['img-arrow'];
-        $is_file_exist = realpath($this->container->get('kernel')->getRootDir(). '/../web/' . $img);
+        $is_file_exist = realpath($this->getProjectWebDir() . $img);
         if (!$is_file_exist)
             throw ExtensionException::FileUnDefined('img', __CLASS__);
 
-        $Urlpath = $this->container->get('templating.helper.assets')->getUrl($img);
+        $Urlpath = $this->container->get('assets.packages')->getUrl($img);
 
-    	// We open the buffer.
-    	ob_start ();
-    	?>
-					<div class="clear">&nbsp;</div>
-					<div class="acc-line">&nbsp;</div>
+        // We open the buffer.
+        ob_start ();
+        ?>
+                    <div class="clear">&nbsp;</div>
+                    <div class="acc-line">&nbsp;</div>
                     <a href="" class="language-subtitle">Local language</a>
 
                     <div class="clear">&nbsp;</div>
-					<div class="acc-line">&nbsp;</div>
+                    <div class="acc-line">&nbsp;</div>
                     <a href=""><?php echo locale_get_display_name(strtolower($locale), strtolower($locale)); ?></a>
 
-					<div class="clear">&nbsp;</div>
-					<div class="acc-line">&nbsp;</div>
+                    <div class="clear">&nbsp;</div>
+                    <div class="acc-line">&nbsp;</div>
                     <a href="" class="language-subtitle"><?php echo $this->container->get('translator')->trans('pi.form.label.field.other'); ?></a>
 
                     <?php foreach($entities as $key=>$entity){
@@ -205,8 +222,8 @@ class PiLanguageChoiceManager extends PiJqueryExtension
 
                         $name_language = locale_get_display_name(strtolower($entity->getId()), strtolower($locale));
                     ?>
-					<div class="clear">&nbsp;</div>
-					<div class="acc-line">&nbsp;</div>
+                    <div class="clear">&nbsp;</div>
+                    <div class="acc-line">&nbsp;</div>
                     <a href="<?php echo $url; ?>"  id="lang_select_<?php echo $entity->getId(); ?>" title="<?php echo $name_language; ?>"><?php echo $name_language; ?></a>
                     <?php } } ?>
         <?php
