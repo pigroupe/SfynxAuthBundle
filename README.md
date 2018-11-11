@@ -1,7 +1,7 @@
-# SfynxApiMediaBundle
+# SfynxAuthBundle
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/bartlett/phpunit-loggertestlistener.svg?style=flat-square)](https://packagist.org/packages/bartlett/phpunit-loggertestlistener)
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg?style=flat-square)](https://php.net/)
+[![Latest Stable Version](https://img.shields.io/packagist/v/sfynx-project/auth-bundle.svg?style=flat-square)](https://packagist.org/packages/bartlett/phpunit-loggertestlistener)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.2-8892BF.svg?style=flat-square)](https://php.net/)
 [![License](https://img.shields.io/badge/license-LGPL-red.svg?style=flat-square)](LICENSE)
 
 Symfony3/4's Sfynx Auth Bundle :
@@ -103,5 +103,5 @@ SfynxAuthBundle is a [Project PI-GROUPE Development](https://github.com/pigroupe
 See also the list of [contributors](https://github.com/orgs/pigroupe/people).
 
 **For more information** :
-* http://www.sfynx.fr
+* http://www.sfynx.org
 * http://www.pi-groupe.net
